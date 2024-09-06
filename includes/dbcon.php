@@ -2,7 +2,7 @@
 $db_host = 'localhost'; // Change this to your MySQL server hostname
 $db_user = 'root'; // Change this to your MySQL username
 $db_pass = ''; // Change this to your MySQL password
-$db_name = 'cse412'; // Change this to your MySQL database name
+$db_name = 'ticketing'; // Change this to your MySQL database name
 
 // Create a database connection
 $conn = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
