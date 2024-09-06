@@ -15,6 +15,7 @@ window.addEventListener('DOMContentLoaded', event => {
         if (!navbarCollapsible) {
             return;
         }
+
         if (window.location.pathname === '/loginsignup.php') {
             navbarCollapsible.classList.add('navbar-shrink')
         }
@@ -22,6 +23,7 @@ window.addEventListener('DOMContentLoaded', event => {
             navbarCollapsible.classList.remove('navbar-shrink')
         } 
         else {
+
             navbarCollapsible.classList.add('navbar-shrink')
         }
 
@@ -60,6 +62,7 @@ window.addEventListener('DOMContentLoaded', event => {
         elements: '#portfolio a.portfolio-box'
     });
 
+
     // Profile Script
     document.getElementById('profile').addEventListener('click', function(event) {
         event.preventDefault();
@@ -72,5 +75,6 @@ window.addEventListener('DOMContentLoaded', event => {
         proDiv.style.display = 'none';
         }
         });
+
 
 });
