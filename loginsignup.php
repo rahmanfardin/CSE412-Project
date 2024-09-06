@@ -1,3 +1,53 @@
+<?php
+session_start();
+session_unset();
+session_destroy();
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
+    $loggedin = true;
+} else {
+    $loggedin = false;
+}
+
+
+$login = false;
+$showError = false;
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    include 'includes/dbcon.php';
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+    $hashed_password = hash('sha256', $password);
+
+    $sql = "Select * from USERTABLE where username='$username' AND password='$hashed_password'";
+    $result = mysqli_query($conn, $sql);
+    $num = mysqli_num_rows($result);
+
+    if ($num == 1) {
+        $login = true;
+        session_start();
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $_SESSION['usertype'] = $row['userType']; // Store data in $storedData variable
+        }
+        echo $row;
+        echo $_SESSION['usertype'];
+
+        $_SESSION['loggedin'] = true;
+        $_SESSION['username'] = $username;
+        header("location: index.php");
+    } else {
+        echo "Invalid Credentials";
+        $showError = "Invalid Credentials";
+    }
+}
+
+
+
+?>
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -59,7 +109,7 @@
                     <!-- To make this form functional, sign up at-->
                     <!-- https://startbootstrap.com/solution/contact-forms-->
                     <!-- to get an API token!-->
-                    <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+                    <form action="loginsignup.php" method="post">
 
                         <!-- my modification-->
                         
@@ -67,13 +117,13 @@
 
                         <!-- userName input-->
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="username" type="text" placeholder="Enter your username..." data-sb-validations="required" />
+                            <input class="form-control" id="username" name="username" type="text" placeholder="Enter your username..." data-sb-validations="required" />
                             <label for="name">Username</label>
                             <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
                         </div>
                         <!-- passwordinput-->
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="password" type="password" placeholder="****************" data-sb-validations="required" />
+                            <input class="form-control" id="password" name="password" type="password" placeholder="****************" data-sb-validations="required" />
                             <label for="password">Password</label>
                             <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
                             <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
