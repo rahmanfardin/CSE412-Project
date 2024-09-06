@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 session_unset();
@@ -48,6 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -56,7 +58,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
+
     <title>Ticketer - Movie Ticket Solution</title>
+
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- Bootstrap Icons-->
@@ -109,7 +113,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <!-- To make this form functional, sign up at-->
                     <!-- https://startbootstrap.com/solution/contact-forms-->
                     <!-- to get an API token!-->
+
                     <form action="loginsignup.php" method="post">
+
 
                         <!-- my modification-->
                         
@@ -117,13 +123,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         <!-- userName input-->
                         <div class="form-floating mb-3">
+
                             <input class="form-control" id="username" name="username" type="text" placeholder="Enter your username..." data-sb-validations="required" />
+
                             <label for="name">Username</label>
                             <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
                         </div>
                         <!-- passwordinput-->
                         <div class="form-floating mb-3">
+
                             <input class="form-control" id="password" name="password" type="password" placeholder="****************" data-sb-validations="required" />
+
                             <label for="password">Password</label>
                             <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
                             <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
@@ -153,10 +163,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.js"></script>
     <!-- Core theme JS-->
     <script src="js/scripts.js"></script>
-    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-    <!-- * *                               SB Forms JS                               * *-->
-    <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+
     <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
 

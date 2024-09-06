@@ -15,9 +15,15 @@ window.addEventListener('DOMContentLoaded', event => {
         if (!navbarCollapsible) {
             return;
         }
-        if (window.scrollY === 0) {
+
+        if (window.location.pathname === '/loginsignup.php') {
+            navbarCollapsible.classList.add('navbar-shrink')
+        }
+        else if (window.scrollY === 0) {
             navbarCollapsible.classList.remove('navbar-shrink')
-        } else {
+        } 
+        else {
+
             navbarCollapsible.classList.add('navbar-shrink')
         }
 
@@ -55,5 +61,20 @@ window.addEventListener('DOMContentLoaded', event => {
     new SimpleLightbox({
         elements: '#portfolio a.portfolio-box'
     });
+
+
+    // Profile Script
+    document.getElementById('profile').addEventListener('click', function(event) {
+        event.preventDefault();
+        var proDiv = document.getElementById('profileDiv');
+        var homeDiv = document.getElementById('home');
+        if (proDiv.style.display === 'none') {
+        proDiv.style.display = 'flex';
+        homeDiv.style.display = 'none';
+        } else {
+        proDiv.style.display = 'none';
+        }
+        });
+
 
 });
