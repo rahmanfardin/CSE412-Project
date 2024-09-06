@@ -9,6 +9,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
 }
 
 
+
 $login = false;
 $showError = false;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -112,8 +113,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <form action="loginsignup.php" method="post">
 
                         <!-- my modification-->
-                        
-                        
+
+
 
                         <!-- userName input-->
                         <div class="form-floating mb-3">
@@ -132,7 +133,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="d-grid"><button class="btn btn-primary btn-xl disabled" id="submitButton" type="submit">Submit</button></div>
                     </form>
                 </div>
+
             </div>
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-lg-8 col-xl-6 text-center">
+                    <h6 class="mt-0">Do not have an account?<br><a href="signup.php">Create an account.</a></h6>
+                    
+                </div>
+            </div>
+
             <!-- <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-4 text-center mb-5 mb-lg-0">
                     <i class="bi-phone fs-2 mb-3 text-muted"></i>
