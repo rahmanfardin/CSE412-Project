@@ -16,7 +16,7 @@ window.addEventListener('DOMContentLoaded', event => {
             return;
         }
 
-        if (window.location.pathname === '/cse412-project/loginsignup.php'||window.location.pathname === '/cse412-project/signup.php') {
+        if (window.location.pathname === '/cse412-project/login.php'||window.location.pathname === '/cse412-project/signup.php') {
             navbarCollapsible.classList.add('navbar-shrink')
         }
         else if (window.scrollY === 0) {

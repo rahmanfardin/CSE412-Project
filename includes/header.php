@@ -1,49 +1,3 @@
-<?php
-session_start();
-session_unset();
-session_destroy();
-if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
-    $loggedin = true;
-} else {
-    $loggedin = false;
-}
-
-
-$login = false;
-$showError = false;
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    include 'includes/dbcon.php';
-    $username = $_POST["username"];
-    $password = $_POST["password"];
-    $hashed_password = hash('sha256', $password);
-
-    $sql = "Select * from USERTABLE where username='$username' AND password='$hashed_password'";
-    $result = mysqli_query($conn, $sql);
-    $num = mysqli_num_rows($result);
-
-    if ($num == 1) {
-        $login = true;
-        session_start();
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $_SESSION['usertype'] = $row['userType']; // Store data in $storedData variable
-        }
-        echo $row;
-        echo $_SESSION['usertype'];
-
-        $_SESSION['loggedin'] = true;
-        $_SESSION['username'] = $username;
-        header("location: index.php");
-    } else {
-        echo "Invalid Credentials";
-        $showError = "Invalid Credentials";
-    }
-}
-?>
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -80,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <li class="nav-item"><a class="nav-link" href="#movie">Movie</a></li>
                     <li class="nav-item"><a class="nav-link" href="#portfolio">TODO</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#loginsignup">LOGIN/SIGNUP</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#login">LOGIN/SIGNUP</a></li>
                 </ul>
             </div>
         </div>

@@ -1,6 +1,6 @@
 <?php
 
-function usernameEsists($username, $conn){
+function usernameExists($username, $conn){
     $existsSql = "SELECT * FROM `usertable` WHERE `username` = '$username'; ";
     $result = mysqli_query($conn, $existsSql);
     $numOfUsers = mysqli_num_rows($result);

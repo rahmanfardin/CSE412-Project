@@ -12,8 +12,8 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
 $showAlert = false;
 $showError = false;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    include 'includes/db.inc.php';
-    include 'includes/signup.inc.php';
+    include 'includes/dbcon.php';
+    include 'includes/signupIC.php';
     $name = $_POST["name"];
     $email = $_POST["email"];
     $username = $_POST["username"];
@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cpassword = $_POST["cpassword"];
     $userType = "user";
 
-    $usernameEsistsCheck = usernameEsists($username, $conn);
+    $usernameEsistsCheck = usernameExists($username, $conn);
     $emailExistsCheck = emailExists($email, $conn);
     $passwordMatched = passwordCheck($password, $cpassword);
     if (!$usernameEsistsCheck and !$emailExistsCheck and $passwordMatched) {
@@ -43,11 +43,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 ?>
 
-
+<!-- Header -->
 <?php include 'includes/header.php'; ?>
 
     <!-- Contact-->
-    <section class="page-section" id="loginsignup">
+    <section class="page-section" id="signup">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8 col-xl-6 text-center">
@@ -71,42 +71,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         <!-- Name input-->
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="name" name="name" type="text" placeholder="Enter your name..." data-sb-validations="required" />
-                            <label for="name">Name</label>
-                            <div class="invalid-feedback" data-sb-feedback="name:required">A Name is required.</div>
+                            <input class="form-control" id="name" name="name" type="text" placeholder="Enter your name..." required/>
+                            <label for="name">Full Name</label>
                         </div>
                         <!-- userName input-->
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="username" name="username" type="text" placeholder="Enter your username..." data-sb-validations="required" />
+                            <input class="form-control" id="username" name="username" type="text" placeholder="Enter your username..." required/>
                             <label for="name">Username</label>
-                            <div class="invalid-feedback" data-sb-feedback="name:required">A Username is required.</div>
                         </div>
                         <!-- Emailinput-->
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="email" name="email" type="email" placeholder="Enter your email..." data-sb-validations="required" />
+                            <input class="form-control" id="email" name="email" type="email" placeholder="Enter your email..." required/>
                             <label for="email">Email</label>
                             <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
-                            <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
                         </div>
                         <!-- passwordinput-->
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="password" name="password" type="password" placeholder="****************" data-sb-validations="required" />
+                            <input class="form-control" id="password" name="password" type="password" placeholder="****************" required/>
                             <label for="password">Password</label>
                         </div>
                         <!-- ConfirmPasswordinput-->
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="password" name="password" type="password" placeholder="****************" data-sb-validations="required" />
+                            <input class="form-control" id="cpassword" name="cpassword" type="password" placeholder="****************" required/>
                             <label for="password">Confirm Password</label>
                         </div>
                         <!-- Submit Button-->
-                        <div class="d-grid"><button class="btn btn-primary btn-xl disabled" id="submitButton" type="submit">Submit</button></div>
+                        <div class="d-grid"><button class="btn btn-primary btn-xl" id="submitButton" type="submit">Submit</button></div>
                     </form>
                 </div>
 
             </div>
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8 col-xl-6 text-center">
-                    <h6 class="mt-0">Do not have an account?<br><a href="loginsignup.php">Create an account.</a></h6>
+                    <h6 class="mt-0">Have an account?<br><a href="login.php">Login.</a></h6>
                     
                 </div>
             </div>
@@ -119,7 +116,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div> -->
         </div>
     </section>
-<?php include 'includes/footer.php'; ?>
+    <!-- Footer-->
+    <?php include 'includes/footer.php'; ?>
 
 
 <h2>Sign Up Form</h2>
