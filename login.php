@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['username'] = $username;
         header("location: index.php");
     } else {
-        echo "Invalid Credentials";
+        // echo "Invalid Credentials";
         $showError = true;
     }
 }
@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <form action="login.php" method="post">
 
-                    <!-- my modification-->
+                    <!-- Error Message-->
                     <?php if ($showError == true) {
                         echo "<div>
                         <div class='alert alert-danger d-flex align-items-center' role='alert'>
@@ -93,17 +93,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-lg-8 col-xl-6 text-center">
-                <h6 class="mt-0">Do not have an account?<br><a href="signup.php">Create an account.</a></h6>
+                <h6 class="mt-0">Do not have an account?<br><a href="signup.php">Create an account</a></h6>
 
             </div>
         </div>
-
-        <!-- <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-lg-4 text-center mb-5 mb-lg-0">
-                    <i class="bi-phone fs-2 mb-3 text-muted"></i>
-                    <div>+880 (16) XX-XXXXXX</div>
-                </div>
-            </div> -->
     </div>
 </section>
 <!-- Footer-->
