@@ -67,13 +67,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <!-- Error Message-->
                     <?php if ($showError) {
-                        echo "<div>
-                        <div class='alert alert-danger d-flex align-items-center' role='alert'>
-                            <div>
+                        echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
                                 $showError
-                            </div>
-                        </div>
-                    </div>";
+                                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                              </div>";
                     }
                     if (!$valueCheck) {
                         echo "<div>

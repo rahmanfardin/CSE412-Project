@@ -16,14 +16,13 @@ window.addEventListener('DOMContentLoaded', event => {
             return;
         }
 
-        if (window.location.pathname === '/cse412-project/login.php' || window.location.pathname === '/cse412-project/signup.php' || window.location.pathname === '/cse412-project/admin/index.php' || window.location.pathname === '/cse412-project/admin/movie.php') {
+        if (window.location.pathname !== 'index.php' && window.scrollY === 0) {
             navbarCollapsible.classList.add('navbar-shrink')
         }
         else if (window.scrollY === 0) {
             navbarCollapsible.classList.remove('navbar-shrink')
         }
         else {
-
             navbarCollapsible.classList.add('navbar-shrink')
         }
 

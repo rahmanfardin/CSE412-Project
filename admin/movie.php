@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("sssiss", $moviename, $releasedate, $genre, $movierating, $rating, $target_file);
 
         if ($stmt->execute()) {
-            echo "New record created successfully";
+            echo "New record created successfully"; // Use JavaScript Alert to show this message
         } else {
             echo "Error: " . $stmt->error;
         }
