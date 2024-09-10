@@ -4,26 +4,31 @@
 include './includes/dbcon.php';
 include './includes/movie.validation.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $moviename = $_POST['moviename'];
-    $releasedate = $_POST['releasedate'];
-    $genre = $_POST['genre'];
-    $movierating = $_POST['movierating'];
-    $rating = $_POST['rating'];
 
-    // Handle file upload
-    $poster = $_FILES['poster']['name'];
-    $target_dir = "uploads/";
-    $target_file = $target_dir . basename($poster);
-    $error = validationMovieTable($moviename, $releasedate, $genre, $movierating, $rating, $poster);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $moviename = isset($_POST['moviename']) ? trim($_POST['moviename']) : null;
+    $releasedate = isset($_POST['releasedate']) ? trim($_POST['releasedate']) : null;
+    $genre = isset($_POST['genre']) ? trim($_POST['genre']) : null;
+    $movierating = isset($_POST['movierating']) ? trim($_POST['movierating']) : null;
+    $rating = isset($_POST['rating']) ? trim($_POST['rating']) : null;
+    $poster = isset($_FILES['poster']['name']) ? $_FILES['poster']['name'] : null;
+
+    $errors = validationMovieTable($moviename, $releasedate, $genre, $movierating, $rating, $poster);
+
+    // If there are no errors, proceed with the database insertion
     if (empty($errors)) {
+        $target_dir = "uploads/posters/";
+        $target_file = $target_dir . basename($poster);
+
         $stmt = $conn->prepare("INSERT INTO movietable (moviename, releasedate, genre, movierating, rating, poster) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("sssiss", $moviename, $releasedate, $genre, $movierating, $rating, $target_file);
 
         if ($stmt->execute()) {
             echo "New record created successfully";
+            header("location: index.php");
         } else {
             echo "Error: " . $stmt->error;
+            header("location: error.php");
         }
 
         $stmt->close();
@@ -50,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="row gx-4 gx-lg-5 justify-content-center mb-5">
             <div class="col-lg-6">
 
-                <form action="movie.php" method="post">
+                <form action="movie.php" method="post" enctype="multipart/form-data">
 
                     <!-- //TODO: this is kept to show any errors in future. to be implemented -->
 
@@ -133,8 +138,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <!-- poster -->
                     <div class="form-floating mb-3">
-                        <input class="form-control" id="poster" name="poster" type="file" accept="image/*" />
-                        <label for="poster">Poster</label>
+                    <input class="form-control" id="poster" name="poster" type="file" accept="image/*" required />
+            <label for="poster">Poster</label>
                     </div>
 
 

@@ -1,0 +1,45 @@
+# Ignore node_modules directory
+node_modules/
+
+# Ignore Composer dependencies
+vendor/
+
+# Ignore environment variables
+.env
+
+# Ignore log files
+*.log
+
+# Ignore temporary files
+*.tmp
+
+# Ignore compiled CSS and JS files
+*.css.map
+*.js.map
+
+# Ignore IDE specific files
+.vscode/
+.idea/
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
+
+# Ignore PHPStorm specific files
+*.iml
+*.iws
+*.ipr
+
+# Ignore SASS cache files
+.sass-cache/
+
+# Ignore npm debug log
+npm-debug.log
+
+# Ignore coverage reports
+coverage/
+
+# Ignore build directories
+dist/
+build/
+
