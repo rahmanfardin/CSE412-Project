@@ -1,5 +1,41 @@
 <!-- Header -->
-<?php include './includes/header.php'; ?>
+<?php include './includes/header.php';
+
+include './includes/dbcon.php';
+include './includes/movie.validation.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $moviename = $_POST['moviename'];
+    $releasedate = $_POST['releasedate'];
+    $genre = $_POST['genre'];
+    $movierating = $_POST['movierating'];
+    $rating = $_POST['rating'];
+
+    // Handle file upload
+    $poster = $_FILES['poster']['name'];
+    $target_dir = "uploads/";
+    $target_file = $target_dir . basename($poster);
+    $error = validationMovieTable($moviename, $releasedate, $genre, $movierating, $rating, $poster);
+    if (empty($errors)) {
+        $stmt = $conn->prepare("INSERT INTO movietable (moviename, releasedate, genre, movierating, rating, poster) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssiss", $moviename, $releasedate, $genre, $movierating, $rating, $target_file);
+
+        if ($stmt->execute()) {
+            echo "New record created successfully";
+        } else {
+            echo "Error: " . $stmt->error;
+        }
+
+        $stmt->close();
+    } else {
+        // Display errors
+        foreach ($errors as $error) {
+            echo "<div class='alert alert-danger'>$error</div>";
+        }
+    }
+}
+
+?>
 
 <!-- Masthead-->
 <section class="page-section" id="signup">
@@ -14,74 +50,103 @@
         <div class="row gx-4 gx-lg-5 justify-content-center mb-5">
             <div class="col-lg-6">
 
-                <form action="signup.php" method="post">
+                <form action="movie.php" method="post">
 
-                    <!-- Error Message-->
-                    //TODO: this is kept to show any errors in future. to be implemented
+                    <!-- //TODO: this is kept to show any errors in future. to be implemented -->
+
                     <!--
                      
                      <?php if ($showError) {
-                        echo "<div>
+                            echo "<div>
                         <div class='alert alert-danger d-flex align-items-center' role='alert'>
                             <div>
                                 $showError
                             </div>
                         </div>
                     </div>";
-                    }
-                    if (!$valueCheck) {
-                        echo "<div>
+                        }
+                        if (!$valueCheck) {
+                            echo "<div>
                         <div class='alert alert-danger d-flex align-items-center' role='alert'>
                             <div>
                                 Fill all the fields!
                             </div>
                         </div>
                     </div>";
-                    } ?> -->
+                        } ?> -->
 
-                    <!-- Name input-->
+                    <!-- moviename-->
                     <div class="form-floating mb-3">
-                        <input class="form-control" id="name" name="name" type="text"
-                            placeholder="Enter your name..." />
-                        <label for="name">Full Name</label>
+                        <input class="form-control" id="moviename" name="moviename" type="text"
+                            placeholder="Enter your movie name..." />
+                        <label for="name">Movie Name</label>
                     </div>
-                    <!-- userName input-->
+                    <!-- releasedate -->
                     <div class="form-floating mb-3">
-                        <input class="form-control" id="username" name="username" type="text"
-                            placeholder="Enter your username..." />
-                        <label for="name">Username</label>
+                        <input class="form-control" id="releasedate" name="releasedate" type="date" min="1900-01-01" max="2099-12-31"
+                            placeholder="" />
+                        <label for="name">Release Date</label>
                     </div>
-                    <!-- Emailinput-->
+
+                    <!-- genre-->
                     <div class="form-floating mb-3">
-                        <input class="form-control" id="email" name="email" type="email"
-                            placeholder="Enter your email..." />
-                        <label for="email">Email</label>
+                        <select class="form-control" id="genre" name="genre">
+                            <option value="" disabled selected>Select Genre</option>
+                            <option value="action">Action</option>
+                            <option value="adventure">Adventure</option>
+                            <option value="animation">Animation</option>
+                            <option value="comedy">Comedy</option>
+                            <option value="crime">Crime</option>
+                            <option value="documentary">Documentary</option>
+                            <option value="drama">Drama</option>
+                            <option value="fantasy">Fantasy</option>
+                            <option value="horror">Horror</option>
+                            <option value="musical">Musical</option>
+                            <option value="mystery">Mystery</option>
+                            <option value="romance">Romance</option>
+                            <option value="sci-fi">Science Fiction</option>
+                            <option value="thriller">Thriller</option>
+                            <option value="war">War</option>
+                            <option value="western">Western</option>
+                        </select>
+                        <label for="genre">Genre</label>
                     </div>
-                    <!-- passwordinput-->
+
+                    <!-- rating -->
                     <div class="form-floating mb-3">
-                        <input class="form-control" id="password" name="password" type="password"
-                            placeholder="****************" />
-                        <label for="password">Password</label>
+                        <select class="form-control" id="rating" name="rating">
+                            <option value="">Select Rating</option>
+                            <option value="G">G - General Audience</option>
+                            <option value="PG">PG - Parental Guidance</option>
+                            <option value="PG-13">PG-13 - Parents Strongly Cautioned</option>
+                            <option value="R">R - Restricted</option>
+                            <option value="NC-17">NC-17 - Adults Only</option>
+                        </select>
+                        <label for="rating">Age Rating</label>
                     </div>
-                    <!-- ConfirmPasswordinput-->
+
+                    <!-- IMDb rating -->
                     <div class="form-floating mb-3">
-                        <input class="form-control" id="cpassword" name="cpassword" type="password"
-                            placeholder="****************" />
-                        <label for="password">Confirm Password</label>
+                        <input class="form-control" id="movierating" name="movierating" type="number" step="0.1" min="0" max="10"
+                            placeholder="Enter IMDb rating..." />
+                        <label for="imdbRating">IMDb Rating</label>
                     </div>
-                    <!-- Submit Button-->
+                    <!-- poster -->
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="poster" name="poster" type="file" accept="image/*" />
+                        <label for="poster">Poster</label>
+                    </div>
+
+
                     <div class="d-grid"><button class="btn btn-primary btn-xl" id="submitButton"
                             type="submit">Submit</button></div>
                 </form>
             </div>
 
         </div>
-        <div class="row gx-4 gx-lg-5 justify-content-center">
-            <div class="col-lg-8 col-xl-6 text-center">
-                <h6 class="mt-0">Have an account?<br><a href="login.php">Login</a></h6>
-
-            </div>
-        </div>
+        
 
     </div>
 </section>
+
+<?php include 'includes/footer.php'; ?>
