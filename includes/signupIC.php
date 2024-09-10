@@ -1,6 +1,5 @@
 <?php
-
-function usernameEsists($username, $conn){
+function usernameExists($username, $conn){
     $existsSql = "SELECT * FROM `usertable` WHERE `username` = '$username'; ";
     $result = mysqli_query($conn, $existsSql);
     $numOfUsers = mysqli_num_rows($result);
@@ -19,3 +18,10 @@ function passwordCheck($password, $cpassword){
     if($password == $cpassword) return true;
     else return false;
 }
+function valueCheck($array){
+    foreach ($array as $value) {
+        if($value == "") return false;
+    }
+}
+
+?>

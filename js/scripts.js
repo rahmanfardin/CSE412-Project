@@ -16,12 +16,12 @@ window.addEventListener('DOMContentLoaded', event => {
             return;
         }
 
-        if (window.location.pathname === '/cse412-project/loginsignup.php'||window.location.pathname === '/cse412-project/signup.php') {
+        if (window.location.pathname === '/cse412-project/login.php' || window.location.pathname === '/cse412-project/signup.php') {
             navbarCollapsible.classList.add('navbar-shrink')
         }
         else if (window.scrollY === 0) {
             navbarCollapsible.classList.remove('navbar-shrink')
-        } 
+        }
         else {
 
             navbarCollapsible.classList.add('navbar-shrink')
@@ -64,17 +64,15 @@ window.addEventListener('DOMContentLoaded', event => {
 
 
     // Profile Script
-    document.getElementById('profile').addEventListener('click', function(event) {
+    document.getElementById('profile').addEventListener('click', function (event) {
         event.preventDefault();
         var proDiv = document.getElementById('profileDiv');
         var homeDiv = document.getElementById('home');
         if (proDiv.style.display === 'none') {
-        proDiv.style.display = 'flex';
-        homeDiv.style.display = 'none';
+            proDiv.style.display = 'flex';
+            homeDiv.style.display = 'none';
         } else {
-        proDiv.style.display = 'none';
+            proDiv.style.display = 'none';
         }
-        });
-
-
+    });
 });
