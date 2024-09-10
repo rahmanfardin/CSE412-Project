@@ -37,7 +37,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $_SESSION['loggedin'] = true;
         $_SESSION['username'] = $username;
-        header("location: index.php");
+        if ($_SESSION['usertype'] == 'admin') {
+            header("location: admin/index.php");
+        } else {
+            header("location: index.php");
+        }
     } else {
         // echo "Invalid Credentials";
         $showError = true;
