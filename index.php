@@ -1,7 +1,9 @@
 <?php
 session_start();
+$login = false;
 if (isset($_SESSION['username'])) {
     echo 'successful login'.$_SESSION['username'];
+    $login = true;
 }
 
 ?>
@@ -33,11 +35,16 @@ if (isset($_SESSION['username'])) {
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto my-2 my-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#page-top">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="#movie">Movie</a></li>
                         <li class="nav-item"><a class="nav-link" href="#portfolio">TODO</a></li>
                         <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                        <li class="nav-item"><a class="nav-link" href="login.php">LOGIN/SIGNUP</a></li>
+                        <?php if ($login) {
+                        echo '<li class="nav-item"><a class="nav-link" href="./includes/signout.php">logout</a></li>';
+                    } else {
+                        echo '<li class="nav-item"><a class="nav-link" href="login.php">LOGIN/SIGNUP</a></li>';
+                    } ?>
+                        
                     </ul>
                 </div>
             </div>
