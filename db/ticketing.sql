@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 06, 2024 at 08:37 PM
+-- Generation Time: Sep 10, 2024 at 02:55 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,62 @@ SET time_zone = "+00:00";
 --
 -- Database: `ticketing`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `halltable`
+--
+
+CREATE TABLE `halltable` (
+  `hallId` int(11) NOT NULL,
+  `hallname` varchar(100) NOT NULL,
+  `location` varchar(1000) NOT NULL,
+  `rating` int(11) NOT NULL,
+  `type` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `moviehall`
+--
+
+CREATE TABLE `moviehall` (
+  `movieid` int(11) NOT NULL,
+  `hallid` int(11) NOT NULL,
+  `slotid` int(11) NOT NULL,
+  `slot` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `movietable`
+--
+
+CREATE TABLE `movietable` (
+  `movieid` int(11) NOT NULL,
+  `moviename` varchar(100) NOT NULL,
+  `year` varchar(4) NOT NULL,
+  `genre` varchar(100) NOT NULL,
+  `rating` int(11) NOT NULL,
+  `poster` varchar(2000) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ticket`
+--
+
+CREATE TABLE `ticket` (
+  `ticketid` int(11) NOT NULL,
+  `userid` int(11) NOT NULL,
+  `movieid` int(11) NOT NULL,
+  `hallid` int(11) NOT NULL,
+  `slotid` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -59,6 +115,30 @@ INSERT INTO `usertable` (`id`, `name`, `email`, `username`, `password`, `userTyp
 --
 
 --
+-- Indexes for table `halltable`
+--
+ALTER TABLE `halltable`
+  ADD PRIMARY KEY (`hallId`);
+
+--
+-- Indexes for table `moviehall`
+--
+ALTER TABLE `moviehall`
+  ADD PRIMARY KEY (`slotid`);
+
+--
+-- Indexes for table `movietable`
+--
+ALTER TABLE `movietable`
+  ADD PRIMARY KEY (`movieid`);
+
+--
+-- Indexes for table `ticket`
+--
+ALTER TABLE `ticket`
+  ADD PRIMARY KEY (`ticketid`);
+
+--
 -- Indexes for table `usertable`
 --
 ALTER TABLE `usertable`
@@ -69,6 +149,30 @@ ALTER TABLE `usertable`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `halltable`
+--
+ALTER TABLE `halltable`
+  MODIFY `hallId` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `moviehall`
+--
+ALTER TABLE `moviehall`
+  MODIFY `slotid` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `movietable`
+--
+ALTER TABLE `movietable`
+  MODIFY `movieid` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `ticket`
+--
+ALTER TABLE `ticket`
+  MODIFY `ticketid` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `usertable`
