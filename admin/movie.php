@@ -4,34 +4,37 @@
 include './includes/dbcon.php';
 include './includes/movie.validation.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $moviename = $_POST['moviename'];
-    $releasedate = $_POST['releasedate'];
-    $genre = $_POST['genre'];
-    $movierating = $_POST['movierating'];
-    $rating = $_POST['rating'];
 
-    // Handle file upload
-    $poster = $_FILES['poster']['name'];
-    $target_dir = "uploads/";
-    $target_file = $target_dir . basename($poster);
-    $error = validationMovieTable($moviename, $releasedate, $genre, $movierating, $rating, $poster);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $moviename = isset($_POST['moviename']) ? trim($_POST['moviename']) : null;
+    $releasedate = isset($_POST['releasedate']) ? trim($_POST['releasedate']) : null;
+    $genre = isset($_POST['genre']) ? trim($_POST['genre']) : null;
+    $movierating = isset($_POST['movierating']) ? trim($_POST['movierating']) : null;
+    $rating = isset($_POST['rating']) ? trim($_POST['rating']) : null;
+    $poster = isset($_FILES['poster']['name']) ? $_FILES['poster']['name'] : null;
+
+    $errors = validationMovieTable($moviename, $releasedate, $genre, $movierating, $rating, $poster);
+
+    // If there are no errors, proceed with the database insertion
     if (empty($errors)) {
+        $target_dir = "uploads/posters/";
+        $target_file = $target_dir . basename($poster);
+
         $stmt = $conn->prepare("INSERT INTO movietable (moviename, releasedate, genre, movierating, rating, poster) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("sssiss", $moviename, $releasedate, $genre, $movierating, $rating, $target_file);
 
         if ($stmt->execute()) {
-            echo "New record created successfully"; // Use JavaScript Alert to show this message
+
+            echo "New record created successfully";
+            header("location: index.php");
+
         } else {
             echo "Error: " . $stmt->error;
+            header("location: error.php");
         }
 
         $stmt->close();
     } else {
-        // Display errors
-        foreach ($errors as $error) {
-            echo "<div class='alert alert-danger'>$error</div>";
-        }
     }
 }
 
@@ -49,31 +52,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div class="row gx-4 gx-lg-5 justify-content-center mb-5">
             <div class="col-lg-6">
-
-                <form action="movie.php" method="post">
-
-                    <!-- //TODO: this is kept to show any errors in future. to be implemented -->
-
-                    <!--
-                     
-                     <?php if ($showError) {
-                            echo "<div>
-                        <div class='alert alert-danger d-flex align-items-center' role='alert'>
-                            <div>
-                                $showError
-                            </div>
-                        </div>
-                    </div>";
+                <?php
+                if (!empty($errors)) {
+                    foreach ($errors as $index => $error) {
+                        $alertId = "alert-$index";
+                        echo "<div id='$alertId' class='alert alert-danger alert-dismissible fade show' role='alert'>
+                    $error
+                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                  </div>";
+                        echo "<script>
+                    setTimeout(function() {
+                        var alertElement = document.getElementById('$alertId');
+                        if (alertElement) {
+                            alertElement.classList.remove('show');
+                            alertElement.classList.add('fade');
+                            setTimeout(function() {
+                                alertElement.remove();
+                            }, 150);
                         }
-                        if (!$valueCheck) {
-                            echo "<div>
-                        <div class='alert alert-danger d-flex align-items-center' role='alert'>
-                            <div>
-                                Fill all the fields!
-                            </div>
-                        </div>
-                    </div>";
-                        } ?> -->
+                    }, " . (2000 + $index * 1000) . ");
+                  </script>";
+                    }
+                } ?>
+                <form action="movie.php" method="post" enctype="multipart/form-data">
+
 
                     <!-- moviename-->
                     <div class="form-floating mb-3">
@@ -133,7 +135,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <!-- poster -->
                     <div class="form-floating mb-3">
-                        <input class="form-control" id="poster" name="poster" type="file" accept="image/*" />
+                        <input class="form-control" id="poster" name="poster" type="file" accept="image/*" required />
                         <label for="poster">Poster</label>
                     </div>
 
@@ -144,7 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
         </div>
-        
+
 
     </div>
 </section>
