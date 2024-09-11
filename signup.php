@@ -66,21 +66,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <form action="signup.php" method="post">
 
                     <!-- Error Message-->
-                    <?php if ($showError) {
-                        echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
-                                $showError
-                                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-                              </div>";
-                    }
-                    if (!$valueCheck) {
-                        echo "<div>
-                        <div class='alert alert-danger d-flex align-items-center' role='alert'>
-                            <div>
-                                Fill all the fields!
-                            </div>
-                        </div>
-                    </div>";
-                    } ?>
+                    <?php if (!$valueCheck) {
+                            echo "<div id='alertId' class='alert alert-danger alert-dismissible fade show' role='alert'>
+                    Fill all the fields!
+                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                  </div>";
+                            echo "<script>
+                    setTimeout(function() {
+                        var alertElement = document.getElementById('alertId');
+                        if (alertElement) {
+                            alertElement.classList.remove('show');
+                            alertElement.classList.add('fade');
+                            setTimeout(function() {
+                                alertElement.remove();
+                            }, 150);
+                        }
+                    }, " . (3000 + 1 * 1000) . ");
+                  </script>";
+                        }
+                     ?>
 
                     <!-- Name input-->
                     <div class="form-floating mb-3">
