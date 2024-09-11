@@ -7,10 +7,10 @@ include './includes/hall.validation.php';
 $errors = [];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $hallname = $_POST['hallname'];
-    $location = $_POST['location'];
-    $rating = $_POST['rating'];
-    $type = $_POST['type'];
+    $hallname = isset($_POST['hallname']) ? trim($_POST['hallname']) : null;
+    $location = isset($_POST['location']) ? trim($_POST['location']) : null;
+    $rating =  isset($_POST['rating']) ? trim($_POST['rating']) : null;
+    $type = isset($_POST['type']) ? trim($_POST['type']) : null;
 
     $errors = validationHallTable($hallname, $location, $rating, $type);
     if (empty($errors)) {
@@ -40,15 +40,15 @@ $conn->close();
         </div>
         <div class="row gx-4 gx-lg-5 justify-content-center mb-5">
             <div class="col-lg-6">
-            <?php
-    if (!empty($errors)) {
-        foreach ($errors as $index => $error) {
-            $alertId = "alert-$index";
-            echo "<div id='$alertId' class='alert alert-danger alert-dismissible fade show' role='alert'>
+                <?php
+                if (!empty($errors)) {
+                    foreach ($errors as $index => $error) {
+                        $alertId = "alert-$index";
+                        echo "<div id='$alertId' class='alert alert-danger alert-dismissible fade show' role='alert'>
                     $error
                     <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                   </div>";
-            echo "<script>
+                        echo "<script>
                     setTimeout(function() {
                         var alertElement = document.getElementById('$alertId');
                         if (alertElement) {
@@ -60,8 +60,8 @@ $conn->close();
                         }
                     }, " . (3000 + $index * 1000) . ");
                   </script>";
-        }
-    } ?>
+                    }
+                } ?>
                 <form action="hall.php" method="post">
                     <!-- hallname-->
                     <div class="form-floating mb-3">
@@ -83,7 +83,11 @@ $conn->close();
                     </div>
                     <!-- type -->
                     <div class="form-floating mb-3">
-                        <input class="form-control" id="type" name="type" type="text" placeholder="Enter the type..." />
+                        <select class="form-control" id="type" name="type">
+                            <option value="" disabled selected>Hall Type<option>
+                            <option value="3D">3D</option>
+                            <option value="2D">2D</option>
+                        </select>
                         <label for="type">Type</label>
                     </div>
                     <div class="d-grid"><button class="btn btn-primary btn-xl" id="submitButton"

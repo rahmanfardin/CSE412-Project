@@ -17,8 +17,8 @@ $showError = false;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     include 'includes/dbcon.php';
-    $username = $_POST["username"];
-    $password = $_POST["password"];
+    $username = isset($_POST['username']) ? trim($_POST['username']) : null;
+    $password = isset($_POST['password']) ? trim($_POST['password']) : null;
     $hashed_password = hash('sha256', $password);
 
     $sql = "Select * from USERTABLE where username='$username' AND password='$hashed_password'";

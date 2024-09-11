@@ -15,11 +15,11 @@ $valueCheck = true;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     include 'includes/dbcon.php';
     include 'includes/signupIC.php';
-    $name = $_POST["name"];
-    $email = $_POST["email"];
-    $username = $_POST["username"];
-    $password = $_POST["password"];
-    $cpassword = $_POST["cpassword"];
+    $name = isset($_POST['name']) ? trim($_POST['name']) : null;    
+    $email = isset($_POST['email']) ? trim($_POST['email']) : null;
+    $username = isset($_POST['username']) ? trim($_POST['username']) : null;
+    $password = isset($_POST['password']) ? trim($_POST['password']) : null;
+    $cpassword = isset($_POST['cpassword']) ? trim($_POST['cpassword']) : null;
     $userType = "user";
 
     $array = array($name, $email, $username, $password, $cpassword);
