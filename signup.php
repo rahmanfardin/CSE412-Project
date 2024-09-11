@@ -10,7 +10,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
 
 
 $showAlert = false;
-$showError = false;
+$showError = [];
 $valueCheck = true;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     include 'includes/dbcon.php';
@@ -37,11 +37,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } else {
         if ($usernameEsistsCheck)
-            $showError = $showError . "| Username already exists |";
+            $showError[] = "Username already exists";
         if ($emailExistsCheck)
-            $showError = $showError . "| Email already exists |";
+            $showError[] = "Email already exists";
         if (!$passwordMatched)
-            $showError = $showError . "| Passwords dont match |";
+            $showError[] = "Passwords dont match";
     }
 }
 
@@ -67,11 +67,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <!-- Error Message-->
                     <?php if (!$valueCheck) {
-                            echo "<div id='alertId' class='alert alert-danger alert-dismissible fade show' role='alert'>
+                        echo "<div id='alertId' class='alert alert-danger alert-dismissible fade show' role='alert'>
                     Fill all the fields!
                     <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                   </div>";
-                            echo "<script>
+                        echo "<script>
                     setTimeout(function() {
                         var alertElement = document.getElementById('alertId');
                         if (alertElement) {
@@ -83,8 +83,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         }
                     }, " . (3000 + 1 * 1000) . ");
                   </script>";
+                    }
+                    if (!empty($showError)) {
+                        foreach ($showError as $index => $error) {
+                            $alertId = "alert-$index";
+                            echo "<div id='$alertId' class='alert alert-danger alert-dismissible fade show' role='alert'>
+                    $error
+                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                  </div>";
+                            echo "<script>
+                    setTimeout(function() {
+                        var alertElement = document.getElementById('$alertId');
+                        if (alertElement) {
+                            alertElement.classList.remove('show');
+                            alertElement.classList.add('fade');
+                            setTimeout(function() {
+                                alertElement.remove();
+                            }, 150);
                         }
-                     ?>
+                    }, " . (2000 + $index * 1000) . ");
+                  </script>";
+                        }
+                    }
+                    ?>
 
                     <!-- Name input-->
                     <div class="form-floating mb-3">

@@ -66,13 +66,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <!-- Error Message-->
                     <?php if ($showError == true) {
-                        echo "<div>
-                        <div class='alert alert-danger d-flex align-items-center' role='alert'>
-                            <div>
-                                Invalid Credentials!
-                            </div>
-                        </div>
-                    </div>";
+                        echo "<div id='alertId' class='alert alert-danger alert-dismissible fade show' role='alert'>
+                        Invalid Credentials!
+                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                      </div>";
+                        echo "<script>
+                    setTimeout(function() {
+                        var alertElement = document.getElementById('alertId');
+                        if (alertElement) {
+                            alertElement.classList.remove('show');
+                            alertElement.classList.add('fade');
+                            setTimeout(function() {
+                                alertElement.remove();
+                            }, 150);
+                        }
+                    }, " . (3000 + 1 * 1000) . ");
+                  </script>";
                     } ?>
 
                     <!-- userName input-->
