@@ -358,6 +358,11 @@ caption {
   text-align: left;
 }
 
+.table-container {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
 th {
   text-align: inherit;
   text-align: -webkit-match-parent;

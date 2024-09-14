@@ -85,7 +85,7 @@ include './includes/dbcon.php';
 $sql = "SELECT hallId, hallname, location, rating, type FROM halltable";
 $result = $conn->query($sql);
 ?>
-<section class="page-section" id="signup">
+<section class="page-section">
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-lg-8 col-xl-6 text-center">
@@ -127,6 +127,7 @@ $result = $conn->query($sql);
             <table class="table table-striped">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Hall Name</th>
                         <th>Location</th>
                         <th>Rating</th>
@@ -137,17 +138,16 @@ $result = $conn->query($sql);
                 <tbody>
                     <?php
                     if ($result->num_rows > 0) {
+                        $count = 1;
                         while ($row = $result->fetch_assoc()) {
                             echo "<tr>";
+                            echo "<td>" . $count . "</td>";
                             echo "<td>" . $row["hallname"] . "</td>";
                             echo "<td>" . $row["location"] . "</td>";
                             echo "<td>" . $row["rating"] . "</td>";
                             echo "<td>" . $row["type"] . "</td>";
-                            echo "<td>
-                                        <button type='button' class='btn btn-warning' id='" . $row['id'] . "'>Edit</button> |
-                                        <a href='delete_hall.php?id=" . $row["hallId"] . "' onclick='return confirm(\"Are you sure you want to delete this item?\");'>Delete</a>
-                                      </td>";
                             echo "</tr>";
+                            $count++;
                         }
                     } else {
                         echo "<tr><td colspan='5'>No records found</td></tr>";
@@ -172,7 +172,7 @@ $result = $conn->query($sql);
                 </div>
             </div>
             <div class="modal-body">
-                <form id="editForm" action="edit_hall.php" method="post">
+                <form id="editForm" action="hall.php" method="post">
                     <input type="hidden" name="hallId" id="hallId">
                     <div class="form-floating mb-3">
                         <input class="form-control" id="hallname" name="hallname" type="text" required />
@@ -199,74 +199,5 @@ $result = $conn->query($sql);
         </div>
     </div>
 </div>
-
-
-<script>
-    // Get the modal
-    var modal = document.getElementById("editHallModal");
-
-    // Get the button that opens the modal
-    var editButtons = document.getElementsByClassName("btn btn-warning");
-
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
-
-    // When the user clicks the button, open the modal 
-    for (var i = 0; i < editButtons.length; i++) {
-        editButtons[i].onclick = function () {
-            var hallId = this.getAttribute("data-id");
-            // Fetch data for the selected hall
-            fetch('get_hall.php?id=' + hallId)
-                .then(response => response.json())
-                .then(data => {
-                    // document.getElementById("hallId").value = data.hallId;
-                    // document.getElementById("hallname").value = data.hallname;
-                    // document.getElementById("location").value = data.location;
-                    // document.getElementById("rating").value = data.rating;
-                    // document.getElementById("type").value = data.type;
-                    modal.style.display = "block";
-                });
-        }
-    }
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function () {
-        modal.style.display = "none";
-    }
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
-
-    // Get the modal
-    var modal = document.getElementById("myModal");
-
-    // Get the button that opens the modal
-    var btn = document.getElementById("openModalBtn");
-
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
-
-    // When the user clicks the button, open the modal 
-    btn.onclick = function () {
-        modal.style.display = "block";
-    }
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function () {
-        modal.style.display = "none";
-    }
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
-
-</script>
 
 <?php include 'includes/footer.php'; ?>
