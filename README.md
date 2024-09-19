@@ -31,6 +31,6 @@ The Ticket Booking Management System is a web-based application designed to stre
 ### Steps
 
 1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/yourusername/ticket-booking-system.git
-   cd ticket-booking-system
+   ```bas
+
+   git clone https://github.com/rahmanfardin/ticket-booking-system.git
