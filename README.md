@@ -3,7 +3,7 @@
 
 ## Overview
 
-The Ticket Booking Management System is a web-based application designed to streamline the process of booking tickets for events, movies, and other activities. This system provides an intuitive interface for users to search for events, view available tickets, and complete bookings efficiently.
+The Ticket Booking Management System which is a web-based application designed to streamline the process of booking tickets for events, movies, and other activities. This system provides an intuitive interface for users to search for events, view available tickets, and complete bookings efficiently.
 
 ## Features
 
