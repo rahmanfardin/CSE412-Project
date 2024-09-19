@@ -10,16 +10,16 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
 
 
 $showAlert = false;
-$showError = false;
+$showError = [];
 $valueCheck = true;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     include 'includes/dbcon.php';
     include 'includes/signupIC.php';
-    $name = $_POST["name"];
-    $email = $_POST["email"];
-    $username = $_POST["username"];
-    $password = $_POST["password"];
-    $cpassword = $_POST["cpassword"];
+    $name = isset($_POST['name']) ? trim($_POST['name']) : null;    
+    $email = isset($_POST['email']) ? trim($_POST['email']) : null;
+    $username = isset($_POST['username']) ? trim($_POST['username']) : null;
+    $password = isset($_POST['password']) ? trim($_POST['password']) : null;
+    $cpassword = isset($_POST['cpassword']) ? trim($_POST['cpassword']) : null;
     $userType = "user";
 
     $array = array($name, $email, $username, $password, $cpassword);
@@ -37,11 +37,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } else {
         if ($usernameEsistsCheck)
-            $showError = $showError . "| Username already exists |";
+            $showError[] = "Username already exists";
         if ($emailExistsCheck)
-            $showError = $showError . "| Email already exists |";
+            $showError[] = "Email already exists";
         if (!$passwordMatched)
-            $showError = $showError . "| Passwords dont match |";
+            $showError[] = "Passwords dont match";
     }
 }
 
@@ -66,21 +66,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <form action="signup.php" method="post">
 
                     <!-- Error Message-->
-                    <?php if ($showError) {
-                        echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
-                                $showError
-                                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-                              </div>";
+                    <?php if (!$valueCheck) {
+                        echo "<div id='alertId' class='alert alert-danger alert-dismissible fade show' role='alert'>
+                    Fill all the fields!
+                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                  </div>";
+                        echo "<script>
+                    setTimeout(function() {
+                        var alertElement = document.getElementById('alertId');
+                        if (alertElement) {
+                            alertElement.classList.remove('show');
+                            alertElement.classList.add('fade');
+                            setTimeout(function() {
+                                alertElement.remove();
+                            }, 150);
+                        }
+                    }, " . (3000 + 1 * 1000) . ");
+                  </script>";
                     }
-                    if (!$valueCheck) {
-                        echo "<div>
-                        <div class='alert alert-danger d-flex align-items-center' role='alert'>
-                            <div>
-                                Fill all the fields!
-                            </div>
-                        </div>
-                    </div>";
-                    } ?>
+                    if (!empty($showError)) {
+                        foreach ($showError as $index => $error) {
+                            $alertId = "alert-$index";
+                            echo "<div id='$alertId' class='alert alert-danger alert-dismissible fade show' role='alert'>
+                    $error
+                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                  </div>";
+                            echo "<script>
+                    setTimeout(function() {
+                        var alertElement = document.getElementById('$alertId');
+                        if (alertElement) {
+                            alertElement.classList.remove('show');
+                            alertElement.classList.add('fade');
+                            setTimeout(function() {
+                                alertElement.remove();
+                            }, 150);
+                        }
+                    }, " . (2000 + $index * 1000) . ");
+                  </script>";
+                        }
+                    }
+                    ?>
 
                     <!-- Name input-->
                     <div class="form-floating mb-3">
