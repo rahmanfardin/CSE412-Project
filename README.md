@@ -16,17 +16,16 @@ The Ticket Booking Management System is a web-based application designed to stre
 
 ## Technology Stack
 
-- **Frontend**: HTML, CSS, JavaScript (React.js)
-- **Backend**: Node.js, Express.js
-- **Database**: MongoDB
-- **Payment Gateway**: Stripe or PayPal
+- **Frontend**: HTML, CSS, JavaScript 
+- **Backend**: PHP
+- **Database**: SQL
+- **Payment Gateway**: NONE
 
 ## Installation
 
 ### Prerequisites
 
-- Node.js (v12 or higher)
-- MongoDB (local or cloud-based)
+- MYSQL (local or cloud-based)
 - A code editor (e.g., VS Code)
 
 ### Steps
