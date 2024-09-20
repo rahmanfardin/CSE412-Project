@@ -1,5 +1,7 @@
 <!-- Header -->
 <?php
+include './includes/admin.validation.php'; 
+$page_name = 'Hall Panel';
 include './includes/header.php';
 include './includes/dbcon.php';
 include './includes/hall.validation.php';
