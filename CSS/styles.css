@@ -5299,6 +5299,10 @@ fieldset:disabled .btn {
   border-radius: var(--bs-alert-border-radius);
 }
 
+.custom-alert {
+  display: none;
+}
+
 .alert-heading {
   color: inherit;
 }

@@ -1,36 +1,62 @@
 <!-- Header -->
-<!-- Header -->
-<?php include './includes/header.php';
-
+<?php
+include './includes/header.php';
 include './includes/dbcon.php';
 include './includes/hall.validation.php';
+
 $errors = [];
+$alert = null;
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+    $deleteId = isset($_POST['deleteId']) ? trim($_POST['deleteId']) : null;
+    $hallId = isset($_POST['hallId']) ? trim($_POST['hallId']) : null;
     $hallname = isset($_POST['hallname']) ? trim($_POST['hallname']) : null;
     $location = isset($_POST['location']) ? trim($_POST['location']) : null;
     $rating = isset($_POST['rating']) ? trim($_POST['rating']) : null;
     $type = isset($_POST['type']) ? trim($_POST['type']) : null;
 
-    $errors = validationHallTable($hallname, $location, $rating, $type);
-    if (empty($errors)) {
-        $stmt = $conn->prepare("INSERT INTO halltable (hallname, location, rating, type) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $hallname, $location, $rating, $type);
 
+    if ($deleteId) {
+        // Delete hall
+        echo $deleteId;
+        $stmt = $conn->prepare("DELETE FROM halltable WHERE hallId = ?");
+        $stmt->bind_param("i", $deleteId);
         if ($stmt->execute()) {
-            echo "<script>alert('New record created successfully');</script>";
+            $alert = 'Record delete successfully';
         } else {
-            echo "<script>alert('Error: " . $stmt->error . "');</script>";
+            $alert = 'Database error';
         }
         $stmt->close();
+    } else {
+        $errors = validationHallTable($hallname, $location, $rating, $type);
+        if (empty($errors)) {
+            if ($hallId) {
+                // Edit existing hall
+                $stmt = $conn->prepare("UPDATE halltable SET hallname = ?, location = ?, rating = ?, type = ? WHERE hallId = ?");
+                $stmt->bind_param("ssssi", $hallname, $location, $rating, $type, $hallId);
+            } else {
+                // Add new hall
+                $stmt = $conn->prepare("INSERT INTO halltable (hallname, location, rating, type) VALUES (?, ?, ?, ?)");
+                $stmt->bind_param("ssss", $hallname, $location, $rating, $type);
+            }
+
+            if ($stmt->execute()) {
+                $alert = 'Record saved successfully';
+            } else {
+                $alert = 'Database error';
+            }
+            $stmt->close();
+        }
     }
+
 }
 $conn->close();
 ?>
 
 
-<!-- Hall Modal Form-->
-<div id="myModal" class="modal">
+<!-- Hall Modal Form -->
+<div id="addHallModal" class="modal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -38,7 +64,7 @@ $conn->close();
             </div>
             <div class="modal-body">
                 <form action="hall.php" method="post">
-                    <!-- hallname-->
+                    <!-- hallname -->
                     <div class="form-floating mb-3">
                         <input class="form-control" id="hallname" name="hallname" type="text"
                             placeholder="Enter your hall name..." />
@@ -59,20 +85,19 @@ $conn->close();
                     <!-- type -->
                     <div class="form-floating mb-3">
                         <select class="form-control" id="type" name="type">
-                            <option value="" disabled selected>Hall Type
-                            <option>
+                            <option value="" disabled selected>Hall Type</option>
                             <option value="3D">3D</option>
                             <option value="2D">2D</option>
                         </select>
                         <label for="type">Type</label>
                     </div>
-                    <div class="d-grid"><button class="btn btn-primary btn-xl" id="submitButton"
-                            type="submit">Submit</button>
+                    <div class="d-grid">
+                        <button class="btn btn-primary btn-xl" id="submitButton" type="submit">Submit</button>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary close">Close</button>
+                <button type="button" class="btn btn-danger close">Close</button>
             </div>
         </div>
     </div>
@@ -94,29 +119,47 @@ $result = $conn->query($sql);
                 <p class="text-muted mb-5">Here we can find all hall entry.</p>
             </div>
             <div class="container px-4 px-lg-5">
-                <div class="d-grid"><button class="btn btn-success btn-xl mb-3" id="openModalBtn">Add Hall</button>
+                <!-- Custom Alert -->
+                <?php if ($alert) {
+                    echo "<div id='customAlert' class='alert alert-dismissible alert-success' role='alert'>
+                    <span id='customAlertMessage'></span>
+                    <button type='button' class='btn-close' aria-label='Close'></button>
+                </div>";
+                    echo "<script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            showCustomAlert('$alert'); 
+                            hideCustomAlertAfterTimeout(3000);
+                        });
+                        </script>";
+                } ?>
+
+                <!-- Add Hall Button -->
+                <div class="d-grid">
+                    <button class="btn btn-success btn-xl mb-3" id="openAddModalBtn">Add Hall</button>
                 </div>
+                <!-- Error Messages -->
                 <div class="row gx-4 gx-lg-5 justify-content-center mb-5">
                     <div class="col-lg-6">
                         <?php
                         if (!empty($errors)) {
                             foreach ($errors as $index => $error) {
                                 $alertId = "alert-$index";
-                                echo "<div id='$alertId' class='alert alert-danger alert-dismissible fade show text-center' role='alert'>
-                    $error
-                  </div>";
+                                echo "<div id='$alertId' class='alert alert-danger alert-dismissible fade show' role='alert'>
+                            $error
+                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                          </div>";
                                 echo "<script>
-                    setTimeout(function() {
-                        var alertElement = document.getElementById('$alertId');
-                        if (alertElement) {
-                            alertElement.classList.remove('show');
-                            alertElement.classList.add('fade');
                             setTimeout(function() {
-                                alertElement.remove();
-                            }, 150);
-                        }
-                    }, " . (3000 + $index * 1000) . ");
-                  </script>";
+                                var alertElement = document.getElementById('$alertId');
+                                if (alertElement) {
+                                    alertElement.classList.remove('show');
+                                    alertElement.classList.add('fade');
+                                    setTimeout(function() {
+                                        alertElement.remove();
+                                    }, 150);
+                                }
+                            }, " . (2000 + $index * 1000) . ");
+                          </script>";
                             }
                         } ?>
                     </div>
@@ -146,6 +189,10 @@ $result = $conn->query($sql);
                             echo "<td>" . $row["location"] . "</td>";
                             echo "<td>" . $row["rating"] . "</td>";
                             echo "<td>" . $row["type"] . "</td>";
+                            echo "<td> 
+                            <button class='btn btn-primary btn-sm editHallBtn'hallid='" . $row["hallId"] . "'hallname='" . $row["hallname"] . "'location='" . $row["location"] . "'rating='" . $row["rating"] . "'type='" . $row["type"] . "'>Edit</button>
+                            <button class='btn btn-danger btn-sm deleteHallBtn'hallid='" . $row["hallId"] . "'>Delete</button>
+                            </td>";
                             echo "</tr>";
                             $count++;
                         }
@@ -157,47 +204,73 @@ $result = $conn->query($sql);
             </table>
         </div>
     </div>
-    </div>
 </section>
 
 <!-- Hall edit form modal -->
 <div id="editHallModal" class="modal">
     <div class="modal-dialog">
-        <div calss="modal-contant">
+        <div class="modal-content">
             <div class="modal-header">
-                <div class="col-lg-8 col-xl-6 text-center">
-                    <h2 class="mt-0">Edit Hall</h2>
-                    <hr class="divider" />
-                    <p class="text-muted mb-5">This form is to edit hall entry.</p>
-                </div>
+                <h5 class="modal-title">Edit Hall</h5>
             </div>
             <div class="modal-body">
                 <form id="editForm" action="hall.php" method="post">
                     <input type="hidden" name="hallId" id="hallId">
                     <div class="form-floating mb-3">
-                        <input class="form-control" id="hallname" name="hallname" type="text" required />
-                        <label for="hallname">Hall Name</label>
+                        <input class="form-control" id="editHallname" name="hallname" type="text" required />
+                        <label for="editHallname">Hall Name</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input class="form-control" id="location" name="location" type="text" required />
-                        <label for="location">Location</label>
+                        <input class="form-control" id="editLocation" name="location" type="text" required />
+                        <label for="editLocation">Location</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input class="form-control" id="rating" name="rating" type="number" required />
-                        <label for="rating">Rating</label>
+                        <input class="form-control" id="editRating" name="rating" type="number" required />
+                        <label for="editRating">Rating</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <select class="form-control" id="type" name="type" required>
+                        <select class="form-control" id="editType" name="type" required>
                             <option value="3D">3D</option>
                             <option value="2D">2D</option>
                         </select>
-                        <label for="type">Type</label>
+                        <label for="editType">Type</label>
                     </div>
-                    <button type="submit">Update</button>
+                    <div class="d-grid">
+                        <button class="btn btn-success btn-xl" type="submit">Update</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Hall delete form modal -->
+<div id="deleteHallModal" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Caution!</h5>
+            </div>
+            <div class="modal-body">
+                <form id="deleteForm" action="hall.php" method="post">
+                    <input type="hidden" name="deleteId" id="deleteId">
+                    <div class="form-floating mb-3">
+                        Do you want to delete this hall?
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-danger" type="submit">Yes</button>
+                        <button class="btn btn-success close">No</button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+
 
 <?php include 'includes/footer.php'; ?>

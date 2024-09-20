@@ -1,30 +1,4 @@
 <?php
-function validationHallTable1($hallname, $location, $rating, $type)
-{
-    $errors = [];
-
-    // Validate hallname
-    if (empty($hallname)) {
-        $errors[] = "Hall name is required.";
-    }
-
-    // Validate location
-    if (empty($location)) {
-        $errors[] = "Location is required.";
-    }
-
-    // Validate rating
-    if (empty($rating)) {
-        $errors[] = "Rating is required.";
-    }
-
-    // Validate type
-    if (empty($type)) {
-        $errors[] = "Type is required.";
-    }
-
-    return $errors;
-}
 
 function validationHallTable($hallname, $location, $rating, $type) {
     $errors = [];
