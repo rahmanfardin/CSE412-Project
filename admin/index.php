@@ -16,3 +16,6 @@
                 </div>
             </div>
         </header>
+
+<!-- Footer -->
+<?php include 'includes/footer.php'; ?>

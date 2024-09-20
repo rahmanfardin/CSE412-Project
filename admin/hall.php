@@ -262,8 +262,8 @@ $result = $conn->query($sql);
                         Do you want to delete this hall?
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-danger" type="submit">Yes</button>
-                        <button class="btn btn-success close">No</button>
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                        <button type="button" class="btn btn-success close">Cancle</button>
                     </div>
                 </form>
             </div>
