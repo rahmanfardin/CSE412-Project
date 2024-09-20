@@ -8,7 +8,7 @@
 //
 
 // Resumission Form Issue Fix
-if(window.history.replaceState){
+if (window.history.replaceState) {
     window.history.replaceState(null, null, window.location.href);
 }
 
@@ -69,15 +69,20 @@ window.addEventListener('DOMContentLoaded', event => {
 });
 
 
+// Function to close modals when clicking outside of them
+window.onclick = function (event) {
+    if (event.target.classList.contains('modal')) {
+        event.target.style.display = "none";
+    }
+}
 
 
 // Get the hall modals
 var addHallModal = document.getElementById("addHallModal");
-var editHallModal = document.getElementById("editHallModal");
 var deleteHallModal = document.getElementById("deleteHallModal");
 
 // Get the buttons that open the modals
-var openAddModalBtn = document.getElementById("openAddModalBtn");
+var AddHallBtn = document.getElementById("AddHallBtn");
 var editHallBtns = document.getElementsByClassName("editHallBtn");
 var deleteHallBtns = document.getElementsByClassName("deleteHallBtn");
 
@@ -85,31 +90,23 @@ var deleteHallBtns = document.getElementsByClassName("deleteHallBtn");
 var closeButtons = document.getElementsByClassName("close");
 
 // When the user clicks the button, open the Add Hall modal
-openAddModalBtn.onclick = function () {
-    addHallModal.style.display = "block";
+if (AddHallBtn != null) {
+    AddHallBtn.onclick = function () {
+        addHallModal.style.display = "block";
+        document.getElementById("modalTitle").innerText = "Add Hall";
+        document.getElementById("addEditHallForm").reset();
+        document.getElementById("submitButton").innerText = "Submit";
+    }
 }
 
 // When the user clicks on <span> (x), close the modal
 for (var i = 0; i < closeButtons.length; i++) {
     closeButtons[i].onclick = function () {
         addHallModal.style.display = "none";
-        editHallModal.style.display = "none";
         deleteHallModal.style.display = "none";
     }
 }
 
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function (event) {
-    if (event.target == addHallModal) {
-        addHallModal.style.display = "none";
-    }
-    if (event.target == editHallModal) {
-        editHallModal.style.display = "none";
-    }
-    if (event.target == deleteHallModal) {
-        deleteHallModal.style.display = "none";
-    }
-}
 
 // When the user clicks the Edit button, open the Edit Hall modal and populate the form
 for (var i = 0; i < editHallBtns.length; i++) {
@@ -121,12 +118,15 @@ for (var i = 0; i < editHallBtns.length; i++) {
         var type = this.getAttribute("type");
 
         document.getElementById("hallId").value = hallId;
-        document.getElementById("editHallname").value = hallname;
-        document.getElementById("editLocation").value = location;
-        document.getElementById("editRating").value = rating;
-        document.getElementById("editType").value = type;
+        document.getElementById("hallname").value = hallname;
+        document.getElementById("location").value = location;
+        document.getElementById("rating").value = rating;
+        document.getElementById("type").value = type;
 
-        editHallModal.style.display = "block";
+        addHallModal.style.display = "block";
+        document.getElementById("modalTitle").innerText = "Edit Hall";
+        document.getElementById("submitButton").innerText = "Update";
+        document.getElementById("submitButton").classList.add("btn-success");
     }
 }
 
@@ -134,9 +134,80 @@ for (var i = 0; i < editHallBtns.length; i++) {
 for (var i = 0; i < deleteHallBtns.length; i++) {
     deleteHallBtns[i].onclick = function () {
         var hallId = this.getAttribute("hallid");
-        
+
         document.getElementById("deleteId").value = hallId;
         deleteHallModal.style.display = "block";
+    }
+}
+
+
+// Get the movie modals
+var addEditMovieModal = document.getElementById("addEditMovieModal");
+var deleteMovieModal = document.getElementById("deleteMovieModal");
+
+// Get the buttons that open the modals
+var addMovieBtn = document.getElementById("addMovieBtn");
+var editMovieBtns = document.getElementsByClassName("editMovieBtn");
+var deleteMovieBtns = document.getElementsByClassName("deleteMovieBtn");
+
+// Get the <span> elements that close the modals
+var closeButtons = document.getElementsByClassName("close");
+
+// When the user clicks the button, open the Add Movie modal
+if (addMovieBtn != null) {
+    addMovieBtn.onclick = function () {
+        document.getElementById("modalTitle").innerText = "Add Movie";
+        document.getElementById("addEditMovieForm").reset();
+        document.getElementById("submitButton").innerText = "Submit";
+        addEditMovieModal.style.display = "block";
+    }
+}
+
+// When the user clicks on <span> (x), close the modal
+for (var i = 0; i < closeButtons.length; i++) {
+    closeButtons[i].onclick = function () {
+        addEditMovieModal.style.display = "none";
+        deleteMovieModal.style.display = "none";
+    }
+}
+
+// When the user clicks the Edit button, open the Edit Movie modal and populate the form
+for (var i = 0; i < editMovieBtns.length; i++) {
+    editMovieBtns[i].onclick = function () {
+        var movieId = this.getAttribute("movieid");
+        var moviename = this.getAttribute("moviename");
+        var releasedate = this.getAttribute("year");
+        var genre = this.getAttribute("genre");
+        var rating = this.getAttribute("rating");
+        var movierating = this.getAttribute("movierating");
+        var poster = this.getAttribute("poster");
+
+        document.getElementById("movieid").value = movieId;
+        console.log(movieId);
+        document.getElementById("moviename").value = moviename;
+        document.getElementById("year").value = releasedate;
+        document.getElementById("genre").value = genre;
+        document.getElementById("rating").value = rating;
+        document.getElementById("movierating").value = movierating;
+        // Poster handling might need to be different since it's a file input
+        var currentPoster = document.getElementById("currentPoster");
+        currentPoster.src = poster;
+        currentPoster.style.display = "block"; // Show the current poster
+
+        document.getElementById("modalTitle").innerText = "Edit Movie";
+        document.getElementById("submitButton").innerText = "Update";
+        document.getElementById("submitButton").classList.add("btn-success");
+        addEditMovieModal.style.display = "block";
+    }
+}
+
+// When the user clicks the Delete button, open the Delete Movie modal and set the movie ID
+for (var i = 0; i < deleteMovieBtns.length; i++) {
+    deleteMovieBtns[i].onclick = function () {
+        var movieId = this.getAttribute("movieid");
+        console.log(movieId);
+        document.getElementById("movieDeleteId").value = movieId;
+        deleteMovieModal.style.display = "block";
     }
 }
 
