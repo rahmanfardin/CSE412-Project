@@ -1,5 +1,8 @@
 <!-- Header -->
-<?php include './includes/header.php';
+<?php 
+include './includes/admin.validation.php'; 
+$page_name = 'Movie Panel';
+include './includes/header.php';
 
 include './includes/dbcon.php';
 include './includes/movie.validation.php';

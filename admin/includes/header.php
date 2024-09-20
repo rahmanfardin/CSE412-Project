@@ -1,14 +1,5 @@
-<?php
-session_start();
 
 
-if ((!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != true) && $_SESSION['usertype'] != 'admin') {
-    $login = true;
-    header("location: ../login.php");
-    exit;
-}
-$login = true;
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +10,7 @@ $login = true;
     <meta name="description" content="" />
     <meta name="author" content="" />
 
-    <title>Ticketer - Movie Ticket Solution</title>
+    <title>Ticketer <?php echo ' - ' . $page_name;?></title>
 
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
