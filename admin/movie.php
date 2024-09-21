@@ -224,7 +224,7 @@ $result = $conn->query($sql);
                     </div>
                     <!-- releasedate -->
                     <div class="form-floating mb-3">
-                        <input class="form-control" id="releasedate" name="releasedate" type="number" min="1900" max="2099"
+                        <input class="form-control" id="releasedate" name="releasedate" type="date" min="1900" max="2099"
                             placeholder="Enter releasedate..." required>
                         <label for="releasedate">Release Date</label>
                     </div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 10, 2024 at 02:55 PM
+-- Generation Time: Sep 21, 2024 at 03:00 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -35,6 +35,13 @@ CREATE TABLE `halltable` (
   `type` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `halltable`
+--
+
+INSERT INTO `halltable` (`hallId`, `hallname`, `location`, `rating`, `type`) VALUES
+(30, 'Dhaka', 'Rampura', 5, '3D');
+
 -- --------------------------------------------------------
 
 --
@@ -57,11 +64,19 @@ CREATE TABLE `moviehall` (
 CREATE TABLE `movietable` (
   `movieid` int(11) NOT NULL,
   `moviename` varchar(100) NOT NULL,
-  `releasedate` varchar(4) NOT NULL,
+  `releasedate` date NOT NULL,
   `genre` varchar(100) NOT NULL,
-  `rating` int(11) NOT NULL,
-  `poster` varchar(2000) NOT NULL
+  `rating` varchar(40) NOT NULL,
+  `movierating` int(11) NOT NULL,
+  `poster` blob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `movietable`
+--
+
+INSERT INTO `movietable` (`movieid`, `moviename`, `releasedate`, `genre`, `rating`, `movierating`, `poster`) VALUES
+(10, 'La La Land', '2016-12-05', 'romance', 'PG-13', 6, 0x75706c6f6164732f706f73746572732f6c612e6a7067);
 
 -- --------------------------------------------------------
 
@@ -133,12 +148,6 @@ ALTER TABLE `movietable`
   ADD PRIMARY KEY (`movieid`);
 
 --
--- Indexes for table `ticket`
---
-ALTER TABLE `ticket`
-  ADD PRIMARY KEY (`ticketid`);
-
---
 -- Indexes for table `usertable`
 --
 ALTER TABLE `usertable`
@@ -154,7 +163,7 @@ ALTER TABLE `usertable`
 -- AUTO_INCREMENT for table `halltable`
 --
 ALTER TABLE `halltable`
-  MODIFY `hallId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `hallId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `moviehall`
@@ -166,19 +175,13 @@ ALTER TABLE `moviehall`
 -- AUTO_INCREMENT for table `movietable`
 --
 ALTER TABLE `movietable`
-  MODIFY `movieid` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `ticket`
---
-ALTER TABLE `ticket`
-  MODIFY `ticketid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `movieid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `usertable`
 --
 ALTER TABLE `usertable`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
