@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 21, 2024 at 03:00 PM
+-- Generation Time: Sep 21, 2024 at 07:55 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,19 +45,6 @@ INSERT INTO `halltable` (`hallId`, `hallname`, `location`, `rating`, `type`) VAL
 -- --------------------------------------------------------
 
 --
--- Table structure for table `moviehall`
---
-
-CREATE TABLE `moviehall` (
-  `movieid` int(11) NOT NULL,
-  `hallid` int(11) NOT NULL,
-  `slotid` int(11) NOT NULL,
-  `slot` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `movietable`
 --
 
@@ -76,7 +63,23 @@ CREATE TABLE `movietable` (
 --
 
 INSERT INTO `movietable` (`movieid`, `moviename`, `releasedate`, `genre`, `rating`, `movierating`, `poster`) VALUES
-(10, 'La La Land', '2016-12-05', 'romance', 'PG-13', 6, 0x75706c6f6164732f706f73746572732f6c612e6a7067);
+(25, 'La La Land', '2024-09-25', 'romance', 'PG-13', 2, 0x7031323338363438305f705f7631305f616a2e6a7067),
+(27, 'Hob and Shaw', '2021-09-09', 'action', 'PG-13', 6, 0x486f626273536861775f706f737465722e6a7067),
+(29, 'Rangasthalam', '2024-09-01', 'action', 'PG-13', 8, 0x52616e6761737468616c616d2e6a7067);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `slot`
+--
+
+CREATE TABLE `slot` (
+  `movieid` int(11) NOT NULL,
+  `hallid` int(11) NOT NULL,
+  `slotid` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `slot` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -136,16 +139,17 @@ ALTER TABLE `halltable`
   ADD PRIMARY KEY (`hallId`);
 
 --
--- Indexes for table `moviehall`
---
-ALTER TABLE `moviehall`
-  ADD PRIMARY KEY (`slotid`);
-
---
 -- Indexes for table `movietable`
 --
 ALTER TABLE `movietable`
   ADD PRIMARY KEY (`movieid`);
+
+--
+-- Indexes for table `slot`
+--
+ALTER TABLE `slot`
+  ADD PRIMARY KEY (`slotid`),
+  ADD UNIQUE KEY `date` (`date`,`slot`,`movieid`,`hallid`) USING BTREE;
 
 --
 -- Indexes for table `usertable`
@@ -166,16 +170,16 @@ ALTER TABLE `halltable`
   MODIFY `hallId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
--- AUTO_INCREMENT for table `moviehall`
---
-ALTER TABLE `moviehall`
-  MODIFY `slotid` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `movietable`
 --
 ALTER TABLE `movietable`
-  MODIFY `movieid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `movieid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+
+--
+-- AUTO_INCREMENT for table `slot`
+--
+ALTER TABLE `slot`
+  MODIFY `slotid` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `usertable`
