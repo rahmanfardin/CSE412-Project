@@ -654,10 +654,11 @@ progress {
 }
 
 .img-fluid {
+  width: 219px; 
+  height: 317px; 
+  object-fit: cover; 
   max-width: 100%;
-  height: auto;
 }
-
 .img-thumbnail {
   padding: 0.25rem;
   background-color: #fff;

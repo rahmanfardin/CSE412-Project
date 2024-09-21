@@ -28,6 +28,7 @@ if (isset($_SESSION['username'])) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/styles.css" rel="stylesheet" />
+
 </head>
 
 <body id="page-top">
@@ -79,21 +80,25 @@ if (isset($_SESSION['username'])) {
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
+            echo '<div class="container-fluid p-0">
+                <div class="row g-0">';
             while ($row = $result->fetch_assoc()) {
-                echo "<div class='container-fluid p-0'>
-            <div class='row g-0'>
+                echo "
                 <div class='col-lg-4 col-sm-6'>
                     <a class='movie-box' href= $row[poster] title='Project Name'> ";
                 echo '<img class="img-fluid" src="' . 'admin/uploads/posters/' . htmlspecialchars($row["poster"]) . '" alt="' . htmlspecialchars($row["moviename"]) . '">';
                 echo "<div class='movie-box-caption'>
-                            <div class='project-category text-white-50'>".$row['genre']."</div>
-                            <div class='project-name'>".$row['moviename']."</div>
+                            <div class='project-category text-white-50'>" . $row['genre'] . "</div>
+                            <div class='project-name'>" . $row['moviename'] . "</div>
                         </div>
                     </a>
                 </div> 
-                </div>";
+                ";
             }
+            echo '</div>
+            </div>';
         }
+
         ?>
     </div>
     <!-- About-->
