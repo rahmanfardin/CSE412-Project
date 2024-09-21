@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $deleteId = isset($_POST['deleteId']) ? trim($_POST['deleteId']) : null;
     $movieid = isset($_POST['movieid']) ? trim($_POST['movieid']) : null;
     $moviename = isset($_POST['moviename']) ? trim($_POST['moviename']) : null;
-    $releasedate = isset($_POST['year']) ? trim($_POST['year']) : null;
+    $releasedate = isset($_POST['releasedate']) ? trim($_POST['releasedate']) : null;
     $genre = isset($_POST['genre']) ? trim($_POST['genre']) : null;
     $movierating = isset($_POST['movierating']) ? trim($_POST['movierating']) : null;
     $rating = isset($_POST['rating']) ? trim($_POST['rating']) : null;
@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $poster = $currentPoster;
             }
 
-            $stmt = $conn->prepare("UPDATE movietable SET moviename = ?, year = ?, genre = ?, rating = ?, movierating = ?, poster = ? WHERE movieid = ?");
+            $stmt = $conn->prepare("UPDATE movietable SET moviename = ?, releasedate = ?, genre = ?, rating = ?, movierating = ?, poster = ? WHERE movieid = ?");
             $stmt->bind_param("ssssisi", $moviename, $releasedate, $genre, $rating, $movierating, $poster, $movieid);
 
             if ($stmt->execute()) {
@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $target_dir = "uploads/posters/";
             $target_file = $target_dir . basename($poster);
 
-            $stmt = $conn->prepare("INSERT INTO movietable (moviename, year, genre, rating, movierating, poster) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt = $conn->prepare("INSERT INTO movietable (moviename, releasedate, genre, rating, movierating, poster) VALUES (?, ?, ?, ?, ?, ?)");
             $stmt->bind_param("ssssis", $moviename, $releasedate, $genre, $rating, $movierating, $target_file);
 
             if ($stmt->execute()) {
@@ -101,7 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 include './includes/dbcon.php';
 
 // Fetch data from the database
-$sql = "SELECT movieid, moviename, year, genre, rating, movierating, poster FROM movietable";
+$sql = "SELECT movieid, moviename, releasedate, genre, rating, movierating, poster FROM movietable";
 $result = $conn->query($sql);
 ?>
 <section class="page-section">
@@ -166,7 +166,7 @@ $result = $conn->query($sql);
                     <tr>
                         <th>#</th>
                         <th>Movie Name</th>
-                        <th>Year</th>
+                        <th>releasedate</th>
                         <th>Genre</th>
                         <th>Rating</th>
                         <th>Movie Rating</th>
@@ -182,13 +182,13 @@ $result = $conn->query($sql);
                             echo "<tr>";
                             echo "<td>" . $count . "</td>";
                             echo "<td>" . $row["moviename"] . "</td>";
-                            echo "<td>" . $row["year"] . "</td>";
+                            echo "<td>" . $row["releasedate"] . "</td>";
                             echo "<td>" . $row["genre"] . "</td>";
                             echo "<td>" . $row["rating"] . "</td>";
                             echo "<td>" . $row["movierating"] . "</td>";
                             echo "<td><img src='" . $row["poster"] . "' alt='Poster' style='width: 50px; height: auto;'></td>";
                             echo "<td> 
-                            <button class='btn btn-primary btn-sm editMovieBtn' movieid='" . $row["movieid"] . "' moviename='" . $row["moviename"] . "' year='" . $row["year"] . "' genre='" . $row["genre"] . "' movierating='" . $row["movierating"] . "' rating='" . $row["rating"] . "' poster='" . $row["poster"] . "'>Edit</button>
+                            <button class='btn btn-primary btn-sm editMovieBtn' movieid='" . $row["movieid"] . "' moviename='" . $row["moviename"] . "' releasedate='" . $row["releasedate"] . "' genre='" . $row["genre"] . "' movierating='" . $row["movierating"] . "' rating='" . $row["rating"] . "' poster='" . $row["poster"] . "'>Edit</button>
                             <button class='btn btn-danger btn-sm deleteMovieBtn' movieid='" . $row["movieid"] . "'>Delete</button>
                             </td>";
                             echo "</tr>";
@@ -224,9 +224,9 @@ $result = $conn->query($sql);
                     </div>
                     <!-- releasedate -->
                     <div class="form-floating mb-3">
-                        <input class="form-control" id="year" name="year" type="number" min="1900" max="2099"
-                            placeholder="Enter release year..." required>
-                        <label for="year">Release Year</label>
+                        <input class="form-control" id="releasedate" name="releasedate" type="number" min="1900" max="2099"
+                            placeholder="Enter releasedate..." required>
+                        <label for="releasedate">Release Date</label>
                     </div>
                     <!-- genre -->
                     <div class="form-floating mb-3">

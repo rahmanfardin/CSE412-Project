@@ -178,7 +178,7 @@ for (var i = 0; i < editMovieBtns.length; i++) {
     editMovieBtns[i].onclick = function () {
         var movieId = this.getAttribute("movieid");
         var moviename = this.getAttribute("moviename");
-        var releasedate = this.getAttribute("year");
+        var releasedate = this.getAttribute("releasedate");
         var genre = this.getAttribute("genre");
         var rating = this.getAttribute("rating");
         var movierating = this.getAttribute("movierating");
@@ -187,7 +187,7 @@ for (var i = 0; i < editMovieBtns.length; i++) {
         document.getElementById("movieid").value = movieId;
         console.log(movieId);
         document.getElementById("moviename").value = moviename;
-        document.getElementById("year").value = releasedate;
+        document.getElementById("releasedate").value = releasedate;
         document.getElementById("genre").value = genre;
         document.getElementById("rating").value = rating;
         document.getElementById("movierating").value = movierating;
