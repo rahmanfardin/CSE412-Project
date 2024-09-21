@@ -256,3 +256,4 @@ document.getElementById('profile').addEventListener('click', function (event) {
         proDiv.style.display = 'none';
     }
 });
+

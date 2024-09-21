@@ -12849,3 +12849,55 @@ header.masthead .h1 {
 #movie .container-xxl .movie-box:hover .movie-box-caption {
   opacity: 1;
 }
+
+.scroll-pane-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+}
+
+.scroll-pane {
+  display: flex;
+  overflow-x: scroll;
+  white-space: nowrap;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.movie-poster {
+  display: inline-block;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.movie-poster img {
+  width: 150px;
+  height: 200px;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.popup .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.popup .popup-content {
+  padding: 20px;
+}
