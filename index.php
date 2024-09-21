@@ -84,7 +84,7 @@ if (isset($_SESSION['username'])) {
             <div class='row g-0'>
                 <div class='col-lg-4 col-sm-6'>
                     <a class='movie-box' href= $row[poster] title='Project Name'> ";
-                echo '<img class="img-fluid" src="' . 'admin/' . htmlspecialchars($row["poster"]) . '" alt="' . htmlspecialchars($row["moviename"]) . '">';
+                echo '<img class="img-fluid" src="' . 'admin/uploads/posters/' . htmlspecialchars($row["poster"]) . '" alt="' . htmlspecialchars($row["moviename"]) . '">';
                 echo "<div class='movie-box-caption'>
                             <div class='project-category text-white-50'>".$row['genre']."</div>
                             <div class='project-name'>".$row['moviename']."</div>

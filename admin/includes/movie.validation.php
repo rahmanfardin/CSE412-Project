@@ -39,7 +39,7 @@ function validationMovieTable($movieid, $moviename, $releasedate, $genre, $movie
     if (empty($poster) && empty($movieid)) {
         $errors[] = "Poster is required.";
     } else if (!empty($poster) && !empty($movieid)) {
-        $target_dir = "uploads/posters/";
+        $target_dir = "./uploads/posters/";
         $target_file = $target_dir . basename($poster);
         $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
