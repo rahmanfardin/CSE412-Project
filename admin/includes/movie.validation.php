@@ -1,5 +1,5 @@
 <?php
-function validationMovieTable($moviename, $releasedate, $genre, $movierating, $rating, $poster) {
+function validationMovieTable($movieid, $moviename, $releasedate, $genre, $movierating, $rating, $poster) {
     $errors = [];
 
     // Validate moviename
@@ -36,9 +36,9 @@ function validationMovieTable($moviename, $releasedate, $genre, $movierating, $r
     }
 
     // Validate poster
-    if (empty($poster)) {
+    if (empty($poster) && empty($movieid)) {
         $errors[] = "Poster is required.";
-    } else {
+    } else if (!empty($poster) && !empty($movieid)) {
         $target_dir = "uploads/posters/";
         $target_file = $target_dir . basename($poster);
         $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));

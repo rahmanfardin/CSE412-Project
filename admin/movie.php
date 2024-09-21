@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->close();
     } else {
 
-        $errors = validationMovieTable($moviename, $releasedate, $genre, $movierating, $movierating, $poster);
+        $errors = validationMovieTable($movieid, $moviename, $releasedate, $genre, $movierating, $movierating, $poster);
         // If there are no errors, proceed with the database insertion
         if ($movieid) {
             $stmt = $conn->prepare("SELECT poster FROM movietable WHERE movieid = ?");
@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
 
             $stmt = $conn->prepare("UPDATE movietable SET moviename = ?, year = ?, genre = ?, rating = ?, movierating = ?, poster = ? WHERE movieid = ?");
-            $stmt->bind_param("ssssisi", $moviename, $releasedate, $genre, $rating, $rating, $poster, $movieid);
+            $stmt->bind_param("ssssisi", $moviename, $releasedate, $genre, $rating, $movierating, $poster, $movieid);
 
             if ($stmt->execute()) {
                 $alert = "Movie updated successfully";
@@ -92,7 +92,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
 
             $stmt->close();
-        } else {
         }
     }
 }
@@ -123,7 +122,7 @@ $result = $conn->query($sql);
                     echo "<script>
                         document.addEventListener('DOMContentLoaded', function() {
                             showCustomAlert('$alert'); 
-                            hideCustomAlertAfterTimeout(3000);
+                            hideCustomAlertAfterTimeout(2000);
                         });
                         </script>";
                 } ?>
@@ -272,7 +271,7 @@ $result = $conn->query($sql);
                     </div>
                     <!-- poster -->
                     <div class="mb-3">
-                        <label for="poster">Current Poster</label>
+                        <label for="poster" id="posterLabel"></label>
                         <img id="currentPoster" src="" alt="Current Poster"
                             style="width: 100px; height: auto; display: block; margin-bottom: 10px;">
                         <input class="form-control" id="poster" name="poster" type="file" accept="image/*">

@@ -159,6 +159,8 @@ if (addMovieBtn != null) {
         document.getElementById("modalTitle").innerText = "Add Movie";
         document.getElementById("addEditMovieForm").reset();
         document.getElementById("submitButton").innerText = "Submit";
+        document.getElementById("posterLabel").innerText = "Choose Poster";
+        document.getElementById("currentPoster").style.display = "none";
         addEditMovieModal.style.display = "block";
     }
 }
@@ -189,7 +191,8 @@ for (var i = 0; i < editMovieBtns.length; i++) {
         document.getElementById("genre").value = genre;
         document.getElementById("rating").value = rating;
         document.getElementById("movierating").value = movierating;
-        // Poster handling might need to be different since it's a file input
+        // Poster handling
+        document.getElementById("posterLabel").innerText = "Current Poster";
         var currentPoster = document.getElementById("currentPoster");
         currentPoster.src = poster;
         currentPoster.style.display = "block"; // Show the current poster
