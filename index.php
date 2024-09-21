@@ -65,7 +65,7 @@ if (isset($_SESSION['username'])) {
                 </div>
                 <div class="col-lg-8 align-self-baseline">
                     <p class="text-white-75 mb-5">All your movie ticket need under one website.</p>
-                    <a class="btn btn-primary btn-xl" href="#about">Find Out More</a>
+                    <a class="btn btn-primary btn-xl" href="#movie">Find Out More</a>
                 </div>
             </div>
         </div>
@@ -160,7 +160,7 @@ if (isset($_SESSION['username'])) {
     <!-- Call to action-->
 
     <!-- Contact-->
-    <section class="page-section" id="contact">
+    <section class="page-section" id="contact" style="background-color: rgba(244, 98, 58,0.1);">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8 col-xl-6 text-center">
