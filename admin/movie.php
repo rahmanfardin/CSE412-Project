@@ -79,11 +79,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $stmt->close();
         } else if (empty($errors)) {
+            echo "<script>console.log('upload movie poster');</script>";
             $target_dir = "uploads/posters/";
             $target_file = $target_dir . basename($poster);
+            echo "<script>console.log();</script>";
 
             $stmt = $conn->prepare("INSERT INTO movietable (moviename, releasedate, genre, rating, movierating, poster) VALUES (?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssssis", $moviename, $releasedate, $genre, $rating, $movierating, $target_file);
+            $stmt->bind_param("ssssis", $moviename, $releasedate, $genre, $rating, $movierating, $poster);
 
             if ($stmt->execute()) {
 
