@@ -180,7 +180,7 @@ $result = $conn->query($sql);
                         $count = 1;
                         while ($row = $result->fetch_assoc()) {
                             echo "<tr>";
-                            echo "<td>" . $count . "</td>";
+                            echo "<td>" . $row["movieid"] . "</td>";
                             echo "<td>" . $row["moviename"] . "</td>";
                             echo "<td>" . $row["releasedate"] . "</td>";
                             echo "<td>" . $row["genre"] . "</td>";
