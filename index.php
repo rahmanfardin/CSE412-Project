@@ -43,7 +43,7 @@ if (isset($_SESSION['username'])) {
                 <ul class="navbar-nav ms-auto my-2 my-lg-0">
                     <li class="nav-item"><a class="nav-link" href="#page-top">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#movie">Movie</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#portfolio">TODO</a></li>
+                    <li class="nav-item"><a class="nav-link" href="./ticket.php">Ticket</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
                     <?php if ($login) {
                         echo '<li class="nav-item"><a class="nav-link" href="./includes/signout.php">logout</a></li>';

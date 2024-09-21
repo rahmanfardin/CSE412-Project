@@ -32,7 +32,7 @@
                 <ul class="navbar-nav ms-auto my-2 my-lg-0">
                     <li class="nav-item"><a class="nav-link" href="../index.php#page-top">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="../index.php#movie">Movie</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../index.php#portfolio">TODO</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../ticket.php">Ticket</a></li>
                     <li class="nav-item"><a class="nav-link" href="../index.php#contact">Contact</a></li>
                    
                     <li class="nav-item"><a class="nav-link" href="#login">LOGIN/SIGNUP</a></li>
