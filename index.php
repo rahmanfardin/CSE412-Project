@@ -102,8 +102,10 @@ if (isset($_SESSION['username'])) {
 
         ?>
     </div>
+    
     <!-- About-->
-    <section class="page-section bg-primary" id="about">
+
+    <!-- <section class="page-section bg-primary" id="about">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8 text-center">
@@ -116,9 +118,9 @@ if (isset($_SESSION['username'])) {
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
     <!-- Services-->
-    <section class="page-section" id="services">
+    <!-- <section class="page-section" id="services">
         <div class="container px-4 px-lg-5">
             <h2 class="text-center mt-0">At Your Service</h2>
             <hr class="divider" />
@@ -153,7 +155,7 @@ if (isset($_SESSION['username'])) {
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <!-- Call to action-->
 

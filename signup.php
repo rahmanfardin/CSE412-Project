@@ -139,7 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <!-- Submit Button-->
                     <div class="d-grid"><button class="btn btn-primary btn-xl" id="submitButton"
-                            type="submit">Submit</button></div>
+                            type="submit">SING UP!</button></div>
                 </form>
             </div>
 
