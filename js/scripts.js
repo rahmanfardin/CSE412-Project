@@ -76,6 +76,9 @@ window.onclick = function (event) {
     }
 }
 
+// Get the <span> elements that close the modals
+var closeButtons = document.getElementsByClassName("close");
+
 
 // Get the hall modals
 var addHallModal = document.getElementById("addHallModal");
@@ -86,8 +89,6 @@ var AddHallBtn = document.getElementById("AddHallBtn");
 var editHallBtns = document.getElementsByClassName("editHallBtn");
 var deleteHallBtns = document.getElementsByClassName("deleteHallBtn");
 
-// Get the <span> elements that close the modals
-var closeButtons = document.getElementsByClassName("close");
 
 // When the user clicks the button, open the Add Hall modal
 if (AddHallBtn != null) {
@@ -98,15 +99,6 @@ if (AddHallBtn != null) {
         document.getElementById("submitButton").innerText = "Submit";
     }
 }
-
-// When the user clicks on <span> (x), close the modal
-for (var i = 0; i < closeButtons.length; i++) {
-    closeButtons[i].onclick = function () {
-        addHallModal.style.display = "none";
-        deleteHallModal.style.display = "none";
-    }
-}
-
 
 // When the user clicks the Edit button, open the Edit Hall modal and populate the form
 for (var i = 0; i < editHallBtns.length; i++) {
@@ -150,9 +142,6 @@ var addMovieBtn = document.getElementById("addMovieBtn");
 var editMovieBtns = document.getElementsByClassName("editMovieBtn");
 var deleteMovieBtns = document.getElementsByClassName("deleteMovieBtn");
 
-// Get the <span> elements that close the modals
-var closeButtons = document.getElementsByClassName("close");
-
 // When the user clicks the button, open the Add Movie modal
 if (addMovieBtn != null) {
     addMovieBtn.onclick = function () {
@@ -162,14 +151,6 @@ if (addMovieBtn != null) {
         document.getElementById("posterLabel").innerText = "Choose Poster";
         document.getElementById("currentPoster").style.display = "none";
         addEditMovieModal.style.display = "block";
-    }
-}
-
-// When the user clicks on <span> (x), close the modal
-for (var i = 0; i < closeButtons.length; i++) {
-    closeButtons[i].onclick = function () {
-        addEditMovieModal.style.display = "none";
-        deleteMovieModal.style.display = "none";
     }
 }
 
@@ -214,7 +195,17 @@ for (var i = 0; i < deleteMovieBtns.length; i++) {
     }
 }
 
-
+// When the user clicks on <span> (x), close the modal
+for (var i = 0; i < closeButtons.length; i++) {
+    closeButtons[i].onclick = function () {
+        var modals = [addEditMovieModal, deleteMovieModal, addHallModal, deleteHallModal];
+        for (var j = 0; j < modals.length; j++) {
+            if (modals[j]) {
+                modals[j].style.display = "none";
+            }
+        }
+    }
+}
 
 // Get the custom alert
 var customAlert = document.getElementById("customAlert");
