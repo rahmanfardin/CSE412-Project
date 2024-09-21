@@ -57,7 +57,7 @@ CREATE TABLE `moviehall` (
 CREATE TABLE `movietable` (
   `movieid` int(11) NOT NULL,
   `moviename` varchar(100) NOT NULL,
-  `year` varchar(4) NOT NULL,
+  `releasedate` varchar(4) NOT NULL,
   `genre` varchar(100) NOT NULL,
   `rating` int(11) NOT NULL,
   `poster` varchar(2000) NOT NULL

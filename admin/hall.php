@@ -1,6 +1,6 @@
 <!-- Header -->
 <?php
-include './includes/admin.validation.php'; 
+include './includes/admin.validation.php';
 $page_name = 'Hall Panel';
 include './includes/header.php';
 include './includes/dbcon.php';
@@ -62,10 +62,12 @@ $conn->close();
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add Hall</h5>
+                <h5 class="modal-title" id="modalTitle"></h5>
             </div>
             <div class="modal-body">
-                <form action="hall.php" method="post">
+                <form id="addEditHallForm" action="hall.php" method="post">
+                    <!-- hallId -->
+                    <input type="hidden" name="hallId" id="hallId">
                     <!-- hallname -->
                     <div class="form-floating mb-3">
                         <input class="form-control" id="hallname" name="hallname" type="text"
@@ -94,7 +96,7 @@ $conn->close();
                         <label for="type">Type</label>
                     </div>
                     <div class="d-grid">
-                        <button class="btn btn-primary btn-xl" id="submitButton" type="submit">Submit</button>
+                        <button class="btn btn-primary btn-xl" id="submitButton" type="submit"></button>
                     </div>
                 </form>
             </div>
@@ -137,7 +139,7 @@ $result = $conn->query($sql);
 
                 <!-- Add Hall Button -->
                 <div class="d-grid">
-                    <button class="btn btn-success btn-xl mb-3" id="openAddModalBtn">Add Hall</button>
+                    <button class="btn btn-success btn-xl mb-3" id="AddHallBtn">Add Hall</button>
                 </div>
                 <!-- Error Messages -->
                 <div class="row gx-4 gx-lg-5 justify-content-center mb-5">
@@ -208,46 +210,6 @@ $result = $conn->query($sql);
     </div>
 </section>
 
-<!-- Hall edit form modal -->
-<div id="editHallModal" class="modal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Edit Hall</h5>
-            </div>
-            <div class="modal-body">
-                <form id="editForm" action="hall.php" method="post">
-                    <input type="hidden" name="hallId" id="hallId">
-                    <div class="form-floating mb-3">
-                        <input class="form-control" id="editHallname" name="hallname" type="text" required />
-                        <label for="editHallname">Hall Name</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input class="form-control" id="editLocation" name="location" type="text" required />
-                        <label for="editLocation">Location</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input class="form-control" id="editRating" name="rating" type="number" required />
-                        <label for="editRating">Rating</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <select class="form-control" id="editType" name="type" required>
-                            <option value="3D">3D</option>
-                            <option value="2D">2D</option>
-                        </select>
-                        <label for="editType">Type</label>
-                    </div>
-                    <div class="d-grid">
-                        <button class="btn btn-success btn-xl" type="submit">Update</button>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger close">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 <!-- Hall delete form modal -->
@@ -265,14 +227,12 @@ $result = $conn->query($sql);
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-danger" type="submit">Delete</button>
-                        <button type="button" class="btn btn-success close">Cancle</button>
+                        <button type="button" class="btn btn-secondary close">Cancel</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
-
 
 <?php include 'includes/footer.php'; ?>
