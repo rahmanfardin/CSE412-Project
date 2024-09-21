@@ -79,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $stmt->close();
         } else if (empty($errors)) {
-            $target_dir = ".admin/uploads/posters/";
+            $target_dir = "uploads/posters/";
             $target_file = $target_dir . basename($poster);
 
             $stmt = $conn->prepare("INSERT INTO movietable (moviename, releasedate, genre, rating, movierating, poster) VALUES (?, ?, ?, ?, ?, ?)");
