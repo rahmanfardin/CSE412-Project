@@ -21,7 +21,7 @@ window.addEventListener('DOMContentLoaded', event => {
             return;
         }
 
-        if (!window.location.pathname.includes('index.php') && window.scrollY === 0) {
+        if (!window.location.pathname.includes('#page-top') && window.scrollY === 0) {
             navbarCollapsible.classList.add('navbar-shrink');
         }
         else if (window.scrollY === 0) {
