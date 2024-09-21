@@ -227,14 +227,12 @@ $result = $conn->query($sql);
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-danger" type="submit">Delete</button>
-                        <button type="button" class="btn btn-success close">Cancel</button>
+                        <button type="button" class="btn btn-secondary close">Cancel</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
-
 
 <?php include 'includes/footer.php'; ?>
