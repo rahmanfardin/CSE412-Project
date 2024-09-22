@@ -1,8 +1,3 @@
-/*!
-* Start Bootstrap - Creative v7.0.7 (https://startbootstrap.com/theme/creative)
-* Copyright 2013-2023 Start Bootstrap
-* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-creative/blob/master/LICENSE)
-*/
 //
 // Scripts
 //
@@ -10,6 +5,21 @@
 // Resumission Form Issue Fix
 if (window.history.replaceState) {
     window.history.replaceState(null, null, window.location.href);
+}
+
+// Function to show the password
+function togglePasswordVisibility() {
+    const passwordInput = document.getElementById('password');
+    const togglePasswordIcon = document.getElementById('togglePasswordIcon');
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        togglePasswordIcon.classList.remove('bi-eye-slash-fill'); 
+        togglePasswordIcon.classList.add('bi-eye-fill');
+    } else {
+        passwordInput.type = 'password';
+        togglePasswordIcon.classList.remove('bi-eye-fill');
+        togglePasswordIcon.classList.add('bi-eye-slash-fill');
+    }
 }
 
 window.addEventListener('DOMContentLoaded', event => {
@@ -21,7 +31,7 @@ window.addEventListener('DOMContentLoaded', event => {
             return;
         }
 
-        if (!window.location.pathname.includes('#page-top') && window.scrollY === 0) {
+        if (!window.location.pathname.includes('index.php') && window.scrollY === 0) {
             navbarCollapsible.classList.add('navbar-shrink');
         }
         else if (window.scrollY === 0) {

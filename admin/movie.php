@@ -188,7 +188,7 @@ $result = $conn->query($sql);
                             echo "<td>" . $row["genre"] . "</td>";
                             echo "<td>" . $row["rating"] . "</td>";
                             echo "<td>" . $row["movierating"] . "</td>";
-                            echo "<td><img src='"  . "./uploads/posters/" . htmlspecialchars($row["poster"]) . "' alt='Poster' style='width: 50px; height: auto;'></td>";
+                            echo "<td><img src='" . "./uploads/posters/" . htmlspecialchars($row["poster"]) . "' alt='Poster' style='width: 50px; height: auto;'></td>";
                             echo "<td> 
                             <button class='btn btn-primary btn-sm editMovieBtn' movieid='" . $row["movieid"] . "' moviename='" . $row["moviename"] . "' releasedate='" . $row["releasedate"] . "' genre='" . $row["genre"] . "' movierating='" . $row["movierating"] . "' rating='" . $row["rating"] . "' poster='" . $row["poster"] . "'>Edit</button>
                             <button class='btn btn-danger btn-sm deleteMovieBtn' movieid='" . $row["movieid"] . "'>Delete</button>
@@ -226,8 +226,8 @@ $result = $conn->query($sql);
                     </div>
                     <!-- releasedate -->
                     <div class="form-floating mb-3">
-                        <input class="form-control" id="releasedate" name="releasedate" type="date" min="1900" max="2099"
-                            placeholder="Enter releasedate..." required>
+                        <input class="form-control" id="releasedate" name="releasedate" type="date" min="1900"
+                            max="2099" placeholder="Enter releasedate..." required>
                         <label for="releasedate">Release Date</label>
                     </div>
                     <!-- genre -->
@@ -289,6 +289,39 @@ $result = $conn->query($sql);
         </div>
     </div>
 </div>
+
+<section class="page-section">
+<div class="card-container">
+    <div class="container px-4 px-lg-5">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            
+                <?php
+                include './includes/dbcon.php';
+                $sql = "SELECT movieid, moviename, releasedate, genre, rating, movierating, poster FROM movietable";
+                $result = $conn->query($sql);
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<div class='col'>
+                <div class='card h-100'>
+                <img class='card-img-top' src='./uploads/posters/" . htmlspecialchars($row["poster"]) . "' alt='Card image cap'>
+                <div class='card-body'>
+                <h5 class='card-title'>" . htmlspecialchars($row["moviename"]) . "</h5>
+                <p class='card-text'>Rating: " . htmlspecialchars($row["rating"]) . "</p>
+                </div>
+                </div>
+                </div>";
+                    }
+                } else {
+                    echo "<p>No records found</p>";
+                }
+                $conn->close();
+                ?>
+            </div>
+        </div>
+    </div>
+</section>
+
+
 
 <!-- Delete Movie Modal -->
 <div id="deleteMovieModal" class="modal">
