@@ -188,7 +188,7 @@ $result = $conn->query($sql);
                             echo "<td>" . $row["genre"] . "</td>";
                             echo "<td>" . $row["rating"] . "</td>";
                             echo "<td>" . $row["movierating"] . "</td>";
-                            echo "<td><img src='"  . "./uploads/posters/" . htmlspecialchars($row["poster"]) . "' alt='Poster1' style='width: 50px; height: auto;'></td>";
+                            echo "<td><img src='"  . "./uploads/posters/" . htmlspecialchars($row["poster"]) . "' alt='Poster' style='width: 50px; height: auto;'></td>";
                             echo "<td> 
                             <button class='btn btn-primary btn-sm editMovieBtn' movieid='" . $row["movieid"] . "' moviename='" . $row["moviename"] . "' releasedate='" . $row["releasedate"] . "' genre='" . $row["genre"] . "' movierating='" . $row["movierating"] . "' rating='" . $row["rating"] . "' poster='" . $row["poster"] . "'>Edit</button>
                             <button class='btn btn-danger btn-sm deleteMovieBtn' movieid='" . $row["movieid"] . "'>Delete</button>
@@ -197,7 +197,7 @@ $result = $conn->query($sql);
                             $count++;
                         }
                     } else {
-                        echo "<tr><td colspan='7'>No records found</td></tr>";
+                        echo "<tr><td colspan='8'>No records found</td></tr>";
                     }
                     ?>
                 </tbody>

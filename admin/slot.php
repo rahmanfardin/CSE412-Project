@@ -3,6 +3,7 @@ include './includes/admin.validation.php';
 $page_name = 'Slot Panel';
 include './includes/dbcon.php';
 include './includes/header.php';
+include './includes/slot.validation.php';
 
 $errors = [];
 $alert = null;
@@ -18,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($deleteId) {
         // Delete slot
-        $stmt = $conn->prepare("DELETE FROM slot WHERE slotid = ?");
+        $stmt = $conn->prepare("DELETE FROM slottable WHERE slotid = ?");
         $stmt->bind_param("i", $deleteId);
         if ($stmt->execute()) {
             $alert = 'Record deleted successfully';
@@ -139,14 +140,14 @@ $conn->close();
                             echo "<td>" . $row["moviename"] . "</td>";
                             echo "<td>" . $row["hallname"] . "</td>";
                             echo "<td> 
-                            <button class='btn btn-primary btn-sm editSlotBtn'hallid='" . $row["slotid"] . "'slot='" . $row["slot"] . "'date='" . $row["date"] . "'movieid='" . $row["movieid"] . "'hallid='" . $row["hallid"] . "'>Edit</button>
-                            <button class='btn btn-danger btn-sm deleteSlotBtn'hallid='" . $row["slotid"] . "'>Delete</button>
+                            <button class='btn btn-primary btn-sm editSlotBtn'slotid='" . $row["slotid"] . "'slot='" . $row["slot"] . "'date='" . $row["date"] . "'movieid='" . $row["movieid"] . "'hallid='" . $row["hallid"] . "'>Edit</button>
+                            <button class='btn btn-danger btn-sm deleteSlotBtn'slotid='" . $row["slotid"] . "'>Delete</button>
                             </td>";
                             echo "</tr>";
                             $count++;
                         }
                     } else {
-                        echo "<tr><td colspan='5'>No records found</td></tr>";
+                        echo "<tr><td colspan='7'>No records found</td></tr>";
                     }
                     ?>
                 </tbody>
@@ -163,14 +164,37 @@ $conn->close();
                 <h5 class="modal-title" id="modalTitle">Add Slot</h5>
             </div>
             <div class="modal-body">
-                <form id="addEditSlotForm" method="post" action="save_slot.php">
+                <form id="addEditSlotForm" method="post" action="slot.php">
                     <input type="hidden" id="slotid" name="slotid">
                     <div class="form-floating mb-3">
-                        <input class="form-control" type="number" id="movieid" name="movieid" required>
+                        <select class="form-control" name="movieid" id="movieid" required>
+                            <option value="" disabled selected>Select Movie</option>
+                            <?php include './includes/dbcon.php';
+                            $sql = "SELECT * FROM movietable";
+                            $result = $conn->query($sql);
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    echo "<option value='" . $row['movieid'] . "'>" . $row['moviename'] . "</option>";
+                                }
+                            }
+                            ?>
+                        </select>
                         <label for="movieid">Movie Name</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input class="form-control" type="number" id="hallid" name="hallid" required>
+                        <select class="form-control" id="hallid" name="hallid" required>
+                            <option value="" disabled selected>Select Hall</option>
+                            <?php
+                            $sql = "SELECT * FROM halltable";
+                            $result = $conn->query($sql);
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    echo "<option value='" . $row['hallId'] . "'>" . $row['hallname'] . "</option>";
+                                }
+                            }
+                            $conn->close();
+                            ?>
+                        </select>
                         <label for="hallid">Hall Name</label>
                     </div>
                     <div class="form-floating mb-3">
@@ -179,7 +203,7 @@ $conn->close();
                     </div>
                     <div class="form-floating mb-3">
                         <select class="form-control" type="text" id="slot" name="slot" required>
-                        <option value="" disabled selected>Select Slot</option>
+                            <option value="" disabled selected>Select Slot</option>
                             <option value="Morning">Morning</option>
                             <option value="Afternoon">Afternoon</option>
                             <option value="Evening">Evening</option>
@@ -201,18 +225,18 @@ $conn->close();
 
 <!-- Delete Slot Modal -->
 <div id="deleteSlotModal" class="modal">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Delete Slot</h5>
-                <span class="close">&times;</span>
             </div>
             <div class="modal-body">
                 <p>Are you sure you want to delete this slot?</p>
-                <form id="deleteSlotForm" method="post" action="delete_slot.php">
-                    <input type="hidden" id="deleteSlotId" name="slotid">
-                    <button type="submit">Delete</button>
-                    <button type="button" class="close">Cancel</button>
+                <form id="deleteSlotForm" method="post" action="slot.php">
+                    <input type="hidden" id="deleteSlotId" name="deleteId">
+                    <div class="modal-footer">
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                        <button type="button" class="btn btn-secondary close">Cancel</button>
                 </form>
             </div>
         </div>

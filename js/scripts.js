@@ -103,10 +103,9 @@ function handleModalOpen(modal, title, submitText) {
     setModalDisplay(modal, "block");
 }
 
-// Utility function to populate form fields xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+// Utility function to populate form fields
 function populateFormFields(fields) {
     for (let key in fields) {
-        console.log(fields.hasOwnProperty(key));
         if (fields.hasOwnProperty(key)) {
             const field = document.getElementById(key);
             if (field) {
@@ -188,7 +187,9 @@ Array.from(getElements("editMovieBtn")).forEach(btn => {
         populateFormFields(fields);
         document.getElementById("posterLabel").innerText = "Current Poster";
         const currentPoster = document.getElementById("currentPoster");
-        currentPoster.src = this.getAttribute("poster");
+        const basePath = './uploads/posters/';
+        const posterPath = this.getAttribute("poster");
+        currentPoster.src = basePath + posterPath;
         currentPoster.style.display = "block";
         handleModalOpen(modals.addEditMovieModal, "Edit Movie", "Update");
         document.getElementById("submitButton").classList.add("btn-success");
@@ -270,16 +271,4 @@ function hideCustomAlertAfterTimeout(timeout) {
     }, timeout);
 }
 
-// Profile Script
-document.getElementById('profile').addEventListener('click', function (event) {
-    event.preventDefault();
-    var proDiv = document.getElementById('profileDiv');
-    var homeDiv = document.getElementById('home');
-    if (proDiv.style.display === 'none') {
-        proDiv.style.display = 'flex';
-        homeDiv.style.display = 'none';
-    } else {
-        proDiv.style.display = 'none';
-    }
-});
 
