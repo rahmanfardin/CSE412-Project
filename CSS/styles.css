@@ -35,7 +35,7 @@
   --bs-gray-700: #495057;
   --bs-gray-800: #343a40;
   --bs-gray-900: #212529;
-  --bs-primary: #f4623a;
+  --bs-primary: rgb(244, 98, 58);
   --bs-secondary: #6c757d;
   --bs-success: #198754;
   --bs-info: #0dcaf0;
@@ -654,8 +654,10 @@ progress {
 }
 
 .img-fluid {
+  width: 100%; 
+  height: 100%;
+  object-fit: cover; 
   max-width: 100%;
-  height: auto;
 }
 
 .img-thumbnail {
@@ -4339,6 +4341,7 @@ fieldset:disabled .btn {
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
+  align-items: center;
 }
 
 .navbar-nav .show>.nav-link,
@@ -4896,6 +4899,7 @@ fieldset:disabled .btn {
 .card-img-top,
 .card-img-bottom {
   width: 100%;
+  height: -webkit-fill-available;
 }
 
 .card-img,
@@ -12900,4 +12904,51 @@ header.masthead .h1 {
 
 .popup .popup-content {
   padding: 20px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  z-index: 2;
+}
+
+.card-container {
+  max-height: 1000px;
+  overflow-y: auto;
+}
+
+/*! for profile modal */
+/* The Modal (background) */
+.modal2 {
+  display: none; /* Hidden by default */
+  position: absolute; /* Position relative to the button */
+  z-index: 1; /* Sit on top */
+  width: 400px; /* Fixed width */
+  height: 400px; /* Fixed height */
+  background-color: #fefefe; /* Background color */
+  border: 1px solid #888; /* Border */
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2); /* Shadow for better visibility */
+}
+
+/* Modal Content */
+.modal-content-2 {
+  padding: 20px;
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }

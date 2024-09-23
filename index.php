@@ -28,13 +28,15 @@ if (isset($_SESSION['username'])) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/styles.css" rel="stylesheet" />
+
 </head>
 
 <body id="page-top">
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="#page-top">TICKETER</a>
+            <!-- <img src="./assets/favicon.ico" alt=""> -->
+            <a class="navbar-brand" href="#page-top"><img src="./assets/favicon.ico" alt=""> TICKETER</a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -42,12 +44,29 @@ if (isset($_SESSION['username'])) {
                 <ul class="navbar-nav ms-auto my-2 my-lg-0">
                     <li class="nav-item"><a class="nav-link" href="#page-top">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#movie">Movie</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#portfolio">TODO</a></li>
+                    <li class="nav-item"><a class="nav-link" href="./ticket.php">Ticket</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+
+
+
                     <?php if ($login) {
-                        echo '<li class="nav-item"><a class="nav-link" href="./includes/signout.php">logout</a></li>';
+                        echo '
+                        <!-- Profile Button -->
+                    <button id="profileBtn" class="btn btn-primary">Profile</button>
+                        <!-- Profile Modal -->
+                        <div id="profileModal" class="modal2">
+                            <div class="modal-content-2">
+                                <span class="close">&times;</span>
+                                <h2>Profile</h2>
+                                <p>Name: John Doe</p>
+                                <p>Email: john.doe@example.com</p>
+                                <!-- Add more profile details as needed -->
+                                <li class="nav-item"><a class="nav-link" href="./includes/signout.php">logout</a></li>
+                            </div>
+                        </div>';
+                        
                     } else {
-                        echo '<li class="nav-item"><a class="nav-link" href="login.php">LOGIN/SIGNUP</a></li>';
+                        echo '<li class="nav-item"><a class="btn btn-primary" href="login.php">LOGIN/SIGNUP</a></li>';
                     } ?>
                 </ul>
             </div>
@@ -63,7 +82,7 @@ if (isset($_SESSION['username'])) {
                 </div>
                 <div class="col-lg-8 align-self-baseline">
                     <p class="text-white-75 mb-5">All your movie ticket need under one website.</p>
-                    <a class="btn btn-primary btn-xl" href="#about">Find Out More</a>
+                    <a class="btn btn-primary btn-xl" href="#movie">Find Out More</a>
                 </div>
             </div>
         </div>
@@ -79,25 +98,31 @@ if (isset($_SESSION['username'])) {
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
+            echo '<div class="container-fluid p-0">
+                <div class="row g-0">';
             while ($row = $result->fetch_assoc()) {
-                echo "<div class='container-fluid p-0'>
-            <div class='row g-0'>
+                echo "
                 <div class='col-lg-4 col-sm-6'>
-                    <a class='movie-box' href= $row[poster] title='Project Name'> ";
-                echo '<img class="img-fluid" src="' . 'admin/' . htmlspecialchars($row["poster"]) . '" alt="' . htmlspecialchars($row["moviename"]) . '">';
+                    <a class='movie-box' href='#' title='Project Name'> ";
+                echo '<img class="img-fluid" src="' . 'admin/uploads/posters/' . htmlspecialchars($row["poster"]) . '" alt="' . htmlspecialchars($row["moviename"]) . '">';
                 echo "<div class='movie-box-caption'>
-                            <div class='project-category text-white-50'>".$row['genre']."</div>
-                            <div class='project-name'>".$row['moviename']."</div>
+                            <div class='project-category text-white-50'>" . $row['genre'] . "</div>
+                            <div class='project-name'>" . $row['moviename'] . "</div>
                         </div>
                     </a>
                 </div> 
-                </div>";
+                ";
             }
+            echo '</div>
+            </div>';
         }
+
         ?>
     </div>
+
     <!-- About-->
-    <section class="page-section bg-primary" id="about">
+
+    <!-- <section class="page-section bg-primary" id="about">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8 text-center">
@@ -110,9 +135,9 @@ if (isset($_SESSION['username'])) {
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
     <!-- Services-->
-    <section class="page-section" id="services">
+    <!-- <section class="page-section" id="services">
         <div class="container px-4 px-lg-5">
             <h2 class="text-center mt-0">At Your Service</h2>
             <hr class="divider" />
@@ -147,12 +172,12 @@ if (isset($_SESSION['username'])) {
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <!-- Call to action-->
 
     <!-- Contact-->
-    <section class="page-section" id="contact">
+    <section class="page-section" id="contact" style="background-color: rgba(244, 98, 58,0.1);">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8 col-xl-6 text-center">
