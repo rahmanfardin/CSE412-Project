@@ -17,6 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $location = isset($_POST['location']) ? trim($_POST['location']) : null;
     $rating = isset($_POST['rating']) ? trim($_POST['rating']) : null;
     $type = isset($_POST['type']) ? trim($_POST['type']) : null;
+    $capacity = isset($_POST['capacity']) ? trim($_POST['capacity']) : null;
 
 
     if ($deleteId) {
@@ -31,16 +32,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         $stmt->close();
     } else {
-        $errors = validationHallTable($hallname, $location, $rating, $type);
+        $errors = validationHallTable($hallname, $location, $rating, $type, $capacity);
         if (empty($errors)) {
             if ($hallId) {
                 // Edit existing hall
-                $stmt = $conn->prepare("UPDATE halltable SET hallname = ?, location = ?, rating = ?, type = ? WHERE hallId = ?");
-                $stmt->bind_param("ssssi", $hallname, $location, $rating, $type, $hallId);
+                $stmt = $conn->prepare("UPDATE halltable SET hallname = ?, location = ?, rating = ?, type = ?, capacity = ? WHERE hallId = ?");
+                $stmt->bind_param("ssssii", $hallname, $location, $rating, $type, $capacity, $hallId);
             } else {
                 // Add new hall
-                $stmt = $conn->prepare("INSERT INTO halltable (hallname, location, rating, type) VALUES (?, ?, ?, ?)");
-                $stmt->bind_param("ssss", $hallname, $location, $rating, $type);
+                $stmt = $conn->prepare("INSERT INTO halltable (hallname, location, rating, type, capacity) VALUES (?, ?, ?, ?)");
+                $stmt->bind_param("ssssi", $hallname, $location, $rating, $type, $capacity);
             }
 
             if ($stmt->execute()) {
@@ -95,6 +96,12 @@ $conn->close();
                         </select>
                         <label for="type">Type</label>
                     </div>
+                    <!-- capacity -->
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="capacity" name="capacity" type="number"
+                            placeholder="Enter the capacity..." />
+                        <label for="capacity">Capacity</label>
+                    </div>
                     <div class="d-grid">
                         <button class="btn btn-primary btn-xl" id="submitButton" type="submit"></button>
                     </div>
@@ -111,7 +118,7 @@ $conn->close();
 include './includes/dbcon.php';
 
 // Fetch data from the database
-$sql = "SELECT hallId, hallname, location, rating, type FROM halltable";
+$sql = "SELECT hallId, hallname, location, rating, type, capacity FROM halltable";
 $result = $conn->query($sql);
 ?>
 <section class="page-section">
@@ -179,6 +186,7 @@ $result = $conn->query($sql);
                         <th>Location</th>
                         <th>Rating</th>
                         <th>Type</th>
+                        <th>Capacity</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -193,15 +201,16 @@ $result = $conn->query($sql);
                             echo "<td>" . $row["location"] . "</td>";
                             echo "<td>" . $row["rating"] . "</td>";
                             echo "<td>" . $row["type"] . "</td>";
+                            echo "<td>" . $row["capacity"] . "</td>";
                             echo "<td> 
-                            <button class='btn btn-primary btn-sm editHallBtn'hallid='" . $row["hallId"] . "'hallname='" . $row["hallname"] . "'location='" . $row["location"] . "'rating='" . $row["rating"] . "'type='" . $row["type"] . "'>Edit</button>
+                            <button class='btn btn-primary btn-sm editHallBtn'hallid='" . $row["hallId"] . "'hallname='" . $row["hallname"] . "'location='" . $row["location"] . "'rating='" . $row["rating"] . "'type='" . $row["type"] . "'capacity='" . $row["capacity"] . "'>Edit</button>
                             <button class='btn btn-danger btn-sm deleteHallBtn'hallid='" . $row["hallId"] . "'>Delete</button>
                             </td>";
                             echo "</tr>";
                             $count++;
                         }
                     } else {
-                        echo "<tr><td colspan='5'>No records found</td></tr>";
+                        echo "<tr><td colspan='7'>No records found</td></tr>";
                     }
                     ?>
                 </tbody>

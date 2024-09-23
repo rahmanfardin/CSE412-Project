@@ -1,6 +1,6 @@
 <?php
 
-function validationHallTable($hallname, $location, $rating, $type) {
+function validationHallTable($hallname, $location, $rating, $type, $capacity) {
     $errors = [];
 
     // Validate hallname
@@ -29,6 +29,13 @@ function validationHallTable($hallname, $location, $rating, $type) {
         $errors[] = "Type is required.";
     } elseif (strlen($type) > 100) {
         $errors[] = "Type must be less than 100 characters.";
+    }
+
+    // Validate capacity
+    if (empty($capacity)) {
+        $errors[] = "Capacity is required.";
+    } elseif (!is_numeric($capacity) || $capacity < 1) {
+        $errors[] = "Capacity must be a number greater than 0.";
     }
 
     return $errors;
