@@ -94,7 +94,7 @@ if (isset($_SESSION['username'])) {
         include './includes/dbcon.php';
 
         // Fetch movies from the database
-        $sql = "SELECT moviename, poster, genre FROM movietable LIMIT 6";
+        $sql = "SELECT movieid, moviename, poster, genre FROM movietable LIMIT 6";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
@@ -103,7 +103,7 @@ if (isset($_SESSION['username'])) {
             while ($row = $result->fetch_assoc()) {
                 echo "
                 <div class='col-lg-4 col-sm-6'>
-                    <a class='movie-box' href='#' title='Project Name'> ";
+                    <a class='movie-box' href='ticket.php?movieid=" . htmlspecialchars($row["movieid"]) . "' title='" . htmlspecialchars($row["moviename"]) . "'>";
                 echo '<img class="img-fluid" src="' . 'admin/uploads/posters/' . htmlspecialchars($row["poster"]) . '" alt="' . htmlspecialchars($row["moviename"]) . '">';
                 echo "<div class='movie-box-caption'>
                             <div class='project-category text-white-50'>" . $row['genre'] . "</div>
