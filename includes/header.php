@@ -1,3 +1,9 @@
+<?php
+if (!isset($login)) {
+    $login = false;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,20 +29,44 @@
 </head>
 
 <body id="page-top">
-    <!-- Navigation-->
+    <!-- Navigation-->  
     <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="#page-top">TICKETER</a>
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <!-- <img src="./assets/favicon.ico" alt=""> -->
+            <a class="navbar-brand" href="../index.php"><img src="./assets/favicon.ico" alt=""> TICKETER</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto my-2 my-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="../index.php#page-top">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="../index.php#page-top">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="../index.php#movie">Movie</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../index.php#portfolio">TODO</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../ticket.php">Ticket</a></li>
                     <li class="nav-item"><a class="nav-link" href="../index.php#contact">Contact</a></li>
-                   
-                    <li class="nav-item"><a class="nav-link" href="#login">LOGIN/SIGNUP</a></li>
+
+
+
+                    <?php if ($login) {
+                        echo '
+                        <!-- Profile Button -->
+                    <button id="profileBtn" class="btn btn-primary">Profile</button>
+                        <!-- Profile Modal -->
+                        <div id="profileModal" class="modal2">
+                            <div class="modal-content-2">
+                                <span class="close">&times;</span>
+                                <h2>Profile</h2>
+                                <p>Name: John Doe</p>
+                                <p>Email: john.doe@example.com</p>
+                                <!-- Add more profile details as needed -->
+                                <li class="nav-item"><a class="nav-link" href="./includes/signout.php">logout</a></li>
+                            </div>
+                        </div>';
+                        echo '<li class="nav-item"><a class="nav-link" href="./includes/signout.php">logout</a></li>';
+                    } else {
+                        echo '<li class="nav-item"><a class="btn btn-primary" href="login.php">LOGIN/SIGNUP</a></li>';
+                    } ?>
                 </ul>
             </div>
         </div>
     </nav>
+    <!-- Masthead-->

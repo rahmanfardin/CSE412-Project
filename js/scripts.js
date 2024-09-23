@@ -1,8 +1,3 @@
-/*!
-* Start Bootstrap - Creative v7.0.7 (https://startbootstrap.com/theme/creative)
-* Copyright 2013-2023 Start Bootstrap
-* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-creative/blob/master/LICENSE)
-*/
 //
 // Scripts
 //
@@ -10,6 +5,21 @@
 // Resumission Form Issue Fix
 if (window.history.replaceState) {
     window.history.replaceState(null, null, window.location.href);
+}
+
+// Function to show the password
+function togglePasswordVisibility(inputId, iconId) {
+    const passwordInput = document.getElementById(inputId);
+    const toggleIcon = document.getElementById(iconId);
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleIcon.classList.remove('bi-eye-slash-fill');
+        toggleIcon.classList.add('bi-eye-fill');
+    } else {
+        passwordInput.type = 'password';
+        toggleIcon.classList.remove('bi-eye-fill');
+        toggleIcon.classList.add('bi-eye-slash-fill');
+    }
 }
 
 window.addEventListener('DOMContentLoaded', event => {
@@ -76,142 +86,183 @@ window.onclick = function (event) {
     }
 }
 
-// Get the <span> elements that close the modals
-var closeButtons = document.getElementsByClassName("close");
 
+// Utility function to get elements by class name
+function getElements(className) {
+    return document.getElementsByClassName(className);
+}
 
-// Get the hall modals
-var addHallModal = document.getElementById("addHallModal");
-var deleteHallModal = document.getElementById("deleteHallModal");
-
-// Get the buttons that open the modals
-var AddHallBtn = document.getElementById("AddHallBtn");
-var editHallBtns = document.getElementsByClassName("editHallBtn");
-var deleteHallBtns = document.getElementsByClassName("deleteHallBtn");
-
-
-// When the user clicks the button, open the Add Hall modal
-if (AddHallBtn != null) {
-    AddHallBtn.onclick = function () {
-        addHallModal.style.display = "block";
-        document.getElementById("modalTitle").innerText = "Add Hall";
-        document.getElementById("addEditHallForm").reset();
-        document.getElementById("submitButton").innerText = "Submit";
+// Utility function to set modal display
+function setModalDisplay(modal, display) {
+    if (modal) {
+        modal.style.display = display;
     }
 }
 
-// When the user clicks the Edit button, open the Edit Hall modal and populate the form
-for (var i = 0; i < editHallBtns.length; i++) {
-    editHallBtns[i].onclick = function () {
-        var hallId = this.getAttribute("hallid");
-        var hallname = this.getAttribute("hallname");
-        var location = this.getAttribute("location");
-        var rating = this.getAttribute("rating");
-        var type = this.getAttribute("type");
-
-        document.getElementById("hallId").value = hallId;
-        document.getElementById("hallname").value = hallname;
-        document.getElementById("location").value = location;
-        document.getElementById("rating").value = rating;
-        document.getElementById("type").value = type;
-
-        addHallModal.style.display = "block";
-        document.getElementById("modalTitle").innerText = "Edit Hall";
-        document.getElementById("submitButton").innerText = "Update";
-        document.getElementById("submitButton").classList.add("btn-success");
+// Utility function to handle modal close
+function handleModalClose(modals) {
+    for (let i = 0; i < modals.length; i++) {
+        setModalDisplay(modals[i], "none");
     }
 }
 
-// When the user clicks the Delete button, delete the hall
-for (var i = 0; i < deleteHallBtns.length; i++) {
-    deleteHallBtns[i].onclick = function () {
-        var hallId = this.getAttribute("hallid");
-
-        document.getElementById("deleteId").value = hallId;
-        deleteHallModal.style.display = "block";
-    }
+// Utility function to handle form reset and modal open
+function handleModalOpen(modal, title, submitText) {
+    document.getElementById("modalTitle").innerText = title;
+    document.getElementById("submitButton").innerText = submitText;
+    setModalDisplay(modal, "block");
 }
 
-
-// Get the movie modals
-var addEditMovieModal = document.getElementById("addEditMovieModal");
-var deleteMovieModal = document.getElementById("deleteMovieModal");
-
-// Get the buttons that open the modals
-var addMovieBtn = document.getElementById("addMovieBtn");
-var editMovieBtns = document.getElementsByClassName("editMovieBtn");
-var deleteMovieBtns = document.getElementsByClassName("deleteMovieBtn");
-
-// When the user clicks the button, open the Add Movie modal
-if (addMovieBtn != null) {
-    addMovieBtn.onclick = function () {
-        document.getElementById("modalTitle").innerText = "Add Movie";
-        document.getElementById("addEditMovieForm").reset();
-        document.getElementById("submitButton").innerText = "Submit";
-        document.getElementById("posterLabel").innerText = "Choose Poster";
-        document.getElementById("currentPoster").style.display = "none";
-        addEditMovieModal.style.display = "block";
-    }
-}
-
-// When the user clicks the Edit button, open the Edit Movie modal and populate the form
-for (var i = 0; i < editMovieBtns.length; i++) {
-    editMovieBtns[i].onclick = function () {
-        var movieId = this.getAttribute("movieid");
-        var moviename = this.getAttribute("moviename");
-        var releasedate = this.getAttribute("releasedate");
-        var genre = this.getAttribute("genre");
-        var rating = this.getAttribute("rating");
-        var movierating = this.getAttribute("movierating");
-        var poster = this.getAttribute("poster");
-
-        document.getElementById("movieid").value = movieId;
-        console.log(movieId);
-        document.getElementById("moviename").value = moviename;
-        document.getElementById("releasedate").value = releasedate;
-        document.getElementById("genre").value = genre;
-        document.getElementById("rating").value = rating;
-        document.getElementById("movierating").value = movierating;
-        // Poster handling
-        document.getElementById("posterLabel").innerText = "Current Poster";
-        var currentPoster = document.getElementById("currentPoster");
-        currentPoster.src = poster;
-        currentPoster.style.display = "block"; // Show the current poster
-
-        document.getElementById("modalTitle").innerText = "Edit Movie";
-        document.getElementById("submitButton").innerText = "Update";
-        document.getElementById("submitButton").classList.add("btn-success");
-        addEditMovieModal.style.display = "block";
-    }
-}
-
-// When the user clicks the Delete button, open the Delete Movie modal and set the movie ID
-for (var i = 0; i < deleteMovieBtns.length; i++) {
-    deleteMovieBtns[i].onclick = function () {
-        var movieId = this.getAttribute("movieid");
-        console.log(movieId);
-        document.getElementById("movieDeleteId").value = movieId;
-        deleteMovieModal.style.display = "block";
-    }
-}
-
-// When the user clicks on <span> (x), close the modal
-for (var i = 0; i < closeButtons.length; i++) {
-    closeButtons[i].onclick = function () {
-        var modals = [addEditMovieModal, deleteMovieModal, addHallModal, deleteHallModal];
-        for (var j = 0; j < modals.length; j++) {
-            if (modals[j]) {
-                modals[j].style.display = "none";
+// Utility function to populate form fields
+function populateFormFields(fields) {
+    for (let key in fields) {
+        if (fields.hasOwnProperty(key)) {
+            const field = document.getElementById(key);
+            if (field) {
+                field.value = fields[key];
+            } else {
+                console.warn(`Field with ID ${key} not found.`);
             }
         }
     }
 }
 
+// Get the modals
+const modals = {
+    addHallModal: document.getElementById("addHallModal"),
+    deleteHallModal: document.getElementById("deleteHallModal"),
+    addEditMovieModal: document.getElementById("addEditMovieModal"),
+    deleteMovieModal: document.getElementById("deleteMovieModal"),
+    addEditSlotModal: document.getElementById("addEditSlotModal"),
+    deleteSlotModal: document.getElementById("deleteSlotModal")
+};
+
+// Get the buttons that open the modals
+const buttons = {
+    addHallBtn: document.getElementById("AddHallBtn"),
+    addMovieBtn: document.getElementById("addMovieBtn"),
+    addSlotBtn: document.getElementById("addSlotBtn")
+};
+
+// Handle Add Hall button click
+if (buttons.addHallBtn) {
+    buttons.addHallBtn.onclick = () => handleModalOpen(modals.addHallModal, "Add Hall", "Submit");
+    document.getElementById("addEditHallForm").reset();
+}
+
+// Handle Add Movie button click
+if (buttons.addMovieBtn) {
+    buttons.addMovieBtn.onclick = () => {
+        handleModalOpen(modals.addEditMovieModal, "Add Movie", "Submit");
+        document.getElementById("addEditMovieForm").reset();
+        document.getElementById("posterLabel").innerText = "Choose Poster";
+        document.getElementById("currentPoster").style.display = "none";
+    };
+}
+
+// Handle Add Slot button click
+if (buttons.addSlotBtn) {
+    buttons.addSlotBtn.onclick = () => handleModalOpen(modals.addEditSlotModal, "Add Slot", "Submit");
+    document.getElementById("addEditSlotForm").reset();
+}
+
+// Handle Edit Hall button click
+Array.from(getElements("editHallBtn")).forEach(btn => {
+    btn.onclick = function () {
+        const fields = {
+            hallId: this.getAttribute("hallId"),
+            hallname: this.getAttribute("hallname"),
+            location: this.getAttribute("location"),
+            rating: this.getAttribute("rating"),
+            type: this.getAttribute("type")
+        };
+        console.log(fields);
+        populateFormFields(fields)
+        handleModalOpen(modals.addHallModal, "Edit Hall", "Update");
+        document.getElementById("submitButton").classList.add("btn-success");
+    };
+});
+
+// Handle Edit Movie button click
+Array.from(getElements("editMovieBtn")).forEach(btn => {
+    btn.onclick = function () {
+        const fields = {
+            movieid: this.getAttribute("movieid"),
+            moviename: this.getAttribute("moviename"),
+            releasedate: this.getAttribute("releasedate"),
+            genre: this.getAttribute("genre"),
+            rating: this.getAttribute("rating"),
+            movierating: this.getAttribute("movierating")
+        };
+        populateFormFields(fields);
+        document.getElementById("posterLabel").innerText = "Current Poster";
+        const currentPoster = document.getElementById("currentPoster");
+        const basePath = './uploads/posters/';
+        const posterPath = this.getAttribute("poster");
+        currentPoster.src = basePath + posterPath;
+        currentPoster.style.display = "block";
+        handleModalOpen(modals.addEditMovieModal, "Edit Movie", "Update");
+        document.getElementById("submitButton").classList.add("btn-success");
+    };
+});
+
+// Handle Edit Slot button click
+Array.from(getElements("editSlotBtn")).forEach(btn => {
+    btn.onclick = function () {
+        const fields = {
+            slotid: this.getAttribute("slotid"),
+            movieid: this.getAttribute("movieid"),
+            hallid: this.getAttribute("hallid"),
+            date: this.getAttribute("date"),
+            slot: this.getAttribute("slot")
+        };
+        populateFormFields(fields);
+        handleModalOpen(modals.addEditSlotModal, "Edit Slot", "Update");
+        document.getElementById("submitButton").classList.add("btn-success");
+    };
+});
+
+// Handle Delete Hall button click
+Array.from(getElements("deleteHallBtn")).forEach(btn => {
+    btn.onclick = function () {
+        document.getElementById("deleteId").value = this.getAttribute("hallid");
+        setModalDisplay(modals.deleteHallModal, "block");
+    };
+});
+
+// Handle Delete Movie button click
+Array.from(getElements("deleteMovieBtn")).forEach(btn => {
+    btn.onclick = function () {
+        document.getElementById("movieDeleteId").value = this.getAttribute("movieid");
+        setModalDisplay(modals.deleteMovieModal, "block");
+    };
+});
+
+// Handle Delete Slot button click
+Array.from(getElements("deleteSlotBtn")).forEach(btn => {
+    btn.onclick = function () {
+        document.getElementById("deleteSlotId").value = this.getAttribute("slotid");
+        setModalDisplay(modals.deleteSlotModal, "block");
+    };
+});
+
+// Handle modal close on clicking close button
+Array.from(getElements("close")).forEach(btn => {
+    btn.onclick = () => handleModalClose(Object.values(modals));
+});
+
 // Get the custom alert
 var customAlert = document.getElementById("customAlert");
 
 // Get the close button inside the custom alert
-var customAlertClose = customAlert.querySelector(".btn-close");
+if (customAlert) {
+    var customAlertClose = customAlert.querySelector(".btn-close");
+    if (customAlertClose) {
+        customAlertClose.addEventListener("click", function () {
+            customAlert.style.display = "none";
+        });
+    }
+}
 
 // Function to show the custom alert with a message
 function showCustomAlert(message) {
@@ -223,11 +274,6 @@ function showCustomAlert(message) {
     customAlert.style.transform = "translate(-50%, -50%)";
 }
 
-// When the user clicks on the close button, hide the custom alert
-customAlertClose.onclick = function () {
-    customAlert.style.display = "none";
-}
-
 // Optionally, hide the alert after a few seconds
 function hideCustomAlertAfterTimeout(timeout) {
     setTimeout(function () {
@@ -235,16 +281,33 @@ function hideCustomAlertAfterTimeout(timeout) {
     }, timeout);
 }
 
-// Profile Script
-document.getElementById('profile').addEventListener('click', function (event) {
-    event.preventDefault();
-    var proDiv = document.getElementById('profileDiv');
-    var homeDiv = document.getElementById('home');
-    if (proDiv.style.display === 'none') {
-        proDiv.style.display = 'flex';
-        homeDiv.style.display = 'none';
-    } else {
-        proDiv.style.display = 'none';
-    }
-});
 
+// !for profile popup
+// Get the modal
+var modal = document.getElementById("profileModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("profileBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal and position it to the right of the button
+btn.onclick = function() {
+    var rect = btn.getBoundingClientRect();
+    modal.style.top = rect.bottom + "px";
+    modal.style.left = (rect.right - modal.offsetWidth) + "px";
+    modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
