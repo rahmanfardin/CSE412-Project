@@ -8,17 +8,17 @@ if (window.history.replaceState) {
 }
 
 // Function to show the password
-function togglePasswordVisibility() {
-    const passwordInput = document.getElementById('password');
-    const togglePasswordIcon = document.getElementById('togglePasswordIcon');
+function togglePasswordVisibility(inputId, iconId) {
+    const passwordInput = document.getElementById(inputId);
+    const toggleIcon = document.getElementById(iconId);
     if (passwordInput.type === 'password') {
         passwordInput.type = 'text';
-        togglePasswordIcon.classList.remove('bi-eye-slash-fill'); 
-        togglePasswordIcon.classList.add('bi-eye-fill');
+        toggleIcon.classList.remove('bi-eye-slash-fill');
+        toggleIcon.classList.add('bi-eye-fill');
     } else {
         passwordInput.type = 'password';
-        togglePasswordIcon.classList.remove('bi-eye-fill');
-        togglePasswordIcon.classList.add('bi-eye-slash-fill');
+        toggleIcon.classList.remove('bi-eye-fill');
+        toggleIcon.classList.add('bi-eye-slash-fill');
     }
 }
 

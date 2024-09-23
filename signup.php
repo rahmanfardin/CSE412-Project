@@ -15,7 +15,7 @@ $valueCheck = true;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     include 'includes/dbcon.php';
     include 'includes/signupIC.php';
-    $name = isset($_POST['name']) ? trim($_POST['name']) : null;    
+    $name = isset($_POST['name']) ? trim($_POST['name']) : null;
     $email = isset($_POST['email']) ? trim($_POST['email']) : null;
     $username = isset($_POST['username']) ? trim($_POST['username']) : null;
     $password = isset($_POST['password']) ? trim($_POST['password']) : null;
@@ -126,17 +126,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label for="email">Email</label>
                     </div>
                     <!-- passwordinput-->
-                    <div class="form-floating mb-3">
+                    <!-- <div class="form-floating mb-3">
                         <input class="form-control" id="password" name="password" type="password"
                             placeholder="****************" />
                         <label for="password">Password</label>
+                    </div> -->
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="password" name="password" type="password"
+                            placeholder="****************" data-sb-validations="required" />
+                        <span class="password-toggle" onclick="togglePasswordVisibility('password', 'togglePasswordIcon')">
+                            <i class="bi bi-eye-slash-fill" id="togglePasswordIcon"></i>
+                        </span>
+                        <label for="password">Password</label>
                     </div>
                     <!-- ConfirmPasswordinput-->
-                    <div class="form-floating mb-3">
+                    <!-- <div class="form-floating mb-3">
                         <input class="form-control" id="cpassword" name="cpassword" type="password"
                             placeholder="****************" />
                         <label for="password">Confirm Password</label>
+                    </div> -->
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="cpassword" name="cpassword" type="password"
+                            placeholder="****************" />
+                        <span class="password-toggle" onclick="togglePasswordVisibility('cpassword', 'toggleCPasswordIcon')">
+                            <i class="bi bi-eye-slash-fill" id="toggleCPasswordIcon"></i>
+                        </span>
+                        <label for="cpassword">Confirm Password</label>
                     </div>
+
                     <!-- Submit Button-->
                     <div class="d-grid"><button class="btn btn-primary btn-xl" id="submitButton"
                             type="submit">SING UP!</button></div>
@@ -153,5 +170,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     </div>
 </section>
+
 <!-- Footer-->
 <?php include 'includes/footer.php'; ?>
