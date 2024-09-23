@@ -35,7 +35,7 @@ if (isset($_SESSION['username'])) {
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
         <div class="container px-4 px-lg-5">
-        <!-- <img src="./assets/favicon.ico" alt=""> -->
+            <!-- <img src="./assets/favicon.ico" alt=""> -->
             <a class="navbar-brand" href="#page-top"><img src="./assets/favicon.ico" alt=""> TICKETER</a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
@@ -46,10 +46,27 @@ if (isset($_SESSION['username'])) {
                     <li class="nav-item"><a class="nav-link" href="#movie">Movie</a></li>
                     <li class="nav-item"><a class="nav-link" href="./ticket.php">Ticket</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+
+
+
                     <?php if ($login) {
-                        echo '<li class="nav-item"><a class="nav-link" href="./includes/signout.php">logout</a></li>';
+                        echo '
+                        <!-- Profile Button -->
+                    <button id="profileBtn" class="btn btn-primary">Profile</button>
+                        <!-- Profile Modal -->
+                        <div id="profileModal" class="modal2">
+                            <div class="modal-content-2">
+                                <span class="close">&times;</span>
+                                <h2>Profile</h2>
+                                <p>Name: John Doe</p>
+                                <p>Email: john.doe@example.com</p>
+                                <!-- Add more profile details as needed -->
+                                <li class="nav-item"><a class="nav-link" href="./includes/signout.php">logout</a></li>
+                            </div>
+                        </div>';
+                        
                     } else {
-                        echo '<li class="nav-item"><a class="nav-link" href="login.php">LOGIN/SIGNUP</a></li>';
+                        echo '<li class="nav-item"><a class="btn btn-primary" href="login.php">LOGIN/SIGNUP</a></li>';
                     } ?>
                 </ul>
             </div>
@@ -102,7 +119,7 @@ if (isset($_SESSION['username'])) {
 
         ?>
     </div>
-    
+
     <!-- About-->
 
     <!-- <section class="page-section bg-primary" id="about">
