@@ -31,7 +31,7 @@
         </li>
     </ul>
 
-    <div class="">
+    <div class="container">
         <div class="screen"></div>
 
         <div class="row">

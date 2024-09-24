@@ -1,20 +1,3 @@
-
-h2 {
-  text-align: center;
-  color: brown;
-  background-color: white;
-  border-radius: 10px;
-}
-
-.movie-container select {
-  margin: 0;
-  border-radius: 5px;
-  background-color: #ffffff;
-  font-size: 14px;
-  margin-left: 10px;
-  padding: 7px 5px;
-}
-
 .seat {
   background-color: #777;
   width: 15px;
@@ -29,7 +12,7 @@ h2 {
 }
 
 .seat.occupied {
-  background-color: #fff;
+  background-color: red;
 }
 /* Selects the nth elements among the group of siblings */
 .seat:nth-of-type(2) {
@@ -67,15 +50,6 @@ h2 {
   margin: 2px;
 }
 
-/* .row {
-  display: flex;
-} */
-
-/* .container {
-  perspective: 350px;
-  margin-bottom: 15px;
-} */
-
 .screen {
   width: 100%;
   height: 70px;
@@ -85,10 +59,3 @@ h2 {
   transform: rotateX(-45deg);
 }
 
-/* p.text {
-  margin: 5px 0;
-}
-
-p.text span {
-  color: #6feaf6;
-} */
