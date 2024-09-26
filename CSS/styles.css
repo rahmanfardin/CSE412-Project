@@ -12938,17 +12938,66 @@ header.masthead .h1 {
   padding: 20px;
 }
 
-/* The Close Button */
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+/* Seat selection */
+.seat {
+  background-color: #777;
+  width: 35px;
+  height: 30px;
+  margin: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
+.seat.selected {
+  background-color: #6feaf6;
 }
+
+.seat.occupied {
+  background-color: red;
+}
+/* Selects the nth elements among the group of siblings */
+.seat:nth-of-type(2) {
+  margin-right: 20px;
+}
+
+/* Selects the nth elements among the group of siblings starting from end */
+.seat:nth-last-of-type(2) {
+  margin-left: 20px;
+}
+
+/* Selects any element that is NOT a given type or contains a class */
+.container .seat:not(.occupied):hover {
+  cursor: pointer;
+  transform: scale(1.2);
+}
+
+.showcase {
+  background: black;
+  padding: 5px 10px;
+  color: white;
+  border-radius: 5px;
+  list-style-type: none;
+  display: flex;
+  justify-content: space-between;
+}
+.showcase li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 10px;
+}
+
+.showcase li small {
+  margin: 2px;
+}
+
+.screen {
+  width: 50%;
+  height: 70px;
+  margin: auto;
+  transform: rotateX(-45deg);
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+}
+

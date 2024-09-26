@@ -1,5 +1,5 @@
 // Select all the required DOM elements
-const container = document.querySelector(".container");
+const container = document.getElementById("seat");
 const seats = document.querySelectorAll(".row .seat:not(.occupied)");
 let count = document.getElementById("count");
 
@@ -10,7 +10,7 @@ function updateSelectedCount() {
 
   count.innerText = selectedSeatsCount;
 
-  saveSelectedSeats();
+  // saveSelectedSeats();
 }
 
 // Seat click event
