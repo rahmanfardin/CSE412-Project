@@ -15,8 +15,9 @@ $display = null;
 // Include your database connection file
 include 'includes\dbcon.php';
 
-// Get the movie ID from the query parameter
+// Get the the query parameter
 $movieid = isset($_GET['movieid']) ? intval($_GET['movieid']) : 0;
+$hallid = isset($_POST['hallid']) ? intval($_POST['hallid']) : 0;
 
 if ($movieid > 0) {
     // Fetch movie details from the database
@@ -73,7 +74,7 @@ $conn->close();
         } ?>
         <!-- Select Movie -->
         <div class="row gx-4 gx-lg-5 justify-content-center">
-            <form action="ticket.php" method="get">
+            <form action="" method="get">
                 <div class="form-floating mb-3">
                     <select class="form-control" name="movieid" id="movieid" required>
                         <option value="" disabled selected>Select Movie</option>
@@ -110,27 +111,27 @@ $conn->close();
                             <p class="card-text">Rating: <?php echo $rating; ?></p>
                             <p class="card-text">Movie Rating: <?php echo $movierating; ?></p>
                             <p class="card-text"><b><i>Select a hall to view available seats</i></b>
-                            <div class="form-floating mb-3">
-                                <select class="form-control" id="hallid" name="hallid" required>
-                                    <option value="" disabled selected>Select Hall</option>
-                                    <?php
-                                    include 'includes\dbcon.php';
-                                    $sql = "SELECT s.slotid, s.movieid, s.hallid, s.date, s.slot, h.hallname, m.moviename 
-                                    FROM slottable s
-                                    JOIN halltable h 
-                                    JOIN movietable m
-                                    WHERE s.movieid = m.movieid AND s.hallid = h.hallId AND s.movieid = $movieid";
-                                    $result = $conn->query($sql);
-                                    if ($result->num_rows > 0) {
-                                        while ($row = $result->fetch_assoc()) {
-                                            echo "<option value='" . $row['hallid'] . "'>" . $row['hallname'] . "</option>";
+                            <form method="post">
+                                <div class="form-floating mb-3">
+                                    <select class="form-control" id="hallid" name="hallid" required>
+                                        <option value="" disabled selected>Select Hall</option>
+                                        <?php
+                                        include 'includes\dbcon.php';
+                                        $sql = "SELECT s.hallid, h.hallname 
+                                        FROM slottable s JOIN halltable h JOIN movietable m
+                                        WHERE s.movieid = m.movieid AND s.hallid = h.hallid AND s.movieid = $movieid";
+                                        $result = $conn->query($sql);
+                                        if ($result->num_rows > 0) {
+                                            while ($row = $result->fetch_assoc()) {
+                                                echo "<option value='" . $row['hallid'] . "'>" . $row['hallname'] . "</option>";
+                                            }
                                         }
-                                    }
-                                    $conn->close();
-                                    ?>
-                                </select>
-                                <label for="hallid">Choose Hall</label>
-                            </div>
+                                        $conn->close();
+                                        ?>
+                                    </select>
+                                    <label for="hallid">Choose Hall</label>
+                                </div>
+                            </form>
                             </p>
                         </div>
                     </div>
@@ -154,16 +155,27 @@ $conn->close();
                     <small>Occupied</small>
                 </li>
             </ul>
-            <div class="screen shadow p-3 bg-body rounded">Screen</div>
+            <div class="screen shadow p-3 bg-body rounded">Screen <?php echo $hallid ?></div>
             <?php
+            include 'includes\dbcon.php';
+            $sql = "SELECT se.seatno
+            FROM slottable s JOIN ticket t JOIN seattable se
+            WHERE s.movieid = $movieid AND s.hallid = $hallid AND s.slotid = t.slotid";
+            $result = $conn->query($sql);
+            $occupiedSeats = [];
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    array_push($occupiedSeats, $row['seatno']);
+                }
+            }
+            $conn->close();
             // Generate the seat layout
             $seatNumber = 1;
             for ($i = 0; $i < 8; $i++) {
                 echo '<div class="row justify-content-center">';
                 for ($j = 0; $j < 8; $j++) {
                     if ($seatNumber <= 48) {
-                        // Randomly mark some seats as occupied for demonstration
-                        $class = (rand(0, 4) === 0) ? 'seat occupied' : 'seat';
+                        $class = (in_array($seatNumber, $occupiedSeats)) ? 'seat occupied' : 'seat';
                         echo "<div class='$class' seatNumber='$seatNumber'></div>";
                         $seatNumber++;
                     }
@@ -179,13 +191,5 @@ $conn->close();
     </div>
 </section>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const movieSelect = document.getElementById("movieid");
-        movieSelect.addEventListener("change", function () {
-            this.form.submit();
-        });
-    });
-</script>
 <script src="seat.js"></script>
 <?php include 'includes/footer.php'; ?>
