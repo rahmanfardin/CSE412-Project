@@ -47,8 +47,8 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
 <body>
     <div class="message-container">
         <div class="message-box">
-            <h1>No Ticket/Slot Available</h1>
-            <p>Sorry, there are no tickets/slots available at the moment. Please check back later.</p>
+            <h1>No Ticket Available</h1>
+            <p>Sorry, there are no tickets available at the moment. Please check back later.</p>
         </div>
     </div>
 

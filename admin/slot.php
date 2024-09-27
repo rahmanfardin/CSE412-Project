@@ -40,10 +40,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt->bind_param("iiss", $movieid, $hallid, $date, $slot);
             }
 
-            if ($stmt->execute()) {
+            try {
+                $stmt->execute();
                 $alert = 'Record saved successfully';
-            } else {
-                $alert = 'Database error';
+            } catch (Exception $e) {
+                $alert = 'You cannot add duplicate slot. Please try again with other Hall, Slot or Date.';
             }
             $stmt->close();
         }

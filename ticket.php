@@ -72,32 +72,27 @@ $conn->close();
                         </script>";
         } ?>
         <!-- Select Movie -->
-        <center id="movieSearch">
-            <div class="col-md-8">
-                <form action="ticket.php" method="get">
-                    <div class="form-floating mb-3">
-                        <select class="form-control" name="movieid" id="movieid" required>
-                            <option value="" disabled selected>Select Movie</option>
-                            <?php include 'includes/dbcon.php';
-                            $sql = "SELECT m.movieid, m.moviename 
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <form action="ticket.php" method="get">
+                <div class="form-floating mb-3">
+                    <select class="form-control" name="movieid" id="movieid" required>
+                        <option value="" disabled selected>Select Movie</option>
+                        <?php include 'includes/dbcon.php';
+                        $sql = "SELECT s.movieid, m.moviename 
                             FROM movietable m JOIN slottable s
                             WHERE m.movieid = s.movieid GROUP BY m.movieid";
-                            $result = $conn->query($sql);
-                            if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    echo "<option value='" . $row['movieid'] . "'>" . $row['moviename'] . "</option>";
-                                }
+                        $result = $conn->query($sql);
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                echo "<option value='" . $row['movieid'] . "'>" . $row['moviename'] . "</option>";
                             }
-                            ?>
-                        </select>
-                        <button class="password-toggle" type="submit">
-                            <i class="bi bi-arrow-right"></i>
-                        </button>
-                        <label for="movieid">Movie Name</label>
-                    </div>
-                </form>
-            </div>
-        </center>
+                        }
+                        ?>
+                    </select>
+                    <label for="movieid">Movie Name</label>
+                </div>
+            </form>
+        </div>
 
         <!-- Movie details -->
         <div class="card mb-3" <?php echo $display ?>;>
@@ -114,6 +109,29 @@ $conn->close();
                             <p class="card-text">Genre: <?php echo $genre; ?></p>
                             <p class="card-text">Rating: <?php echo $rating; ?></p>
                             <p class="card-text">Movie Rating: <?php echo $movierating; ?></p>
+                            <p class="card-text"><b><i>Select a hall to view available seats</i></b>
+                            <div class="form-floating mb-3">
+                                <select class="form-control" id="hallid" name="hallid" required>
+                                    <option value="" disabled selected>Select Hall</option>
+                                    <?php
+                                    include 'includes\dbcon.php';
+                                    $sql = "SELECT s.slotid, s.movieid, s.hallid, s.date, s.slot, h.hallname, m.moviename 
+                                    FROM slottable s
+                                    JOIN halltable h 
+                                    JOIN movietable m
+                                    WHERE s.movieid = m.movieid AND s.hallid = h.hallId AND s.movieid = $movieid";
+                                    $result = $conn->query($sql);
+                                    if ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            echo "<option value='" . $row['hallid'] . "'>" . $row['hallname'] . "</option>";
+                                        }
+                                    }
+                                    $conn->close();
+                                    ?>
+                                </select>
+                                <label for="hallid">Choose Hall</label>
+                            </div>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -122,27 +140,6 @@ $conn->close();
 
         <!-- Seat Layout -->
         <div id="seat" <?php echo $display ?>;>
-            <div class="form-floating mb-3">
-                <select class="form-control" id="hallid" name="hallid" required>
-                    <option value="" disabled selected>Select Hall</option>
-                    <?php
-                    include 'includes\dbcon.php';
-                    $sql = "SELECT s.slotid, s.movieid, s.hallid, s.date, s.slot, h.hallname, m.moviename 
-                    FROM slottable s
-                    JOIN halltable h 
-                    JOIN movietable m
-                    WHERE s.movieid = m.movieid AND s.hallid = h.hallId";
-                    $result = $conn->query($sql);
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            echo "<option value='" . $row['hallid'] . "'>" . $row['hallname'] . "</option>";
-                        }
-                    }
-                    $conn->close();
-                    ?>
-                </select>
-                <label for="hallid">Hall Name</label>
-            </div>
             <ul class="showcase">
                 <li>
                     <div class="seat"></div>
@@ -182,6 +179,13 @@ $conn->close();
     </div>
 </section>
 
-
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const movieSelect = document.getElementById("movieid");
+        movieSelect.addEventListener("change", function () {
+            this.form.submit();
+        });
+    });
+</script>
 <script src="seat.js"></script>
 <?php include 'includes/footer.php'; ?>
