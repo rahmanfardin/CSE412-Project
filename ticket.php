@@ -18,6 +18,7 @@ include 'includes\dbcon.php';
 // Get the the query parameter
 $movieid = isset($_GET['movieid']) ? intval($_GET['movieid']) : 0;
 $hallid = isset($_POST['hallid']) ? intval($_POST['hallid']) : 0;
+$slotid = isset($_POST['slotid']) ? intval($_POST['slotid']) : 0;
 
 if ($movieid > 0) {
     // Fetch movie details from the database
@@ -79,7 +80,7 @@ $conn->close();
                     <select class="form-control" name="movieid" id="movieid" required>
                         <option value="" disabled selected>Select Movie</option>
                         <?php include 'includes/dbcon.php';
-                        $sql = "SELECT s.movieid, m.moviename 
+                        $sql = "SELECT s.movieid, m.moviename, s.slotid
                             FROM movietable m JOIN slottable s
                             WHERE m.movieid = s.movieid GROUP BY m.movieid";
                         $result = $conn->query($sql);
@@ -91,6 +92,7 @@ $conn->close();
                         ?>
                     </select>
                     <label for="movieid">Movie Name</label>
+                    <input type="hidden" name="slotid" id="slotid">
                 </div>
             </form>
         </div>
@@ -113,7 +115,7 @@ $conn->close();
                             <p class="card-text"><b><i>Select a hall to view available seats</i></b>
                             <form method="post">
                                 <div class="form-floating mb-3">
-                                    <select class="form-control" id="hallid" name="hallid" required>
+                                    <select style="width: 42%" class="form-control" id="hallid" name="hallid" required>
                                         <option value="" disabled selected>Select Hall</option>
                                         <?php
                                         include 'includes\dbcon.php';
@@ -187,9 +189,54 @@ $conn->close();
             <p class="text">
                 You have selected <span id="count">0</span> movies for price of $<span id="total">0</span>
             </p>
+            <button class="btn btn-primary" id="checkout">Checkout</button>
         </div>
     </div>
 </section>
 
 <script src="seat.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const checkoutButton = document.getElementById("checkout");
+
+        checkoutButton.addEventListener("click", function () {
+            const selectedSeats = Array.from(document.querySelectorAll(".row .seat.selected")).map(seat => seat.getAttribute('seatNumber'));
+            const slotid = <?php echo isset($slotid) ? $slotid : 'null'; ?>;
+            const hallId = <?php echo isset($hallid) ? $hallid : 'null'; ?>;
+
+            if (selectedSeats.length === 0) {
+                alert("Please select at least one seat.");
+                return;
+            }
+
+            const data = {
+                slotid: slotid,
+                hallid: hallId,
+                seats: selectedSeats
+            };
+            console.log(data);
+
+            fetch("process_ticket.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Tickets booked successfully!");
+                        // Optionally, redirect to another page or update the UI
+                    } else {
+                        alert("Failed to book tickets. Please try again.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("An error occurred. Please try again.");
+                });
+        });
+    });
+</script>
 <?php include 'includes/footer.php'; ?>

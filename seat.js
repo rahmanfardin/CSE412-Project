@@ -2,7 +2,7 @@
 const container = document.getElementById("seat");
 const seats = document.querySelectorAll(".row .seat:not(.occupied)");
 let count = document.getElementById("count");
-let selectedSeatsArray = [];
+var selectedSeatsArray = [];
 
 // Update seat count
 function updateSelectedCount() {
@@ -11,10 +11,10 @@ function updateSelectedCount() {
 
   count.innerText = selectedSeatsCount;
 
-  selectedSeatsArray = Array.from(selectedSeats).map(seat => seat.getAttribute('seatNumber'));
+  // selectedSeatsArray = Array.from(selectedSeats).map(seat => seat.getAttribute('seatNumber'));
 
   // Log the selected seats array for debugging
-  console.log(selectedSeatsArray);
+  // console.log(selectedSeatsArray);
 
   // saveSelectedSeats();
 }
@@ -32,16 +32,28 @@ container.addEventListener("click", (e) => {
 updateSelectedCount();
 
 
-// Select movie
 document.addEventListener("DOMContentLoaded", function () {
+  // Select Movie and Hall
   const movieSelect = document.getElementById("movieid");
   movieSelect.addEventListener("change", function () {
     this.form.submit();
   });
+
+  const hallSelect = document.getElementById("hallid");
+  hallSelect.addEventListener("change", function () {
+    this.form.submit();
+  });
+
+  // Print selectedSeatsArray when the DOM is fully loaded
+  console.log("Selected Seats Array on DOMContentLoaded:", selectedSeatsArray);
 });
 
-// Select hall
-const hallSelect = document.getElementById("hallid");
-hallSelect.addEventListener("change", function () {
-  this.form.submit();
-});
+// Print selectedSeatsArray when the window is fully loaded
+// window.addEventListener("load", function () {
+//   console.log("Selected Seats Array on window load:", selectedSeatsArray);
+// });
+
+// Print selectedSeatsArray periodically for debugging
+// setInterval(() => {
+//   console.log("Selected Seats Array periodically:", selectedSeatsArray);
+// }, 5000);

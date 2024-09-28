@@ -3,9 +3,9 @@
 //
 
 // Resumission Form Issue Fix
-if (window.history.replaceState) {
-    window.history.replaceState(null, null, window.location.href);
-}
+// if (window.history.replaceState) {
+//     window.history.replaceState(null, null, window.location.href);
+// }
 
 // Function to show the password
 function togglePasswordVisibility(inputId, iconId) {
