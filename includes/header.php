@@ -1,6 +1,8 @@
 <?php
-if (!isset($login)) {
-    $login = false;
+session_start();
+$login = false;
+if (isset($_SESSION['username'])) {
+    $login = true;
 }
 ?>
 
@@ -46,25 +48,24 @@ if (!isset($login)) {
 
 
 
+                    <!-- Profile Button -->
                     <?php if ($login) {
                         echo '
-                        <!-- Profile Button -->
                     <button id="profileBtn" class="btn btn-primary">Profile</button>
-                        <!-- Profile Modal -->
                         <div id="profileModal" class="modal2">
                             <div class="modal-content-2">
-                                <span class="close">&times;</span>
                                 <h2>Profile</h2>
-                                <p>Name: John Doe</p>
-                                <p>Email: john.doe@example.com</p>
-                                <!-- Add more profile details as needed -->
-                                <li class="nav-item"><a class="nav-link" href="./includes/signout.php">logout</a></li>
+                                <p>Name: ' . $_SESSION["username"] . '</p>
+                                <p><a href="/index.php#mytickets">My Tickets</a></p>
+                                <button style="display: inline-block" class="btn btn-danger" href="./includes/signout.php">Logout</button>
+                                <button class="btn btn-secondary close">Close</button>
                             </div>
                         </div>';
-                        echo '<li class="nav-item"><a class="nav-link" href="./includes/signout.php">logout</a></li>';
+
                     } else {
                         echo '<li class="nav-item"><a class="btn btn-primary" href="login.php">LOGIN/SIGNUP</a></li>';
                     } ?>
+                </ul>
                 </ul>
             </div>
         </div>

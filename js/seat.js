@@ -24,12 +24,12 @@ container.addEventListener("click", (e) => {
   if (e.target.classList.contains("seat") && !e.target.classList.contains("occupied")) {
     e.target.classList.toggle("selected");
 
-    updateSelectedCount();
+    // updateSelectedCount();
   }
 });
 
 // Initial count and total set
-updateSelectedCount();
+// updateSelectedCount();
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -40,12 +40,16 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   const hallSelect = document.getElementById("hallid");
+  const slotIdInput = document.getElementById("slotid");
   hallSelect.addEventListener("change", function () {
+    const selectedOption = hallSelect.options[hallSelect.selectedIndex];
+    const slotId = selectedOption.getAttribute("slotid");
+    slotIdInput.value = slotId;
     this.form.submit();
   });
 
   // Print selectedSeatsArray when the DOM is fully loaded
-  console.log("Selected Seats Array on DOMContentLoaded:", selectedSeatsArray);
+  // console.log("Selected Seats Array on DOMContentLoaded:", selectedSeatsArray);
 });
 
 // Print selectedSeatsArray when the window is fully loaded

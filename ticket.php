@@ -1,12 +1,10 @@
 <!-- Header -->
-<?php include 'includes/header.php'; ?>
+<?php 
+include 'includes/header.php';
 
-<?php
-session_start();
-if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
-    $loggedin = true;
-} else {
-    $loggedin = false;
+
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
 }
 
 $alert = null;
@@ -19,6 +17,7 @@ include 'includes\dbcon.php';
 $movieid = isset($_GET['movieid']) ? intval($_GET['movieid']) : 0;
 $hallid = isset($_POST['hallid']) ? intval($_POST['hallid']) : 0;
 $slotid = isset($_POST['slotid']) ? intval($_POST['slotid']) : 0;
+$userid = $_SESSION['userid'];
 
 if ($movieid > 0) {
     // Fetch movie details from the database
@@ -80,7 +79,7 @@ $conn->close();
                     <select class="form-control" name="movieid" id="movieid" required>
                         <option value="" disabled selected>Select Movie</option>
                         <?php include 'includes/dbcon.php';
-                        $sql = "SELECT s.movieid, m.moviename, s.slotid
+                        $sql = "SELECT s.movieid, m.moviename
                             FROM movietable m JOIN slottable s
                             WHERE m.movieid = s.movieid GROUP BY m.movieid";
                         $result = $conn->query($sql);
@@ -92,7 +91,6 @@ $conn->close();
                         ?>
                     </select>
                     <label for="movieid">Movie Name</label>
-                    <input type="hidden" name="slotid" id="slotid">
                 </div>
             </form>
         </div>
@@ -119,19 +117,20 @@ $conn->close();
                                         <option value="" disabled selected>Select Hall</option>
                                         <?php
                                         include 'includes\dbcon.php';
-                                        $sql = "SELECT s.hallid, h.hallname 
+                                        $sql = "SELECT s.hallid, h.hallname, s.slotid 
                                         FROM slottable s JOIN halltable h JOIN movietable m
                                         WHERE s.movieid = m.movieid AND s.hallid = h.hallid AND s.movieid = $movieid";
                                         $result = $conn->query($sql);
                                         if ($result->num_rows > 0) {
                                             while ($row = $result->fetch_assoc()) {
-                                                echo "<option value='" . $row['hallid'] . "'>" . $row['hallname'] . "</option>";
+                                                echo "<option value='" . $row['hallid'] . "' slotid='" . $row['slotid'] . "'>" . $row['hallname'] . "</option>";
                                             }
                                         }
                                         $conn->close();
                                         ?>
                                     </select>
                                     <label for="hallid">Choose Hall</label>
+                                    <input type="hidden" name="slotid" id="slotid">
                                 </div>
                             </form>
                             </p>
@@ -185,16 +184,12 @@ $conn->close();
                 echo '</div>';
             }
             ?>
-
-            <p class="text">
-                You have selected <span id="count">0</span> movies for price of $<span id="total">0</span>
-            </p>
             <button class="btn btn-primary" id="checkout">Checkout</button>
         </div>
     </div>
 </section>
 
-<script src="seat.js"></script>
+<script src="js/seat.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const checkoutButton = document.getElementById("checkout");
@@ -202,7 +197,7 @@ $conn->close();
         checkoutButton.addEventListener("click", function () {
             const selectedSeats = Array.from(document.querySelectorAll(".row .seat.selected")).map(seat => seat.getAttribute('seatNumber'));
             const slotid = <?php echo isset($slotid) ? $slotid : 'null'; ?>;
-            const hallId = <?php echo isset($hallid) ? $hallid : 'null'; ?>;
+            const userid = <?php echo isset($userid) ? $userid : 'null'; ?>;
 
             if (selectedSeats.length === 0) {
                 alert("Please select at least one seat.");
@@ -211,7 +206,7 @@ $conn->close();
 
             const data = {
                 slotid: slotid,
-                hallid: hallId,
+                userid: userid,
                 seats: selectedSeats
             };
             console.log(data);
@@ -226,8 +221,8 @@ $conn->close();
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        alert("Tickets booked successfully!");
-                        // Optionally, redirect to another page or update the UI
+                        $alert = "Tickets booked successfully!";
+                        window.location.href = "ticket.php";
                     } else {
                         alert("Failed to book tickets. Please try again.");
                     }

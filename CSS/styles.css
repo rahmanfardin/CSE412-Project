@@ -12926,16 +12926,20 @@ header.masthead .h1 {
   display: none; /* Hidden by default */
   position: absolute; /* Position relative to the button */
   z-index: 1; /* Sit on top */
-  width: 400px; /* Fixed width */
-  height: 400px; /* Fixed height */
-  background-color: #fefefe; /* Background color */
+  width: 20%; /* Fixed width */
+  height: fit-content; /* Fixed height */
+  background-color: #fff; /* Background color */
   border: 1px solid #888; /* Border */
+  border-radius: 5px;
   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2); /* Shadow for better visibility */
+  top: 90%;
+  left: 80%;
 }
 
 /* Modal Content */
 .modal-content-2 {
   padding: 20px;
+  color: #000;
 }
 
 /* Seat selection */

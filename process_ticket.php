@@ -8,19 +8,19 @@ include 'includes/dbcon.php';
 $data = json_decode(file_get_contents("php://input"), true);
 
 $slotid = isset($data['slotid']) ? intval($data['slotid']) : 0;
-$hallid = isset($data['hallid']) ? intval($data['hallid']) : 0;
+$userid = isset($data['userid']) ? intval($data['userid']) : 0;
 $seats = isset($data['seats']) ? $data['seats'] : [];
 
 $response = ['success' => false];
 
-if ($movieid > 0 && $hallid > 0 && !empty($seats)) {
+if ($slotid > 0 && $userid > 0 && !empty($seats)) {
     // Start a transaction
     $conn->begin_transaction();
 
     try {
         // Insert into tickettable
         $stmt = $conn->prepare("INSERT INTO ticket (userid, slotid) VALUES (?, ?)");
-        $stmt->bind_param("ii", $movieid, $slotid);
+        $stmt->bind_param("ii", $userid, $slotid);
         $stmt->execute();
         $ticketid = $stmt->insert_id;
 

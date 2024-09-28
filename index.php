@@ -2,7 +2,6 @@
 session_start();
 $login = false;
 if (isset($_SESSION['username'])) {
-    echo 'successful login' . $_SESSION['username'];
     $login = true;
 }
 
@@ -48,23 +47,20 @@ if (isset($_SESSION['username'])) {
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
 
 
-
+                    <!-- Profile Button -->
                     <?php if ($login) {
                         echo '
-                        <!-- Profile Button -->
                     <button id="profileBtn" class="btn btn-primary">Profile</button>
-                        <!-- Profile Modal -->
                         <div id="profileModal" class="modal2">
                             <div class="modal-content-2">
-                                <span class="close">&times;</span>
                                 <h2>Profile</h2>
-                                <p>Name: John Doe</p>
-                                <p>Email: john.doe@example.com</p>
-                                <!-- Add more profile details as needed -->
-                                <li class="nav-item"><a class="nav-link" href="./includes/signout.php">logout</a></li>
+                                <p>Name: ' . $_SESSION["username"] . '</p>
+                                <p><a href="/index.php#mytickets">My Tickets</a></p>
+                                <button style="display: inline-block" class="btn btn-danger" href="./includes/signout.php">Logout</button>
+                                <button class="btn btn-secondary close">Close</button>
                             </div>
                         </div>';
-                        
+
                     } else {
                         echo '<li class="nav-item"><a class="btn btn-primary" href="login.php">LOGIN/SIGNUP</a></li>';
                     } ?>
@@ -120,22 +116,53 @@ if (isset($_SESSION['username'])) {
         ?>
     </div>
 
-    <!-- About-->
-
-    <!-- <section class="page-section bg-primary" id="about">
+    <!-- My Tickets-->
+    <section class="page-section bg-primary" id="mytickets">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8 text-center">
-                    <h2 class="text-white mt-0">We've got what you need!</h2>
+                    <h2 class="text-white mt-0">My Tickets</h2>
                     <hr class="divider divider-light" />
-                    <p class="text-white-75 mb-4">Start Bootstrap has everything you need to get your new website up and
-                        running in no time! Choose one of our open source, free to download, and easy to use themes! No
-                        strings attached!</p>
-                    <a class="btn btn-light btn-xl" href="#services">Get Started!</a>
+                    <p class="text-light mb-5">From here you can view ticket details also print ticket!</p>
                 </div>
             </div>
+            <?php
+            // Fetch tickets from the database
+            $sql = "SELECT m.moviename, m.genre, m.movierating, s.date, s.slot
+            FROM ticket t JOIN movietable m JOIN slottable s
+            WHERE t.userid = " . $_SESSION['userid'] . " AND t.slotid = s.slotid AND s.movieid = m.movieid";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                echo '<div class="row row-cols-1 row-cols-md-3 g-4">';
+                while ($row = $result->fetch_assoc()) {
+                    ?>
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo htmlspecialchars($row['moviename']); ?></h5>
+                                <p class="card-text">
+                                    Genre: <?php echo htmlspecialchars($row['genre']); ?><br>
+                                    Rating: <?php echo htmlspecialchars($row['movierating']); ?><br>
+                                    Date: <?php echo htmlspecialchars($row['date']); ?><br>
+                                    Slot: <?php echo htmlspecialchars($row['slot']); ?>
+                                </p>
+                                <a href="#" class="btn btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                }
+            } else {
+                echo '<div class="col text-center">
+                <p class="text-light">No tickets found.</p>
+            </div>';
+            }
+            echo '</div>';
+            ?>
         </div>
-    </section> -->
+    </section>
+
     <!-- Services-->
     <!-- <section class="page-section" id="services">
         <div class="container px-4 px-lg-5">
