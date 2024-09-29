@@ -319,9 +319,6 @@ $result = $conn->query($sql);
 </div>
 
 
-
-
-
 <!-- Delete Movie Modal -->
 <div id="deleteMovieModal" class="modal">
     <div class="modal-dialog modal-dialog-centered">

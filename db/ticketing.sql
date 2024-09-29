@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 27, 2024 at 12:24 PM
+-- Generation Time: Sep 29, 2024 at 05:28 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,20 @@ SET time_zone = "+00:00";
 --
 -- Database: `ticketing`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `feedback`
+--
+
+CREATE TABLE `feedback` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `email` varchar(500) NOT NULL,
+  `phone` varchar(500) NOT NULL,
+  `message` varchar(5000) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -82,6 +96,33 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `seattable`
+--
+
+CREATE TABLE `seattable` (
+  `ticketid` int(11) NOT NULL,
+  `seatno` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `seattable`
+--
+
+INSERT INTO `seattable` (`ticketid`, `seatno`) VALUES
+(1, 9),
+(1, 10),
+(4, 22),
+(5, 30),
+(6, 21),
+(7, 21),
+(7, 29),
+(8, 27),
+(9, 19),
+(10, 20);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `slottable`
 --
 
@@ -109,10 +150,32 @@ INSERT INTO `slottable` (`movieid`, `hallid`, `slotid`, `date`, `slot`) VALUES
 CREATE TABLE `ticket` (
   `ticketid` int(11) NOT NULL,
   `userid` int(11) NOT NULL,
-  `movieid` int(11) NOT NULL,
-  `hallid` int(11) NOT NULL,
   `slotid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ticket`
+--
+
+INSERT INTO `ticket` (`ticketid`, `userid`, `slotid`) VALUES
+(1, 21, 19),
+(4, 21, 19),
+(5, 21, 19),
+(6, 21, 19),
+(7, 21, 19),
+(8, 21, 19),
+(9, 21, 19),
+(10, 21, 19);
+
+--
+-- Triggers `ticket`
+--
+DELIMITER $$
+CREATE TRIGGER `deleteSeats` AFTER DELETE ON `ticket` FOR EACH ROW BEGIN
+	DELETE FROM seattable WHERE ticketid = OLD.ticketid;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -152,6 +215,12 @@ INSERT INTO `usertable` (`id`, `name`, `email`, `username`, `password`, `userTyp
 --
 
 --
+-- Indexes for table `feedback`
+--
+ALTER TABLE `feedback`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `halltable`
 --
 ALTER TABLE `halltable`
@@ -171,6 +240,12 @@ ALTER TABLE `slottable`
   ADD UNIQUE KEY `date` (`date`,`slot`,`hallid`) USING BTREE;
 
 --
+-- Indexes for table `ticket`
+--
+ALTER TABLE `ticket`
+  ADD PRIMARY KEY (`ticketid`);
+
+--
 -- Indexes for table `usertable`
 --
 ALTER TABLE `usertable`
@@ -181,6 +256,12 @@ ALTER TABLE `usertable`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `feedback`
+--
+ALTER TABLE `feedback`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `halltable`
@@ -199,6 +280,12 @@ ALTER TABLE `movietable`
 --
 ALTER TABLE `slottable`
   MODIFY `slotid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
+-- AUTO_INCREMENT for table `ticket`
+--
+ALTER TABLE `ticket`
+  MODIFY `ticketid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `usertable`

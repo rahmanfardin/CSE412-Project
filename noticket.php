@@ -49,6 +49,9 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
         <div class="message-box">
             <h1>No Ticket Available</h1>
             <p>Sorry, there are no tickets available at the moment. Please check back later.</p>
+            <p>Thank you for your understanding.</p>
+            <P>Now we are redirecting you to the <strong>Home Page</strong></P>
+            <meta http-equiv="refresh" content="5;url=index.php"> <!-- Redirect to the home page after 5 seconds -->
         </div>
     </div>
 
