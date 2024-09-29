@@ -112,6 +112,7 @@ function deleteFeedback($id) {
                                 <th>Email</th>
                                 <th>Phone</th>
                                 <th>Message</th>
+                                <th>Button</th>
                             </tr>
                         </thead>
                         <tbody>

@@ -30,7 +30,7 @@ if ($result->num_rows == 0) {
 $ticket = $result->fetch_assoc();
 ?>
 
-<html>
+<html >
 	<head>
 		<meta charset="utf-8">
 		<title>Invoice</title>
@@ -44,8 +44,8 @@ $ticket = $result->fetch_assoc();
             };
         </script>
 	</head>
-	<body>
-		<div id = "ticketContent">
+	<body id = "ticketContent">
+		<div >
 		<header>
 			<h1>Invoice</h1>
 			<address  >
@@ -56,7 +56,7 @@ $ticket = $result->fetch_assoc();
 			<span><img alt="" src=""><input type="file" accept="image/*"></span>
 		</header>
 		<article>
-			<h1>Recipient</h1>
+			<!-- <h1>Recipient</h1> -->
 			<address  >
             <img alt="" src="assets/favicon.ico"><p style="display: inline-block; margin-top: 17px; padding-left: 5px;">Ticketer</p>
                 
