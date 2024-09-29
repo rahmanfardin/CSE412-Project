@@ -1,11 +1,19 @@
 <!-- Header -->
-<?php 
+<?php
 include './includes/admin.validation.php';
 $page_name = 'Admin Home';
 include './includes/header.php';
 
 // Database connection
 include './includes/dbcon.php';
+
+// Fetch user count
+$userCountQuery = "
+    SELECT usertype, COUNT(id) as user_count
+    FROM usertable
+    GROUP BY usertype
+";
+$userCountResult = $conn->query($userCountQuery);
 
 // Fetch tickets per movie
 $movieTicketsQuery = "
@@ -48,9 +56,28 @@ $hallTicketsResult = $conn->query($hallTicketsQuery);
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center text-center">
             <div class="col-lg-10">
-                <h2 class="text-white font-weight-bold">Dashboard</h2>
+                <h2 class="text font-weight-bold mt-5">Dashboard</h2>
                 <hr class="divider" />
-                
+
+                <!-- User Count -->
+                <h3 class="text">User</h3>
+                <table class="table table-striped table-light">
+                    <thead>
+                        <tr>
+                            <th>User Type</th>
+                            <th>User Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php while ($row = $userCountResult->fetch_assoc()): ?>
+                            <tr>
+                                <td><?php echo $row['usertype']; ?></td>
+                                <td><?php echo $row['user_count']; ?></td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+
                 <!-- Tickets per Movie -->
                 <h3 class="text">Tickets per Movie</h3>
                 <table class="table table-striped table-light">
@@ -61,11 +88,11 @@ $hallTicketsResult = $conn->query($hallTicketsQuery);
                         </tr>
                     </thead>
                     <tbody>
-                        <?php while($row = $movieTicketsResult->fetch_assoc()): ?>
-                        <tr>
-                            <td><?php echo $row['moviename']; ?></td>
-                            <td><?php echo $row['ticket_count']; ?></td>
-                        </tr>
+                        <?php while ($row = $movieTicketsResult->fetch_assoc()): ?>
+                            <tr>
+                                <td><?php echo $row['moviename']; ?></td>
+                                <td><?php echo $row['ticket_count']; ?></td>
+                            </tr>
                         <?php endwhile; ?>
                     </tbody>
                 </table>
@@ -80,11 +107,11 @@ $hallTicketsResult = $conn->query($hallTicketsQuery);
                         </tr>
                     </thead>
                     <tbody>
-                        <?php while($row = $hallTicketsResult->fetch_assoc()): ?>
-                        <tr>
-                            <td><?php echo $row['hallname']; ?></td>
-                            <td><?php echo $row['ticket_count']; ?></td>
-                        </tr>
+                        <?php while ($row = $hallTicketsResult->fetch_assoc()): ?>
+                            <tr>
+                                <td><?php echo $row['hallname']; ?></td>
+                                <td><?php echo $row['ticket_count']; ?></td>
+                            </tr>
                         <?php endwhile; ?>
                     </tbody>
                 </table>
