@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 21, 2024 at 09:07 PM
+-- Generation Time: Sep 27, 2024 at 12:24 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -32,15 +32,17 @@ CREATE TABLE `halltable` (
   `hallname` varchar(100) NOT NULL,
   `location` varchar(1000) NOT NULL,
   `rating` int(11) NOT NULL,
-  `type` varchar(100) NOT NULL
+  `type` varchar(100) NOT NULL,
+  `capacity` int(11) NOT NULL DEFAULT 48
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `halltable`
 --
 
-INSERT INTO `halltable` (`hallId`, `hallname`, `location`, `rating`, `type`) VALUES
-(30, 'Dhaka', 'Rampura', 5, '3D');
+INSERT INTO `halltable` (`hallId`, `hallname`, `location`, `rating`, `type`, `capacity`) VALUES
+(30, 'Dhaka', 'Rampura', 4, '3D', 48),
+(32, 'Cineplex', 'Rampura', 5, '2D', 48);
 
 -- --------------------------------------------------------
 
@@ -63,7 +65,19 @@ CREATE TABLE `movietable` (
 --
 
 INSERT INTO `movietable` (`movieid`, `moviename`, `releasedate`, `genre`, `rating`, `movierating`, `poster`) VALUES
-(23, 'La La Land', '2024-09-21', 'drama', 'R', 6, 0x6c612e6a7067);
+(24, 'Hob', '2024-09-18', 'action', 'PG-13', 6, 0x486f626273536861775f706f737465722e6a7067),
+(26, 'Fast-X', '2024-09-03', 'action', 'PG-13', 5, 0x666173742d782e6a7067),
+(27, 'Iratta', '2024-09-09', 'action', 'R', 1, 0x52616e6761737468616c616d2e6a7067);
+
+--
+-- Triggers `movietable`
+--
+DELIMITER $$
+CREATE TRIGGER `deleteSlot` AFTER DELETE ON `movietable` FOR EACH ROW BEGIN
+    DELETE FROM slottable WHERE movieid = OLD.movieid;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -84,8 +98,7 @@ CREATE TABLE `slottable` (
 --
 
 INSERT INTO `slottable` (`movieid`, `hallid`, `slotid`, `date`, `slot`) VALUES
-(23, 30, 1, '0000-00-00', 'E'),
-(27, 30, 2, '0000-00-00', 'F');
+(24, 30, 19, '2024-09-27', 'Morning');
 
 -- --------------------------------------------------------
 
@@ -155,7 +168,7 @@ ALTER TABLE `movietable`
 --
 ALTER TABLE `slottable`
   ADD PRIMARY KEY (`slotid`),
-  ADD UNIQUE KEY `date` (`date`,`slot`,`movieid`,`hallid`) USING BTREE;
+  ADD UNIQUE KEY `date` (`date`,`slot`,`hallid`) USING BTREE;
 
 --
 -- Indexes for table `usertable`
@@ -173,19 +186,19 @@ ALTER TABLE `usertable`
 -- AUTO_INCREMENT for table `halltable`
 --
 ALTER TABLE `halltable`
-  MODIFY `hallId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `hallId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `movietable`
 --
 ALTER TABLE `movietable`
-  MODIFY `movieid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `movieid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `slottable`
 --
 ALTER TABLE `slottable`
-  MODIFY `slotid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `slotid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `usertable`
