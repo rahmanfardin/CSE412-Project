@@ -36,8 +36,16 @@ $ticket = $result->fetch_assoc();
 		<title>Invoice</title>
 		<link rel="stylesheet" href="css/ticket.css">
 		<script src="js/ticket.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+		<script>
+            window.onload = function() {
+                var element = document.getElementById('ticketContent');
+                html2pdf().from(element).save('ticket.pdf');
+            };
+        </script>
 	</head>
 	<body>
+		<div id = "ticketContent">
 		<header>
 			<h1>Invoice</h1>
 			<address  >
@@ -70,7 +78,7 @@ $ticket = $result->fetch_assoc();
 			<table class="inventory">
 				<thead>
 					<tr>
-						<th><span  >Item</span></th>
+						<th><span  >Movie Name</span></th>
 						<th><span  >Description</span></th>
 						<th><span  >Rate</span></th>
 						<th><span  >Quantity</span></th>
@@ -108,5 +116,6 @@ $ticket = $result->fetch_assoc();
 				<!-- <p>A finance charge of 1.5% will be made on unpaid balances after 30 days.</p> -->
 			</div>
 		</aside>
+		</div>
 	</body>
 </html>

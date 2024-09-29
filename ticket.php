@@ -190,11 +190,13 @@ $conn->close();
 </section>
 
 <script src="js/seat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
         const checkoutButton = document.getElementById("checkout");
 
-        checkoutButton.addEventListener("click", function () {
+        checkoutButton.addEventListener("click", function() {
             const selectedSeats = Array.from(document.querySelectorAll(".row .seat.selected")).map(seat => seat.getAttribute('seatNumber'));
             const slotid = <?php echo isset($slotid) ? $slotid : 'null'; ?>;
             const userid = <?php echo isset($userid) ? $userid : 'null'; ?>;
@@ -212,17 +214,17 @@ $conn->close();
             console.log(data);
 
             fetch("process_ticket.php", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
-            })
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
                         $alert = "Tickets booked successfully!";
-                        // downloadTicket(data.ticketid);
+                        //downloadTicket(data);
                         window.location.href = "printTicket.php?ticketid=" + data.ticketid;
                     } else {
                         alert("Failed to book tickets. Please try again.");
@@ -235,13 +237,22 @@ $conn->close();
         });
     });
 
-    function downloadTicket(ticketid) {
+    function downloadTicket(data) {
         var link = document.createElement('a');
         link.href = "printTicket.php?ticketid=" + data.ticketid;
-        link.download = 'ticket.pdf'; // You can set the desired file name here
+        // link.download = 'ticket.pdf'; 
         document.body.appendChild(link);
         link.click();
-        document.body.removeChild(link);
-    }
+        html2canvas(tempContainer).then(canvas => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF();
+            pdf.addImage(imgData, 'PNG', 10, 10);
+            pdf.save('ticket.pdf');
+
+            // Remove the temporary container
+            document.body.removeChild(tempContainer);
+        });
+    
+}
 </script>
 <?php include 'includes/footer.php'; ?>
