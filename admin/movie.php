@@ -232,9 +232,7 @@ $result = $conn->query($sql);
     </div>
 </section>
 
-<footer class="fixed-footer">
-        <?php include './includes/footer.php'; ?>
-    </footer>
+
 <!-- Add Movie Modal-->
 <div id="addEditMovieModal" class="modal">
     <div class="modal-dialog">
@@ -339,3 +337,6 @@ $result = $conn->query($sql);
         </div>
     </div>
 </div>
+<footer class="fixed-footer">
+    <?php include './includes/footer.php'; ?>
+</footer>

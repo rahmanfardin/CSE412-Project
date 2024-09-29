@@ -237,9 +237,7 @@ $result = $conn->query($sql);
     </div>
 </section>
 
-<footer class="fixed-footer">
-        <?php include './includes/footer.php'; ?>
-    </footer>
+
 
 <!-- Hall delete form modal -->
 <div id="deleteHallModal" class="modal">
@@ -263,3 +261,6 @@ $result = $conn->query($sql);
         </div>
     </div>
 </div>
+<footer class="fixed-footer">
+    <?php include './includes/footer.php'; ?>
+</footer>

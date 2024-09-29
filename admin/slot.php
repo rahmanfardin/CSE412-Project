@@ -182,9 +182,8 @@ $conn->close();
         </div>
     </div>
 </section>
-<footer class="fixed-footer">
-        <?php include './includes/footer.php'; ?>
-    </footer>
+
+
 <!-- Add/Edit Slot Modal -->
 <div id="addEditSlotModal" class="modal">
     <div class="modal-dialog">
@@ -271,4 +270,6 @@ $conn->close();
         </div>
     </div>
 </div>
-
+<footer class="fixed-footer">
+    <?php include './includes/footer.php'; ?>
+</footer>
