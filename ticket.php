@@ -9,6 +9,7 @@ if (!isset($_SESSION['username'])) {
 
 $alert = null;
 $display = null;
+$seatDisplay = null;
 
 // Include your database connection file
 include 'includes\dbcon.php';
@@ -18,6 +19,36 @@ $movieid = isset($_GET['movieid']) ? intval($_GET['movieid']) : 0;
 $hallid = isset($_POST['hallid']) ? intval($_POST['hallid']) : 0;
 $slotid = isset($_POST['slotid']) ? intval($_POST['slotid']) : 0;
 $userid = $_SESSION['userid'];
+
+$hallname = null;
+$moviename = null;
+
+if ($hallid) {
+    $sql = "SELECT hallname FROM halltable WHERE hallid = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $hallid);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $hallname = $row['hallname'];
+    }
+    $seatDisplay = "style='display: block;'";
+} else {
+    $seatDisplay = "style='display: none;'";
+}
+
+if ($movieid) {
+    $sql = "SELECT moviename FROM movietable WHERE movieid = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $movieid);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $moviename = $row['moviename'];
+    }
+}
 
 if ($movieid > 0) {
     // Fetch movie details from the database
@@ -77,7 +108,8 @@ $conn->close();
             <form action="" method="get">
                 <div class="form-floating mb-3">
                     <select class="form-control" name="movieid" id="movieid" required>
-                        <option value="" disabled selected>Select Movie</option>
+                        <option value="" disabled selected><?php echo ($moviename) ? $moviename : "Select Movie"; ?>
+                        </option>
                         <?php include 'includes/dbcon.php';
                         $sql = "SELECT s.movieid, m.moviename
                             FROM movietable m JOIN slottable s
@@ -114,7 +146,8 @@ $conn->close();
                             <form method="post">
                                 <div class="form-floating mb-3">
                                     <select style="width: 42%" class="form-control" id="hallid" name="hallid" required>
-                                        <option value="" disabled selected>Select Hall</option>
+                                        <option value="" disabled selected>
+                                            <?php echo ($hallname) ? $hallname : "Select Hall"; ?></option>
                                         <?php
                                         include 'includes\dbcon.php';
                                         $sql = "SELECT s.hallid, h.hallname, s.slotid 
@@ -141,7 +174,7 @@ $conn->close();
         </div>
 
         <!-- Seat Layout -->
-        <div id="seat" <?php echo $display ?>;>
+        <div id="seat" <?php echo $seatDisplay ?>;>
             <ul class="showcase">
                 <li>
                     <div class="seat"></div>
@@ -184,7 +217,7 @@ $conn->close();
                 echo '</div>';
             }
             ?>
-            <button class="btn btn-primary" id="checkout">Checkout</button>
+            <center><button class="btn btn-primary mt-4" id="checkout">Checkout</button></center>
         </div>
     </div>
 </section>
@@ -193,10 +226,10 @@ $conn->close();
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         const checkoutButton = document.getElementById("checkout");
 
-        checkoutButton.addEventListener("click", function() {
+        checkoutButton.addEventListener("click", function () {
             const selectedSeats = Array.from(document.querySelectorAll(".row .seat.selected")).map(seat => seat.getAttribute('seatNumber'));
             const slotid = <?php echo isset($slotid) ? $slotid : 'null'; ?>;
             const userid = <?php echo isset($userid) ? $userid : 'null'; ?>;
@@ -214,12 +247,12 @@ $conn->close();
             console.log(data);
 
             fetch("process_ticket.php", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(data)
-                })
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -252,7 +285,7 @@ $conn->close();
             // Remove the temporary container
             document.body.removeChild(tempContainer);
         });
-    
-}
+
+    }
 </script>
 <?php include 'includes/footer.php'; ?>

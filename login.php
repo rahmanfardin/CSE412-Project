@@ -95,7 +95,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="form-floating mb-3">
                         <input class="form-control" id="password" name="password" type="password"
                             placeholder="****************" data-sb-validations="required" />
-                        <span class="password-toggle" onclick="togglePasswordVisibility('password', 'togglePasswordIcon')">
+                        <span class="password-toggle"
+                            onclick="togglePasswordVisibility('password', 'togglePasswordIcon')">
                             <i class="bi bi-eye-slash-fill" id="togglePasswordIcon"></i>
                         </span>
                         <label for="password">Password</label>
