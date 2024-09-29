@@ -55,7 +55,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 $conn->close();
 ?>
+<style>
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+    }
 
+    .content {
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .main-content {
+        flex: 1;
+    }
+
+    .fixed-footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: #f8f9fa;
+        padding: 10px 0;
+        text-align: center;
+    }
+</style>
 
 <!-- Hall Modal Form -->
 <div id="addHallModal" class="modal">
@@ -212,7 +237,9 @@ $result = $conn->query($sql);
     </div>
 </section>
 
-
+<footer class="fixed-footer">
+        <?php include './includes/footer.php'; ?>
+    </footer>
 
 <!-- Hall delete form modal -->
 <div id="deleteHallModal" class="modal">
@@ -236,5 +263,3 @@ $result = $conn->query($sql);
         </div>
     </div>
 </div>
-
-<?php include 'includes/footer.php'; ?>

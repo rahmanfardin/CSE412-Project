@@ -48,7 +48,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+<style>
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+    }
 
+    .content {
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .main-content {
+        flex: 1;
+    }
+
+    .fixed-footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: #f8f9fa;
+        padding: 10px 0;
+        text-align: center;
+    }
+</style>
 <!-- login-->
 <section class="page-section" id="login">
     <div class="container px-4 px-lg-5">
@@ -116,4 +141,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </section>
 <!-- Footer-->
-<?php include 'includes/footer.php'; ?>
+<footer class="fixed-footer">
+        <?php include './includes/footer.php'; ?>
+    </footer>

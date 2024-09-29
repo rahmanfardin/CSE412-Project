@@ -1,6 +1,7 @@
 <?php
 session_start();
 $login = false;
+$alert = '';
 if (isset($_SESSION['username'])) {
     $login = true;
 }
@@ -21,11 +22,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     // Execute the statement
     if ($stmt->execute()) {
-        echo "New record created successfully";
+        $alert = "New record created successfully";
     } else {
-        echo "Error: " . $stmt->error;
+        $alert =  "Error: " . $stmt->error;
     }
-
+    if ($alert) {
+        echo "<div id='customAlert' class='alert alert-dismissible alert-success' role='alert'>
+                <span id='customAlertMessage'>$alert</span>
+                <button type='button' class='btn-close' aria-label='Close'></button>
+              </div>";
+        echo "<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    showCustomAlert('$alert'); 
+                    hideCustomAlertAfterTimeout(2000);
+                });
+              </script>";
+    }
     // Close connections
     $stmt->close();
     $conn->close();

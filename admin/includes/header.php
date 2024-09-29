@@ -41,9 +41,10 @@
                     <!-- //todo: create a hall and slot page -->
                     <li class="nav-item"><a class="nav-link" href="./hall.php">Hall</a></li>
                     <li class="nav-item"><a class="nav-link" href="./slot.php">Slot</a></li>
-                    
+                    <li class="nav-item"><a class="nav-link" href="./feedback.php">Feedback</a></li>
                     <?php if ($login) {
-                        echo '<li class="nav-item"><a class="nav-link" href="./includes/signout.php">logout</a></li>';
+                        echo '
+                        <a style="display: inline-block" class="btn btn-danger" href="./includes/signout.php">Logout</a>';
                     } else {
                     } ?>
                 </ul>

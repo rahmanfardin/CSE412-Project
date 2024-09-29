@@ -49,7 +49,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!-- Header -->
 <?php include 'includes/header.php'; ?>
+<style>
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+    }
 
+    .content {
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .main-content {
+        flex: 1;
+    }
+
+    .fixed-footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: #f8f9fa;
+        padding: 10px 0;
+        text-align: center;
+    }
+</style>
 <!-- Contact-->
 <section class="page-section" id="signup">
     <div class="container px-4 px-lg-5">
@@ -163,7 +188,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-lg-8 col-xl-6 text-center">
-                <h6 class="mt-0">Have an account?<br><a href="login.php">Login</a></h6>
+                <h6 class="mt-0">Have an account? <a href="login.php">Login</a></h6>
 
             </div>
         </div>
@@ -172,4 +197,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </section>
 
 <!-- Footer-->
-<?php include 'includes/footer.php'; ?>
+<footer class="fixed-footer">
+        <?php include './includes/footer.php'; ?>
+    </footer>
