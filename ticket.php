@@ -258,7 +258,8 @@ $conn->close();
                     if (data.success) {
                         $alert = "Tickets booked successfully!";
                         //downloadTicket(data);
-                        window.location.href = "printTicket.php?ticketid=" + data.ticketid;
+                        var url = "printTicket.php?ticketid=" + data.ticketid;
+                        window.open(url, '_blank');
                     } else {
                         alert("Failed to book tickets. Please try again.");
                     }
