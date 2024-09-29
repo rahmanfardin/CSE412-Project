@@ -186,8 +186,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         Date: <?php echo htmlspecialchars($row['date']); ?><br>
                                         Slot: <?php echo htmlspecialchars($row['slot']); ?>
                                     </p>
-                                    <a href="/printTicket.php?ticketid=<?php echo $row['ticketid'] ?>" class="btn btn-primary">View
-                                        Details</a>
+                                    <a href="./printTicket.php?ticketid=<?php echo $row['ticketid'] ?>" target="_blank" class="btn btn-primary">Download</a>
                                 </div>
                             </div>
                         </div>
