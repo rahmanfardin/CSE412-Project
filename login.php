@@ -2,7 +2,6 @@
 <?php include 'includes/header.php'; ?>
 
 <?php
-session_start();
 session_unset();
 session_destroy();
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {

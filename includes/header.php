@@ -23,7 +23,8 @@ if (isset($_SESSION['username'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- Google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic"
+        rel="stylesheet" type="text/css" />
     <!-- SimpleLightbox plugin CSS-->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
@@ -31,7 +32,7 @@ if (isset($_SESSION['username'])) {
 </head>
 
 <body id="page-top">
-    <!-- Navigation-->  
+    <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
         <div class="container px-4 px-lg-5">
             <!-- <img src="./assets/favicon.ico" alt=""> -->
@@ -41,7 +42,7 @@ if (isset($_SESSION['username'])) {
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto my-2 my-lg-0">
-                <li class="nav-item"><a class="nav-link" href="../index.php#page-top">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../index.php#page-top">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="../index.php#movie">Movie</a></li>
                     <li class="nav-item"><a class="nav-link" href="../ticket.php">Ticket</a></li>
                     <li class="nav-item"><a class="nav-link" href="../index.php#contact">Contact</a></li>
@@ -57,7 +58,7 @@ if (isset($_SESSION['username'])) {
                                 <h2>Profile</h2>
                                 <p>Name: ' . $_SESSION["username"] . '</p>
                                 <p><a href="/index.php#mytickets">My Tickets</a></p>
-                                <button style="display: inline-block" class="btn btn-danger" href="./includes/signout.php">Logout</button>
+                                <a style="display: inline-block" class="btn btn-danger" href="./includes/signout.php">Logout</a>
                                 <button class="btn btn-secondary close">Close</button>
                             </div>
                         </div>';
