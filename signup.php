@@ -34,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $result = mysqli_query($conn, $sql);
         if ($result) {
             $showAlert = true;
+            header('Location: login.php');
         }
     } else {
         if ($usernameEsistsCheck)

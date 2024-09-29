@@ -189,12 +189,12 @@ $conn->close();
                     <small>Occupied</small>
                 </li>
             </ul>
-            <div class="screen shadow p-3 bg-body rounded">Screen <?php echo $hallid ?></div>
+            <div class="screen shadow p-3 bg-body rounded">Screen no: <?php echo $hallid ?></div>
             <?php
             include 'includes\dbcon.php';
             $sql = "SELECT se.seatno
             FROM slottable s JOIN ticket t JOIN seattable se
-            WHERE s.movieid = $movieid AND s.hallid = $hallid AND s.slotid = t.slotid";
+            WHERE s.movieid = $movieid AND s.hallid = $hallid AND s.slotid = t.slotid and se.ticketid = t.ticketid";
             $result = $conn->query($sql);
             $occupiedSeats = [];
             if ($result->num_rows > 0) {

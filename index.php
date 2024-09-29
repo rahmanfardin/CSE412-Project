@@ -193,9 +193,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <?php
                     }
                 }
-            } else {
+            } else if(!$login) {
                 echo '<div class="col text-center">
-                <p class="text-light">No tickets found.<br>Login to see your Tickets</p>
+                <p class="text-light">Login to see your Tickets</p>
+            </div>';
+
+            }
+            else {
+                echo '<div class="col text-center">
+                <p class="text-light">No tickets found.</p>
             </div>';
             }
             echo '</div>';
