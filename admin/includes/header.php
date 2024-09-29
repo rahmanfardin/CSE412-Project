@@ -36,6 +36,7 @@
                 <ul class="navbar-nav ms-auto my-2 my-lg-0">
 
                     <li class="nav-item"><a class="nav-link" href="./index.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="./index.php#dashboard">Dashboard</a></li>
 
                     <li class="nav-item"><a class="nav-link" href="./movie.php">Movie</a></li>
                     <!-- //todo: create a hall and slot page -->
