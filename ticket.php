@@ -1,5 +1,5 @@
 <!-- Header -->
-<?php 
+<?php
 include 'includes/header.php';
 
 
@@ -222,7 +222,8 @@ $conn->close();
                 .then(data => {
                     if (data.success) {
                         $alert = "Tickets booked successfully!";
-                        window.location.href = "ticket.php";
+                        // downloadTicket(data.ticketid);
+                        window.location.href = "printTicket.php?ticketid=" + data.ticketid;
                     } else {
                         alert("Failed to book tickets. Please try again.");
                     }
@@ -233,5 +234,14 @@ $conn->close();
                 });
         });
     });
+
+    function downloadTicket(ticketid) {
+        var link = document.createElement('a');
+        link.href = "printTicket.php?ticketid=" + data.ticketid;
+        link.download = 'ticket.pdf'; // You can set the desired file name here
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
 </script>
 <?php include 'includes/footer.php'; ?>

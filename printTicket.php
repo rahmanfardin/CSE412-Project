@@ -1,5 +1,4 @@
 <?php
-session_start();
 include 'includes/dbcon.php';
 
 // Check if ticket ID is provided
@@ -12,7 +11,8 @@ if (!isset($_GET['ticketid'])) {
 $ticketid = intval($_GET['ticketid']);
 
 // Fetch ticket details from the database
-$sql = "SELECT t.ticketid, m.moviename, m.genre, m.movierating, s.date, s.slot, h.hallname, u.username, u.email
+$sql = "SELECT t.ticketid, m.moviename, m.genre, m.movierating, s.date, s.slot, h.hallname, u.username, u.email, u.name,
+               (SELECT COUNT(*) FROM seattable st WHERE st.ticketid = t.ticketid) AS seat_count
         FROM ticket t
         JOIN slottable s ON t.slotid = s.slotid
         JOIN movietable m ON s.movieid = m.movieid
@@ -20,7 +20,6 @@ $sql = "SELECT t.ticketid, m.moviename, m.genre, m.movierating, s.date, s.slot, 
         JOIN usertable u ON t.userid = u.id
         WHERE t.ticketid = $ticketid";
 $result = $conn->query($sql);
-
 
 if ($result->num_rows == 0) {
     echo "<h2>Ticket not found.</h2>";
@@ -31,69 +30,83 @@ if ($result->num_rows == 0) {
 $ticket = $result->fetch_assoc();
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Print Ticket</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <style>
-        .ticket-container {
-            max-width: 842px;
-            margin: 20px auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
-
-        .ticket-header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .ticket-details {
-            margin-bottom: 20px;
-        }
-
-        .ticket-details p {
-            margin: 5px 0;
-        }
-
-        .print-button {
-            text-align: center;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="ticket-container">
-        <div class="ticket-header">
-            <h2>Movie Ticket</h2>
-        </div>
-        <div class="ticket-details">
-            <p><strong>Ticket ID:</strong> <?php echo htmlspecialchars($ticket['ticketid']); ?></p>
-            <p><strong>Movie Name:</strong> <?php echo htmlspecialchars($ticket['moviename']); ?></p>
-            <p><strong>Genre:</strong> <?php echo htmlspecialchars($ticket['genre']); ?></p>
-            <p><strong>Rating:</strong> <?php echo htmlspecialchars($ticket['movierating']); ?></p>
-            <p><strong>Date:</strong> <?php echo htmlspecialchars($ticket['date']); ?></p>
-            <p><strong>Slot:</strong> <?php echo htmlspecialchars($ticket['slot']); ?></p>
-            <p><strong>Hall Name:</strong> <?php echo htmlspecialchars($ticket['hallname']); ?></p>
-            <p><strong>Username:</strong> <?php echo htmlspecialchars($ticket['username']); ?></p>
-            <p><strong>Email:</strong> <?php echo htmlspecialchars($ticket['email']); ?></p>
-        </div>
-        <div class="print-button">
-            <button onclick="printTicket('ticket-container-<?php echo htmlspecialchars($ticket['ticketid']); ?>')"
-                class="btn btn-primary">Print Ticket</button>
-        </div>
-    </div>
-
-</body>
-
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Invoice</title>
+		<link rel="stylesheet" href="css/ticket.css">
+		<script src="js/ticket.js"></script>
+	</head>
+	<body>
+		<header>
+			<h1>Invoice</h1>
+			<address  >
+				<p><b>Name: </b><?php echo $ticket['name']?></p>
+				<p><b>Username: </b><?php echo $ticket['username']?></p>
+				<p><b>Email: </b><?php echo $ticket['email']?></p>
+			</address>
+			<span><img alt="" src=""><input type="file" accept="image/*"></span>
+		</header>
+		<article>
+			<h1>Recipient</h1>
+			<address  >
+            <img alt="" src="assets/favicon.ico"><p style="display: inline-block; margin-top: 17px; padding-left: 5px;">Ticketer</p>
+                
+			</address>
+			<table class="meta">
+				<tr>
+					<th><span  >Invoice #</span></th>
+					<td><span  ><?php echo $ticket['ticketid']?></span></td>
+				</tr>
+				<tr>
+					<th><span  >Date</span></th>
+					<td><span  ><?php echo $ticket['date']?></span></td>
+				</tr>
+				<tr>
+					<th><span  >Total Price</span></th>
+					<td><span id="prefix"  >$</span><span></span></td>
+				</tr>
+			</table>
+			<table class="inventory">
+				<thead>
+					<tr>
+						<th><span  >Item</span></th>
+						<th><span  >Description</span></th>
+						<th><span  >Rate</span></th>
+						<th><span  >Quantity</span></th>
+						<th><span  >Price</span></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><span  ><?php echo $ticket['moviename']?></span></td>
+						<td><span  >Genre: <?php echo $ticket['genre'] . '<br> IMDB Rating: ' . $ticket['movierating']?></span></td>
+						<td><span data-prefix>$</span><span  >350.00</span></td>
+						<td><span ><?php echo $ticket['seat_count']?></span></td>
+						<td><span data-prefix>$</span><span></span></td>
+					</tr>
+				</tbody>
+			</table>
+			<table class="balance">
+				<tr>
+					<th><span  >Total</span></th>
+					<td><span data-prefix>$</span><span>600.00</span></td>
+				</tr>
+				<tr>
+					<th><span  >Amount Paid</span></th>
+					<td><span data-prefix>$</span><span  >0.00</span></td>
+				</tr>
+				<tr>
+					<th><span  >Balance Due</span></th>
+					<td><span data-prefix>$</span><span>600.00</span></td>
+				</tr>
+			</table>
+		</article>
+		<aside>
+			<h1><span  ></span></h1>
+			<div  >
+				<!-- <p>A finance charge of 1.5% will be made on unpaid balances after 30 days.</p> -->
+			</div>
+		</aside>
+	</body>
 </html>
-
-<?php
-$conn->close();
-?>

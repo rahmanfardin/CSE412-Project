@@ -34,6 +34,7 @@ if ($slotid > 0 && $userid > 0 && !empty($seats)) {
         // Commit the transaction
         $conn->commit();
         $response['success'] = true;
+        $response['ticketid'] = $ticketid;
     } catch (Exception $e) {
         // Rollback the transaction on error
         $conn->rollback();
@@ -41,8 +42,8 @@ if ($slotid > 0 && $userid > 0 && !empty($seats)) {
     } finally {
         $stmt->close();
         $conn->close();
+
     }
 }
-
 echo json_encode($response);
 ?>
