@@ -5,6 +5,33 @@ if (isset($_SESSION['username'])) {
     $login = true;
 }
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    include './includes/dbcon.php';
+    $name = isset($_POST["name"]) ? $_POST["name"] : 'default_user';
+    $email = isset($_POST["email"]) ? $_POST["email"] : 'default_email@email.com';
+    $phone = isset($_POST["phone"]) ? $_POST["phone"] : '0000000000';
+    $message = isset($_POST["message"]) ? $_POST["message"] : 'default_message';
+
+    // Prepare and bind
+    if (!empty($name) && !empty($email) && !empty($phone) && !empty($message)) {
+
+
+        $stmt = $conn->prepare("INSERT INTO feedback (name, email, phone, message) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssss", $name, $email, $phone, $message);
+    }
+    // Execute the statement
+    if ($stmt->execute()) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $stmt->error;
+    }
+
+    // Close connections
+    $stmt->close();
+    $conn->close();
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,7 +72,7 @@ if (isset($_SESSION['username'])) {
                     <li class="nav-item"><a class="nav-link" href="#movie">Movie</a></li>
                     <li class="nav-item"><a class="nav-link" href="./ticket.php">Ticket</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                    
+
 
                     <!-- Profile Button -->
                     <?php if ($login) {
@@ -60,7 +87,6 @@ if (isset($_SESSION['username'])) {
                                 <button class="btn btn-secondary close">Close</button>
                             </div>
                         </div>';
-
                     } else {
                         echo '<li class="nav-item"><a class="btn btn-primary" href="login.php">LOGIN/SIGNUP</a></li>';
                     } ?>
@@ -128,34 +154,36 @@ if (isset($_SESSION['username'])) {
             </div>
             <?php
             // Fetch tickets from the database
-            $sql = "SELECT m.moviename, m.genre, m.movierating, s.date, s.slot, t.ticketid
+            if (isset($_SESSION['userid'])) {
+                $sql = "SELECT m.moviename, m.genre, m.movierating, s.date, s.slot, t.ticketid
             FROM ticket t JOIN movietable m JOIN slottable s
             WHERE t.userid = " . $_SESSION['userid'] . " AND t.slotid = s.slotid AND s.movieid = m.movieid";
-            $result = $conn->query($sql);
+                $result = $conn->query($sql);
 
-            if ($result->num_rows > 0) {
-                echo '<div class="row row-cols-1 row-cols-md-3 g-4">';
-                while ($row = $result->fetch_assoc()) {
-                    ?>
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title"><?php echo htmlspecialchars($row['moviename']); ?></h5>
-                                <p class="card-text">
-                                    Genre: <?php echo htmlspecialchars($row['genre']); ?><br>
-                                    Rating: <?php echo htmlspecialchars($row['movierating']); ?><br>
-                                    Date: <?php echo htmlspecialchars($row['date']); ?><br>
-                                    Slot: <?php echo htmlspecialchars($row['slot']); ?>
-                                </p>
-                                <a href="/printTicket.php?ticketid=<?php echo $row['ticketid'] ?>" class="btn btn-primary">View Details</a>
+                if ($result->num_rows > 0) {
+                    echo '<div class="row row-cols-1 row-cols-md-3 g-4">';
+                    while ($row = $result->fetch_assoc()) {
+            ?>
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title"><?php echo htmlspecialchars($row['moviename']); ?></h5>
+                                    <p class="card-text">
+                                        Genre: <?php echo htmlspecialchars($row['genre']); ?><br>
+                                        Rating: <?php echo htmlspecialchars($row['movierating']); ?><br>
+                                        Date: <?php echo htmlspecialchars($row['date']); ?><br>
+                                        Slot: <?php echo htmlspecialchars($row['slot']); ?>
+                                    </p>
+                                    <a href="/printTicket.php?ticketid=<?php echo $row['ticketid'] ?>" class="btn btn-primary">View Details</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <?php
+            <?php
+                    }
                 }
             } else {
                 echo '<div class="col text-center">
-                <p class="text-light">No tickets found.</p>
+                <p class="text-light">No tickets found.<br>Login to see your Tickets</p>
             </div>';
             }
             echo '</div>';
@@ -215,37 +243,42 @@ if (isset($_SESSION['username'])) {
             </div>
             <div class="row gx-4 gx-lg-5 justify-content-center mb-5">
                 <div class="col-lg-6">
-                    <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+                    <form id="contactForm" action="index.php" method="post">
                         <!-- Name input-->
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="name" type="text" placeholder="Enter your name..."
-                                data-sb-validations="required" />
+                            <input class="form-control" id="name" name="name" type="text" placeholder="Enter your name..."
+                                data-sb-validations="required" required />
                             <label for="name">Full name</label>
                             <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
                         </div>
                         <!-- Email address input-->
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="email" type="email" placeholder="name@example.com"
-                                data-sb-validations="required,email" />
+                            <input class="form-control" id="email" name="email" type="email" placeholder="name@example.com"
+                                data-sb-validations="required,email" required />
                             <label for="email">Email address</label>
                             <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
                             <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
                         </div>
                         <!-- Phone number input-->
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="phone" type="tel" placeholder="(880) 1601 - XXXXXX"
-                                data-sb-validations="required" />
+                            <input class="form-control" id="phone" name="phone" type="tel" placeholder="(880) 1601 - XXXXXX"
+                                data-sb-validations="required" required />
                             <label for="phone">Phone number</label>
-                            <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.
-                            </div>
+                            <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.</div>
                         </div>
                         <!-- Message input-->
                         <div class="form-floating mb-3">
-                            <textarea class="form-control" id="message" type="text"
+                            <textarea class="form-control" id="message" name="message" type="text"
                                 placeholder="Enter your message here..." style="height: 10rem"
-                                data-sb-validations="required"></textarea>
+                                data-sb-validations="required" required></textarea>
                             <label for="message">Message</label>
-                            <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.
+                            <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
+                        </div>
+                        <!-- Submit success message-->
+                        <div class="d-none" id="submitSuccessMessage">
+                            <div class="text-center mb-3">
+                                <div class="fw-bolder">Form submission successful!</div>
+
                             </div>
                         </div>
                         <!-- Submit success message-->
@@ -257,8 +290,7 @@ if (isset($_SESSION['username'])) {
                                 <div class="fw-bolder">Form submission successful!</div>
                                 To activate this form, sign up at
                                 <br />
-                                <a
-                                    href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+
                             </div>
                         </div>
                         <!-- Submit error message-->
@@ -269,8 +301,7 @@ if (isset($_SESSION['username'])) {
                             <div class="text-center text-danger mb-3">Error sending message!</div>
                         </div>
                         <!-- Submit Button-->
-                        <div class="d-grid"><button class="btn btn-primary btn-xl disabled" id="submitButton"
-                                type="submit">Submit</button></div>
+                        <div class="d-grid"><button class="btn btn-primary btn-xl" id="submitButton" type="submit">Submit</button></div>
                     </form>
                 </div>
             </div>
@@ -282,5 +313,53 @@ if (isset($_SESSION['username'])) {
             </div>
         </div>
     </section>
+    <script>
+        function validateForm() {
+            let isValid = true;
+
+            // Name validation
+            const name = document.getElementById('name').value;
+            if (name === "") {
+                document.querySelector('[data-sb-feedback="name:required"]').style.display = 'block';
+                isValid = false;
+            } else {
+                document.querySelector('[data-sb-feedback="name:required"]').style.display = 'none';
+            }
+
+            // Email validation
+            const email = document.getElementById('email').value;
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (email === "") {
+                document.querySelector('[data-sb-feedback="email:required"]').style.display = 'block';
+                isValid = false;
+            } else if (!emailPattern.test(email)) {
+                document.querySelector('[data-sb-feedback="email:email"]').style.display = 'block';
+                isValid = false;
+            } else {
+                document.querySelector('[data-sb-feedback="email:required"]').style.display = 'none';
+                document.querySelector('[data-sb-feedback="email:email"]').style.display = 'none';
+            }
+
+            // Phone validation
+            const phone = document.getElementById('phone').value;
+            if (phone === "") {
+                document.querySelector('[data-sb-feedback="phone:required"]').style.display = 'block';
+                isValid = false;
+            } else {
+                document.querySelector('[data-sb-feedback="phone:required"]').style.display = 'none';
+            }
+
+            // Message validation
+            const message = document.getElementById('message').value;
+            if (message === "") {
+                document.querySelector('[data-sb-feedback="message:required"]').style.display = 'block';
+                isValid = false;
+            } else {
+                document.querySelector('[data-sb-feedback="message:required"]').style.display = 'none';
+            }
+
+            return isValid;
+        }
+    </script>
     <!-- Footer-->
     <?php include 'includes/footer.php'; ?>
