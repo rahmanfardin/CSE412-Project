@@ -1,9 +1,9 @@
 <?php
-session_start();
-session_unset();
-session_destroy();
+
+
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
     $loggedin = true;
+    header('Location: index.php');
 } else {
     $loggedin = false;
 }
@@ -22,13 +22,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cpassword = isset($_POST['cpassword']) ? trim($_POST['cpassword']) : null;
     $userType = "user";
 
-    $array = array($name, $email, $username, $password, $cpassword);
-    $valueCheck = valueCheck($array);
+    
 
     $usernameEsistsCheck = usernameExists($username, $conn);
     $emailExistsCheck = emailExists($email, $conn);
     $passwordMatched = passwordCheck($password, $cpassword);
-    if (!$usernameEsistsCheck and !$emailExistsCheck and $passwordMatched and $valueCheck) {
+    $notnull = notNull($name, $email, $username, $password, $cpassword);
+    if (!$usernameEsistsCheck and !$emailExistsCheck and $passwordMatched and $valueCheck and $notnull) {
         $hashedPass = hash('sha256', $password);
         $sql = "INSERT INTO `usertable`( `name`, `email`, `username`, `password`, `userType`) VALUES ('$name','$email','$username','$hashedPass', '$userType')";
         $result = mysqli_query($conn, $sql);
@@ -197,6 +197,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </section>
 
 <!-- Footer-->
-<footer class="fixed-footer">
         <?php include './includes/footer.php'; ?>
-    </footer>
+    

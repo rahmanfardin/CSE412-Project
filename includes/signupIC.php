@@ -24,4 +24,8 @@ function valueCheck($array){
     }
 }
 
+function notNull($name, $email, $username, $password, $cpassword){
+    if($name == "" || $email == "" || $username == "" || $password == "" || $cpassword == "") return false;
+    else return true;
+}
 ?>
