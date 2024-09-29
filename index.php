@@ -128,7 +128,7 @@ if (isset($_SESSION['username'])) {
             </div>
             <?php
             // Fetch tickets from the database
-            $sql = "SELECT m.moviename, m.genre, m.movierating, s.date, s.slot
+            $sql = "SELECT m.moviename, m.genre, m.movierating, s.date, s.slot, t.ticketid
             FROM ticket t JOIN movietable m JOIN slottable s
             WHERE t.userid = " . $_SESSION['userid'] . " AND t.slotid = s.slotid AND s.movieid = m.movieid";
             $result = $conn->query($sql);
@@ -147,7 +147,7 @@ if (isset($_SESSION['username'])) {
                                     Date: <?php echo htmlspecialchars($row['date']); ?><br>
                                     Slot: <?php echo htmlspecialchars($row['slot']); ?>
                                 </p>
-                                <a href="#" class="btn btn-primary">View Details</a>
+                                <a href="/printTicket.php?ticketid=<?php echo $row['ticketid'] ?>" class="btn btn-primary">View Details</a>
                             </div>
                         </div>
                     </div>
