@@ -45,7 +45,7 @@ if (isset($_SESSION['username'])) {
                     <li class="nav-item"><a class="nav-link" href="#movie">Movie</a></li>
                     <li class="nav-item"><a class="nav-link" href="./ticket.php">Ticket</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-
+                    
 
                     <!-- Profile Button -->
                     <?php if ($login) {
@@ -56,7 +56,7 @@ if (isset($_SESSION['username'])) {
                                 <h2>Profile</h2>
                                 <p>Name: ' . $_SESSION["username"] . '</p>
                                 <p><a href="/index.php#mytickets">My Tickets</a></p>
-                                <button style="display: inline-block" class="btn btn-danger" href="./includes/signout.php">Logout</button>
+                                <a style="display: inline-block" class="btn btn-danger" href="./includes/signout.php">Logout</a>
                                 <button class="btn btn-secondary close">Close</button>
                             </div>
                         </div>';
