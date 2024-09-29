@@ -156,14 +156,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Fetch tickets from the database
             if (isset($_SESSION['userid'])) {
                 $sql = "SELECT m.moviename, m.genre, m.movierating, s.date, s.slot, t.ticketid
-            FROM ticket t JOIN movietable m JOIN slottable s
-            WHERE t.userid = " . $_SESSION['userid'] . " AND t.slotid = s.slotid AND s.movieid = m.movieid";
+                FROM ticket t JOIN movietable m JOIN slottable s
+                WHERE t.userid = " . $_SESSION['userid'] . " AND t.slotid = s.slotid AND s.movieid = m.movieid";
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
                     echo '<div class="row row-cols-1 row-cols-md-3 g-4">';
                     while ($row = $result->fetch_assoc()) {
-            ?>
+                        ?>
                         <div class="col">
                             <div class="card">
                                 <div class="card-body">
@@ -174,11 +174,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         Date: <?php echo htmlspecialchars($row['date']); ?><br>
                                         Slot: <?php echo htmlspecialchars($row['slot']); ?>
                                     </p>
-                                    <a href="/printTicket.php?ticketid=<?php echo $row['ticketid'] ?>" class="btn btn-primary">View Details</a>
+                                    <a href="/printTicket.php?ticketid=<?php echo $row['ticketid'] ?>" class="btn btn-primary">View
+                                        Details</a>
                                 </div>
                             </div>
                         </div>
-            <?php
+                        <?php
                     }
                 }
             } else {
@@ -246,25 +247,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <form id="contactForm" action="index.php" method="post">
                         <!-- Name input-->
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="name" name="name" type="text" placeholder="Enter your name..."
-                                data-sb-validations="required" required />
+                            <input class="form-control" id="name" name="name" type="text"
+                                placeholder="Enter your name..." data-sb-validations="required" required />
                             <label for="name">Full name</label>
                             <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
                         </div>
                         <!-- Email address input-->
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="email" name="email" type="email" placeholder="name@example.com"
-                                data-sb-validations="required,email" required />
+                            <input class="form-control" id="email" name="email" type="email"
+                                placeholder="name@example.com" data-sb-validations="required,email" required />
                             <label for="email">Email address</label>
                             <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
                             <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
                         </div>
                         <!-- Phone number input-->
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="phone" name="phone" type="tel" placeholder="(880) 1601 - XXXXXX"
-                                data-sb-validations="required" required />
+                            <input class="form-control" id="phone" name="phone" type="tel"
+                                placeholder="(880) 1601 - XXXXXX" data-sb-validations="required" required />
                             <label for="phone">Phone number</label>
-                            <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.</div>
+                            <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.
+                            </div>
                         </div>
                         <!-- Message input-->
                         <div class="form-floating mb-3">
@@ -272,7 +274,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 placeholder="Enter your message here..." style="height: 10rem"
                                 data-sb-validations="required" required></textarea>
                             <label for="message">Message</label>
-                            <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
+                            <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.
+                            </div>
                         </div>
                         <!-- Submit success message-->
                         <div class="d-none" id="submitSuccessMessage">
@@ -301,7 +304,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="text-center text-danger mb-3">Error sending message!</div>
                         </div>
                         <!-- Submit Button-->
-                        <div class="d-grid"><button class="btn btn-primary btn-xl" id="submitButton" type="submit">Submit</button></div>
+                        <div class="d-grid"><button class="btn btn-primary btn-xl" id="submitButton"
+                                type="submit">Submit</button></div>
                     </form>
                 </div>
             </div>
