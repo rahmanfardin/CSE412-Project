@@ -61,6 +61,32 @@ $result = $conn->query($sql);
 
 $conn->close();
 ?>
+<style>
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+    }
+
+    .content {
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .main-content {
+        flex: 1;
+    }
+
+    .fixed-footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: #f8f9fa;
+        padding: 10px 0;
+        text-align: center;
+    }
+</style>
 <section class="page-section">
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -156,7 +182,9 @@ $conn->close();
         </div>
     </div>
 </section>
-
+<footer class="fixed-footer">
+        <?php include './includes/footer.php'; ?>
+    </footer>
 <!-- Add/Edit Slot Modal -->
 <div id="addEditSlotModal" class="modal">
     <div class="modal-dialog">
@@ -244,4 +272,3 @@ $conn->close();
     </div>
 </div>
 
-<?php include './includes/footer.php'; ?>
