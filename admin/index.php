@@ -52,7 +52,7 @@ $hallTicketsResult = $conn->query($hallTicketsQuery);
 </header>
 
 <!-- Dashboard-->
-<section class="dashboard">
+<section class="dashboard" id="dashboard">
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center text-center">
             <div class="col-lg-10">
