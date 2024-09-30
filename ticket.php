@@ -150,13 +150,13 @@ $conn->close();
                                             <?php echo ($hallname) ? $hallname : "Select Hall"; ?></option>
                                         <?php
                                         include 'includes\dbcon.php';
-                                        $sql = "SELECT s.hallid, h.hallname, s.slotid 
+                                        $sql = "SELECT s.hallid, h.hallname, s.slotid, s.slot, s.date 
                                         FROM slottable s JOIN halltable h JOIN movietable m
                                         WHERE s.movieid = m.movieid AND s.hallid = h.hallid AND s.movieid = $movieid";
                                         $result = $conn->query($sql);
                                         if ($result->num_rows > 0) {
                                             while ($row = $result->fetch_assoc()) {
-                                                echo "<option value='" . $row['hallid'] . "' slotid='" . $row['slotid'] . "'>" . $row['hallname'] . "</option>";
+                                                echo "<option value='" . $row['hallid'] . "' slotid='" . $row['slotid'] . "'>" . $row['hallname']. ' - '. $row['date'].' - '.$row['slot'] . "</option>";
                                             }
                                         }
                                         $conn->close();
