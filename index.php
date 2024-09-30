@@ -93,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div id="profileModal" class="modal2">
                             <div class="modal-content-2">
                                 <h2>Profile</h2>
-                                <p>Name: ' . $_SESSION["username"] . '</p>
+                                <p>Username: ' . $_SESSION["username"] . '</p>
                                 <p><a href="/index.php#mytickets">My Tickets</a></p>
                                 <a style="display: inline-block" class="btn btn-danger" href="./includes/signout.php">Logout</a>
                                 <button class="btn btn-secondary close">Close</button>
