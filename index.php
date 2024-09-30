@@ -82,6 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <ul class="navbar-nav ms-auto my-2 my-lg-0">
                     <li class="nav-item"><a class="nav-link" href="#page-top">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#movie">Movie</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#mytickets">My Tickets</a></li>
                     <li class="nav-item"><a class="nav-link" href="./ticket.php">Ticket</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
 
